@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* QUAN TRỌNG */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+/* XÓA MỌI GIỚI HẠN WIDTH */
+#root {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body {
+  background: #f3f5f4;
+}
+
+/* APP FULL */
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.header {
+  width: 100%;
+  height: 70px;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+/* LAYOUT */
+.layout {
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 250px;
+  min-width: 250px;
+  background: white;
+  border-right: 1px solid #eee;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+  width: 300px;
+  min-width: 300px;
+  padding: 20px;
+}

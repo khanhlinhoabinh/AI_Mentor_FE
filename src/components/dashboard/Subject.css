@@ -1,0 +1,35 @@
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.card h4 {
+  margin-bottom: 10px;
+}
+
+.progress {
+  background: #eee;
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.bar {
+  height: 100%;
+  background: #4caf50;
+}
+
+.card p {
+  font-size: 14px;
+  color: #666;
+}
