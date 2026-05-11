@@ -1,0 +1,40 @@
+.google-box {
+  margin-top: 30px;
+  border: 2px solid #dcfce7;
+  background: #f7fff9;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+}
+
+.google-box h3 {
+  color: #15803d;
+}
+
+.google-btn {
+  margin-top: 20px;
+  width: 100%;
+  height: 60px;
+  border: none;
+  border-radius: 15px;
+  background: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.google-btn img {
+  width: 28px;
+}
+
+.safe {
+  margin-top: 18px;
+  color: #16a34a;
+}

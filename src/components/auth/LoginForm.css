@@ -1,0 +1,171 @@
+.login-form-wrapper {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  box-sizing: border-box;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-radius: 25px;
+  border: 1px solid #e5e7eb;
+  padding: 45px;
+}
+
+.login-form h2 {
+  font-size: 42px;
+  color: #1f7a35;
+  text-align: center;
+}
+
+.sub {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 10px;
+}
+
+.role-tabs {
+  display: flex;
+  gap: 15px;
+  margin-top: 35px;
+}
+
+.role-tabs button {
+  flex: 1;
+  height: 55px;
+  border-radius: 15px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.role-tabs .active {
+  border: 2px solid #22c55e;
+  background: #f0fdf4;
+  color: #15803d;
+  font-weight: 600;
+}
+
+.google-box {
+  margin-top: 30px;
+  border: 2px solid #dcfce7;
+  background: #f7fff9;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+}
+
+.google-box h3 {
+  color: #15803d;
+}
+
+.google-btn {
+  margin-top: 20px;
+  width: 100%;
+  height: 60px;
+  border: none;
+  border-radius: 15px;
+  background: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.google-btn img {
+  width: 28px;
+}
+
+.safe {
+  margin-top: 18px;
+  color: #16a34a;
+}
+
+.divider {
+  margin: 35px 0;
+  text-align: center;
+  position: relative;
+}
+
+.divider::before {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background: #e5e7eb;
+  position: absolute;
+  left: 0;
+  top: 50%;
+}
+
+.divider span {
+  background: white;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+  color: #6b7280;
+}
+
+.admin-box h3 {
+  margin-bottom: 25px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  height: 55px;
+  border-radius: 15px;
+  border: 1px solid #d1d5db;
+  padding: 0 20px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.remember {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.remember span {
+  color: #16a34a;
+  cursor: pointer;
+}
+
+.login-btn {
+  width: 100%;
+  height: 58px;
+  margin-top: 25px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(
+    90deg,
+    #16a34a,
+    #22c55e
+  );
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}

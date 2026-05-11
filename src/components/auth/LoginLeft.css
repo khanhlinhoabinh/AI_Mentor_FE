@@ -1,0 +1,68 @@
+.login-left {
+  width: 50%;
+  background: linear-gradient(
+    180deg,
+    #f1fbf4,
+    #e6f7eb
+  );
+  padding: 60px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.left-content h1 {
+  font-size: 50px;
+  line-height: 1.3;
+  color: #111827;
+}
+
+.left-content h1 span {
+  color: #2e9f47;
+}
+
+.desc {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.feature-list {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.feature-item .icon {
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.feature-item h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.feature-item p {
+  margin-top: 5px;
+  color: #6b7280;
+}
+
+.banner-img {
+  width: 350px;
+  margin-top: 40px;
+}

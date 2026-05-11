@@ -1,0 +1,31 @@
+.login-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #f7faf8;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.login-container {
+  width: 100%;
+  min-height: 90vh;
+  background: white;
+  border-radius: 30px;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid #e6ece8;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
