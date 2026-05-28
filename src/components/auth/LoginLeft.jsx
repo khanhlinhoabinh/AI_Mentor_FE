@@ -1,3 +1,4 @@
+
 import "./LoginLeft.css";
 
 export default function LoginLeft() {
@@ -5,45 +6,66 @@ export default function LoginLeft() {
     <div className="login-left">
       <div className="left-content">
         <h1>
-          Chào mừng bạn đến với
+          Học thông minh hơn cùng
           <span> AI Mentor</span>
         </h1>
 
         <p className="desc">
-          Trợ lý học tập AI thông minh, đồng hành cùng bạn
-          trên hành trình chinh phục tri thức.
+          Nền tảng hỗ trợ học tập cá nhân hóa bằng AI giúp bạn
+          quản lý tài liệu, ôn tập hiệu quả và xây dựng lộ trình
+          học tập tối ưu.
         </p>
 
         <div className="feature-list">
           <div className="feature-item">
             <div className="icon">📘</div>
+
             <div>
-              <h4>Quản lý môn học & tài liệu</h4>
-              <p>Tổ chức tài liệu khoa học, dễ dàng truy cập</p>
+              <h4>Quản lý môn học</h4>
+
+              <p>
+                Tổ chức tài liệu và nội dung học tập khoa học,
+                dễ dàng tra cứu.
+              </p>
             </div>
           </div>
 
           <div className="feature-item">
             <div className="icon">🤖</div>
+
             <div>
-              <h4>AI tóm tắt & giải thích</h4>
-              <p>Tóm tắt nội dung, giải thích nhanh chóng</p>
+              <h4>AI hỗ trợ học tập</h4>
+
+              <p>
+                Tóm tắt tài liệu, giải thích nội dung và hỗ trợ
+                học nhanh hơn.
+              </p>
             </div>
           </div>
 
           <div className="feature-item">
             <div className="icon">💬</div>
+
             <div>
-              <h4>Chatbot hỏi đáp thông minh</h4>
-              <p>Đặt câu hỏi và nhận giải đáp chi tiết từ AI</p>
+              <h4>Chatbot AI thông minh</h4>
+
+              <p>
+                Hỏi bài trực tiếp dựa trên tài liệu học tập của
+                riêng bạn.
+              </p>
             </div>
           </div>
 
           <div className="feature-item">
             <div className="icon">📈</div>
+
             <div>
-              <h4>Lộ trình học tập cá nhân hóa</h4>
-              <p>Xây dựng lộ trình phù hợp với mục tiêu của bạn</p>
+              <h4>Lộ trình cá nhân hóa</h4>
+
+              <p>
+                Theo dõi tiến độ học tập và nhận nhắc nhở phù
+                hợp với mục tiêu.
+              </p>
             </div>
           </div>
         </div>
@@ -51,7 +73,7 @@ export default function LoginLeft() {
         <img
           className="banner-img"
           src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
-          alt=""
+          alt="AI Mentor"
         />
       </div>
     </div>

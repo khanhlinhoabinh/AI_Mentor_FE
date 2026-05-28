@@ -1,3 +1,4 @@
+
 import "./LoginForm.css";
 
 import RoleTabs from "./RoleTabs";
@@ -8,10 +9,10 @@ export default function LoginForm() {
   return (
     <div className="login-form-wrapper">
       <div className="login-form">
-        <h2>Đăng nhập 🌱</h2>
+        <h2>Welcome to AI Mentor 🌱</h2>
 
         <p className="sub">
-          Chọn phương thức đăng nhập phù hợp
+          Nền tảng hỗ trợ học tập cá nhân hóa bằng AI dành cho sinh viên và người tự học.
         </p>
 
         <RoleTabs />
@@ -19,7 +20,7 @@ export default function LoginForm() {
         <UserLogin />
 
         <div className="divider">
-          <span>Hoặc</span>
+          <span>Hoặc đăng nhập với Admin</span>
         </div>
 
         <AdminLogin />
