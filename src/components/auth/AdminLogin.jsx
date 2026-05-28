@@ -1,3 +1,4 @@
+
 import "./AdminLogin.css";
 
 export default function AdminLogin() {
@@ -5,11 +6,16 @@ export default function AdminLogin() {
     <div className="admin-box">
       <h3>Đăng nhập dành cho Admin</h3>
 
+      <p className="admin-desc">
+        Quản trị hệ thống AI Mentor và theo dõi hoạt động người dùng.
+      </p>
+
       <div className="input-group">
-        <label>Tên đăng nhập</label>
+        <label>Email Admin</label>
+
         <input
-          type="text"
-          placeholder="Nhập tên đăng nhập"
+          type="email"
+          placeholder="Nhập email admin"
         />
       </div>
 
