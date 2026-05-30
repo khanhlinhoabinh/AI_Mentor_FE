@@ -11,10 +11,7 @@ function App() {
 
       {/* DASHBOARD */}
       <Route path="/" element={<HomePage />} />
-      <Route
-        path="/admin"
-        element={<AdminDashboardPage />}
-      />
+      <Route path="/admin" element={<AdminDashboardPage />} />
     </Routes>
   )
 }

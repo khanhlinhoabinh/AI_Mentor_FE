@@ -1,5 +1,5 @@
 import LoginLeft from "../components/auth/LoginLeft";
-import LoginForm from "../components/auth/LoginForm";
+import LoginForm from "../components/auth/LoginForm.jsx";
 
 import "../components/auth/login.css";
 export default function LoginPage() {
