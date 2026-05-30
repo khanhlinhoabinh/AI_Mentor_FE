@@ -1,0 +1,22 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#f5f7fb;
+  font-family:Inter,sans-serif;
+}
+
+.admin-layout{
+  display:flex;
+}
+
+.admin-main{
+  flex:1;
+}
+
+.admin-content{
+  padding:30px;
+}
