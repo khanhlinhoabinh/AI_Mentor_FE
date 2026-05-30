@@ -1,0 +1,100 @@
+.admin-header{
+  height:90px;
+
+  background:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 32px;
+
+  border-bottom:1px solid #eef2f7;
+}
+
+.admin-header-left h1{
+  font-size:34px;
+  color:#172b4d;
+}
+
+.admin-header-left p{
+  color:#7b8794;
+  margin-top:4px;
+}
+
+.admin-header-right{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.admin-search{
+
+  width:480px;
+  height:56px;
+
+  background:#f8fafc;
+
+  border:1px solid #edf2f7;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+
+  gap:12px;
+
+  padding:0 18px;
+}
+
+.admin-search input{
+  flex:1;
+
+  border:none;
+  outline:none;
+
+  background:transparent;
+}
+
+.admin-search span{
+  color:#94a3b8;
+  font-size:12px;
+}
+
+.admin-icon-btn{
+  width:50px;
+  height:50px;
+
+  border:none;
+
+  border-radius:50%;
+
+  background:white;
+
+  box-shadow:
+  0 6px 20px rgba(0,0,0,.08);
+
+  cursor:pointer;
+}
+
+.admin-profile{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.admin-profile img{
+  width:52px;
+  height:52px;
+
+  border-radius:50%;
+}
+
+.admin-profile h4{
+  margin:0;
+}
+
+.admin-profile span{
+  font-size:13px;
+  color:#94a3b8;
+}
