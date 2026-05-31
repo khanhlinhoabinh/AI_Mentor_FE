@@ -1,4 +1,3 @@
-
 import "./UserLogin.css";
 
 import { GoogleLogin } from "@react-oauth/google";
@@ -17,9 +16,14 @@ export default function UserLogin() {
 
       const res = await loginGoogle(idToken);
 
-      localStorage.setItem(
-        "token",
-        res.token
+      console.log(
+        "LOGIN RESPONSE:",
+        res
+      );
+
+      console.log(
+        "TOKEN:",
+        localStorage.getItem("token")
       );
 
       localStorage.setItem(
@@ -30,7 +34,10 @@ export default function UserLogin() {
       navigate("/");
 
     } catch (error) {
-      console.error(error);
+      console.error(
+        "LOGIN ERROR:",
+        error
+      );
 
       alert(
         "Đăng nhập thất bại. Vui lòng thử lại!"

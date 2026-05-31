@@ -4,16 +4,20 @@ import api from "../configs/axios.config";
 export const loginGoogle = async (idToken) => {
 
   const response = await api.post(
-    "/auth/google",
-    {
-      idToken: idToken,
-    }
-  );
+  "/auth/google",
+  {
+    idToken: idToken,
+  }
+);
 
-  // Lưu JWT
-  localStorage.setItem("token", response.data.token);
+console.log("GOOGLE LOGIN API:", response.data);
 
-  return response.data;
+localStorage.setItem(
+  "token",
+  response.data.token
+);
+
+return response.data;
 };
 
 // LOGOUT

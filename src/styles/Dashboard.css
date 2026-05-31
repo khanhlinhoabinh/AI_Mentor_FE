@@ -1391,3 +1391,76 @@ body::before {
     height: 88px;
   }
 }
+.login-btn {
+  height: 40px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: var(--primary-hover);
+}
+
+.user-dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 55px;
+  right: 0;
+
+  width: 240px;
+
+  background: white;
+  border-radius: 16px;
+
+  border: 1px solid var(--border);
+
+  box-shadow: var(--shadow-lg);
+
+  overflow: hidden;
+
+  z-index: 999;
+}
+
+.dropdown-user {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dropdown-user strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dropdown-user p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.dropdown-menu button {
+  width: 100%;
+
+  border: none;
+  background: white;
+
+  padding: 14px 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+.dropdown-menu button:hover {
+  background: #f5f5f5;
+}
