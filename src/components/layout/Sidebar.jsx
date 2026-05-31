@@ -1,19 +1,57 @@
-import "./Sidebar.css";
+import {
+  Home,
+  BookOpen,
+  FileText,
+  MessageCircle,
+  StickyNote,
+  Layers,
+  PenTool,
+  Map,
+  BarChart2,
+  Settings,
+  Plus,
+} from "lucide-react";
 
 export default function Sidebar() {
+  const navItems = [
+    { icon: Home, label: "Trang chủ" },
+    { icon: BookOpen, label: "Môn học của tôi" },
+    { icon: FileText, label: "Tài liệu" },
+    { icon: MessageCircle, label: "Chat AI" },
+    { icon: StickyNote, label: "Ghi chú" },
+    { icon: Layers, label: "Flashcard" },
+    { icon: PenTool, label: "Luyện tập" },
+    { icon: Map, label: "Lộ trình học tập" },
+    { icon: BarChart2, label: "Thống kê" },
+    { icon: Settings, label: "Cài đặt" },
+  ];
+
   return (
-    <div className="sidebar">
-      <h2 className="logo">AI Mentor</h2>
+    <aside className="sidebar">
+      <button className="create-btn">
+        <Plus size={16} />
+        Tạo môn học
+      </button>
 
-      <button className="create-btn">+ Tạo môn học</button>
+      <p className="menu-title">MENU CHÍNH</p>
 
-      <ul className="menu">
-        <li className="active">Trang chủ</li>
-        <li>Môn học của tôi</li>
-        <li>Tài liệu</li>
-        <li>Chat AI</li>
-        <li>Flashcard</li>
-      </ul>
-    </div>
+      <div className="nav-list">
+        {navItems.map((item, index) => {
+          const Icon = item.icon;
+
+          return (
+            <div
+              key={index}
+              className={`nav-item ${
+                index === 0 ? "active" : ""
+              }`}
+            >
+              <Icon size={18} />
+              <span>{item.label}</span>
+            </div>
+          );
+        })}
+      </div>
+    </aside>
   );
 }
