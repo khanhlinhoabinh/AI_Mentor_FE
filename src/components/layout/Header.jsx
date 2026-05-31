@@ -1,41 +1,46 @@
-import "./Header.css";
+import {
+  Search,
+  Bell,
+  Calendar,
+} from "lucide-react";
 
 export default function Header() {
   return (
-    <div className="header">
-      {/* LEFT */}
-      <div className="header-left">
-        <div className="logo">
-          🌱 <span className="brand">AI Mentor</span>
-          <span className="slogan">Học thông minh, tiến xa mỗi ngày</span>
+    <header className="top-header">
+      <div className="logo">
+        <div className="logo-icon">🌿</div>
+
+        <div>
+          <h1>AI Mentor</h1>
         </div>
       </div>
 
-      {/* CENTER */}
-      <div className="header-center">
-        <div className="search-box">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Tìm kiếm môn học, tài liệu, ghi chú..."
-          />
-          <span className="shortcut">Ctrl + K</span>
-        </div>
+      <div className="search-box">
+        <Search size={18} />
+
+        <input
+          type="text"
+          placeholder="Tìm kiếm môn học, tài liệu..."
+        />
       </div>
 
-      {/* RIGHT */}
-      <div className="header-right">
-        <span className="icon">🔔</span>
-        <span className="icon">📅</span>
+      <div className="top-actions">
+        <div className="top-icon">
+          <Bell size={18} />
+        </div>
 
-        <div className="user">
-          <img src="https://i.pravatar.cc/40" alt="avatar" />
-          <div className="user-info">
-            <span className="name">Nguyễn Văn A</span>
-            <span className="badge">Premium</span>
+        <div className="top-icon">
+          <Calendar size={18} />
+        </div>
+
+        <div className="account-box">
+          <div className="avatar">NVA</div>
+
+          <div>
+            <h4>Nguyễn Văn A</h4>
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
