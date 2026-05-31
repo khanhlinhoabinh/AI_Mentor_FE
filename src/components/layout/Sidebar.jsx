@@ -33,8 +33,6 @@ export default function Sidebar() {
         Tạo môn học
       </button>
 
-      <p className="menu-title">MENU CHÍNH</p>
-
       <div className="nav-list">
         {navItems.map((item, index) => {
           const Icon = item.icon;

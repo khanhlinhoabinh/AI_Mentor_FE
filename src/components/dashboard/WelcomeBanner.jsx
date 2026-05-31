@@ -1,6 +1,13 @@
+import bannerImage from "../../assets/banner.png";
+
 export default function WelcomeBanner() {
   return (
-    <div className="hero">
+    <div
+      className="hero"
+      style={{
+        backgroundImage: `url(${bannerImage})`,
+      }}
+    >
       <div>
         <h2>Chào mừng trở lại 👋</h2>
 
@@ -8,12 +15,9 @@ export default function WelcomeBanner() {
 
         <div className="quote-box">
           "Bạn không cần phải giỏi ngay từ đầu,
-          nhưng bạn phải bắt đầu để trở nên giỏi
-          hơn mỗi ngày."
+          nhưng bạn phải bắt đầu để trở nên giỏi hơn mỗi ngày."
         </div>
       </div>
-
-      <div className="hero-avatar">🧑‍💻</div>
     </div>
   );
 }
