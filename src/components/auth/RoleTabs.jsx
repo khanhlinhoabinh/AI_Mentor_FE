@@ -2,10 +2,20 @@
 import "./RoleTabs.css";
 
 export default function RoleTabs() {
+   const scrollToAdmin = () => {
+    const adminSection =
+      document.getElementById("admin-login");
+
+    if (adminSection) {
+      adminSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  };
   return (
     <div className="role-tabs">
       <button className="active">
-        <span>👤</span>
 
         <div>
           <strong>User</strong>
@@ -13,8 +23,7 @@ export default function RoleTabs() {
         </div>
       </button>
 
-      <button>
-        <span>🛡️</span>
+      <button onClick={scrollToAdmin}>
 
         <div>
           <strong>Admin</strong>

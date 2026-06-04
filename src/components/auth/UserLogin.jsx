@@ -77,10 +77,6 @@ export default function UserLogin() {
           />
         </div>
       </div>
-
-      <p className="safe">
-        🔒 Bảo mật an toàn với Google OAuth2
-      </p>
     </div>
   );
 }

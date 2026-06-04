@@ -22,7 +22,7 @@ export default function AdminLogin() {
     }
   };
   return (
-    <div className="admin-box">
+    <div className="admin-box" id="admin-login">
       <h3>Đăng nhập dành cho Admin</h3>
 
       <p className="admin-desc">

@@ -11,10 +11,6 @@ export default function LoginForm() {
       <div className="login-form">
         <h2>Welcome to AI Mentor 🌱</h2>
 
-        <p className="sub">
-          Nền tảng hỗ trợ học tập cá nhân hóa bằng AI dành cho sinh viên và người tự học.
-        </p>
-
         <RoleTabs />
 
         <UserLogin />
