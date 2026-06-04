@@ -73,7 +73,7 @@
   color: #15803d;
 }
 
-.login-btn {
+.admin-login-btn {
   width: 100%;
   height: 58px;
   margin-top: 28px;
@@ -95,12 +95,12 @@
   box-shadow: 0 8px 20px rgba(34, 197, 94, 0.25);
 }
 
-.login-btn:hover {
+.admin-login-btn:hover {
   opacity: 0.96;
   transform: translateY(-2px);
 }
 
-.login-btn:active {
+.admin-login-btn:active {
   transform: scale(0.98);
 }
 

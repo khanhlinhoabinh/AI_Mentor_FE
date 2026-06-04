@@ -60,7 +60,7 @@ export default function AdminLogin() {
         <Link to="/forgot-password">Quên mật khẩu?</Link>
       </div>
 
-      <button className="login-btn" onClick={handleLogin}>
+      <button className="admin-login-btn" onClick={handleLogin}>
         Đăng nhập Admin
       </button>
     </div>
