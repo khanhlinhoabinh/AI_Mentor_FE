@@ -1,7 +1,26 @@
-
 import "./AdminLogin.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { loginAdmin } from "../../services/auth.services";
+import { Link } from "react-router-dom";
 
 export default function AdminLogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    try {
+      const data = await loginAdmin(email, password);
+
+      if (data.role === "ADMIN") {
+        navigate("/admin");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Đăng nhập thất bại");
+    }
+  };
   return (
     <div className="admin-box">
       <h3>Đăng nhập dành cho Admin</h3>
@@ -16,6 +35,8 @@ export default function AdminLogin() {
         <input
           type="email"
           placeholder="Nhập email admin"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
@@ -25,6 +46,8 @@ export default function AdminLogin() {
         <input
           type="password"
           placeholder="Nhập mật khẩu"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
@@ -34,10 +57,10 @@ export default function AdminLogin() {
           Ghi nhớ đăng nhập
         </label>
 
-        <span>Quên mật khẩu?</span>
+        <Link to="/forgot-password">Quên mật khẩu?</Link>
       </div>
 
-      <button className="login-btn">
+      <button className="login-btn" onClick={handleLogin}>
         Đăng nhập Admin
       </button>
     </div>
