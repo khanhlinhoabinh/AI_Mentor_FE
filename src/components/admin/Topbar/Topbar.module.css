@@ -1,35 +1,45 @@
 .topbar {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 0 28px;
+  gap: 16px;
+
+  padding: 0 24px;
   height: 72px;
-  background: #ffffff;
+
+  background: #fff;
   border-bottom: 1px solid #E5E7EB;
-  flex-shrink: 0;
+
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
 .left {
-  flex-shrink: 0;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .greeting {
   font-size: 20px;
   font-weight: 700;
   color: #1F2937;
-  letter-spacing: -0.3px;
-  line-height: 1.2;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  max-width: 320px;
 }
 
 
 .searchWrap {
   position: relative;
-  width: 450px;
-  flex-shrink: 0;
-  margin: 0 auto;
+
+  flex: 1;
+  min-width: 220px;
+  max-width: 600px;
+
+  margin: 0;
 }
 
 .searchIcon {
@@ -79,7 +89,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto;
+
+  flex-shrink: 0;
 }
 
 .iconBtn {
@@ -121,14 +132,15 @@
   display: flex;
   align-items: center;
   gap: 8px;
+
   padding: 5px 10px 5px 5px;
+
   border-radius: 12px;
   border: 1.5px solid #E5E7EB;
-  background: #fff;
-  cursor: pointer;
-  transition: border-color 0.2s;
 
-  &:hover { border-color: #2F8F67; }
+  background: #fff;
+
+  max-width: 220px;
 }
 
 .avatarWrap {
@@ -162,13 +174,18 @@
 .userInfo {
   display: flex;
   flex-direction: column;
+
+  min-width: 0;
 }
 
 .userName {
   font-size: 12.5px;
   font-weight: 600;
   color: #1F2937;
-  line-height: 1.2;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .userRole {
@@ -178,4 +195,62 @@
 
 .userChev {
   color: #9CA3AF;
+}
+.userDropdown {
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 58px;
+  right: 0;
+
+  width: 240px;
+
+  background: white;
+  border-radius: 14px;
+
+  border: 1px solid #e5e7eb;
+
+  overflow: hidden;
+
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+
+  z-index: 999;
+}
+
+.dropdownUser {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dropdownUser strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dropdownUser p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.dropdownMenu button {
+  width: 100%;
+
+  border: none;
+  background: white;
+
+  padding: 12px 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+.dropdownMenu button:hover {
+  background: #f5f5f5;
 }
