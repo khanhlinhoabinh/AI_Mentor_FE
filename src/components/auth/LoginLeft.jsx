@@ -1,6 +1,6 @@
 import "./LoginLeft.css";
 
-import subjectIcon from "../../assets/book.png";
+import subjectIcon from "../../assets/subjects.png";
 import aiIcon from "../../assets/ai-assistant.png";
 import chatbotIcon from "../../assets/chat.png";
 import roadmapIcon from "../../assets/product.png";
