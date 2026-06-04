@@ -1,0 +1,129 @@
+/* ═══════════════════════════════════════════════════════════
+   LearningStreak Card
+   - height: 100% → fill ô bottom-section
+   - flex column  → ghim footer xuống đáy
+   ═══════════════════════════════════════════════════════════ */
+.learning-streak {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.streak-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 10px 0;
+  flex-shrink: 0;
+}
+
+/* Nội dung giữa title và footer */
+.streak-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.streak-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.streak-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.streak-fire { font-size: 24px; }
+
+.streak-days {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.streak-sub {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.streak-record {
+  font-size: 11px;
+  color: #64748b;
+  background: #f8fafc;
+  padding: 4px 9px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.streak-record strong { color: #1e293b; }
+
+/* Dot grid */
+.streak-grid {
+  flex: 1;
+  min-height: 0;
+}
+
+.streak-header-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 5px;
+}
+
+.streak-day-label {
+  font-size: 10px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.streak-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.streak-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  margin: 0 auto;
+}
+
+.streak-dot.active { background: #22c55e; }
+
+/* ─── Footer ghim xuống đáy ─── */
+.streak-footer {
+  flex-shrink: 0;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 10px;
+}
+
+.streak-detail-btn {
+  background: none;
+  border: none;
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  display: block;
+}
+
+.streak-detail-btn:hover { text-decoration: underline; }

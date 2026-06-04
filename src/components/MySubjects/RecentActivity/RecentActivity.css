@@ -1,0 +1,96 @@
+/* ═══════════════════════════════════════════════════════════
+   RecentActivity Card
+   - height: 100% → fill ô bottom-section
+   - flex column  → ghim footer xuống đáy
+   ═══════════════════════════════════════════════════════════ */
+.recent-activity {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.activity-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  flex-shrink: 0;
+}
+
+/* ─── Danh sách chiếm phần còn lại, trải đều 3 item ─── */
+.activity-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  /* 3 item trải đều */
+  overflow: hidden;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 0;
+}
+
+.activity-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-icon.green  { background: #dcfce7; color: #22c55e; }
+.activity-icon.blue   { background: #dbeafe; color: #3b82f6; }
+.activity-icon.purple { background: #ede9fe; color: #8b5cf6; }
+
+.activity-info { flex: 1; min-width: 0; }
+
+.activity-text {
+  font-size: 12px;
+  color: #334155;
+  font-weight: 500;
+  line-height: 1.4;
+  /* Giới hạn 2 dòng — không làm giãn item */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.activity-time {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* ─── Footer ghim xuống đáy ─── */
+.activity-footer {
+  flex-shrink: 0;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 10px;
+}
+
+.activity-all-btn {
+  background: none;
+  border: none;
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  display: block;
+}
+
+.activity-all-btn:hover { text-decoration: underline; }

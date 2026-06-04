@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import MySubjectsPage from "./pages/MySubjectsPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       {/* DASHBOARD */}
       <Route path="/" element={<HomePage />} />
       <Route path="/admin" element={<AdminDashboardPage />} />
+      <Route path="/mysubjects" element={<MySubjectsPage />} />
     </Routes>
   )
 }

@@ -15,7 +15,7 @@ import {
   Calendar,
 } from "lucide-react";
 
-import "../styles/Dashboard.css";
+import "../styles/HomePage/Dashboard.css";
 
 export default function HomePage() {
   const navItems = [
