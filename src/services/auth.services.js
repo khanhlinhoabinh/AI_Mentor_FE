@@ -44,10 +44,21 @@ export const resetPassword = async (token, newPassword) => {
 
   return response.data;
 };
+// CHANGE PASSWORD (Admin)
+export const changePassword = async (email, oldPassword, newPassword) => {
+  const response = await api.post("/auth/admin/change-password", {
+    email,
+    oldPassword,
+    newPassword,
+  });
+
+  return response.data;
+};
 
 // LOGOUT
 export const logout = () => {
   localStorage.removeItem("token");
 
   window.location.href = "/login";
+  
 };
