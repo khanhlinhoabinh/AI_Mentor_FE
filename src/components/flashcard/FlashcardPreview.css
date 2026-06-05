@@ -1,0 +1,236 @@
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARD */
+
+.preview-card {
+  min-height: 420px;
+
+  border-radius: 28px;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    #4f46e5 0%,
+    #7c3aed 50%,
+    #d946ef 100%
+  );
+
+  color: white;
+
+  box-shadow:
+    0 10px 30px rgba(124, 58, 237, 0.25);
+}
+
+.preview-top {
+  padding: 24px 24px 0;
+}
+
+.preview-content {
+  padding: 20px 24px 30px;
+}
+
+.preview-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 6px 14px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.2);
+
+  backdrop-filter: blur(10px);
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.preview-badge.answer {
+  margin-bottom: 16px;
+}
+
+.preview-content h2 {
+  margin-top: 24px;
+
+  margin-bottom: 28px;
+
+  font-size: 30px;
+
+  font-weight: 700;
+
+  line-height: 1.4;
+}
+
+.preview-divider {
+  height: 1px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.25
+  );
+
+  margin-bottom: 24px;
+}
+
+.preview-content p {
+  font-size: 15px;
+
+  line-height: 1.9;
+
+  opacity: 0.95;
+}
+
+/* NAVIGATION */
+
+.preview-navigation {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 20px;
+}
+
+.nav-btn {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  background: white;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.1);
+}
+
+.nav-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.card-index {
+  font-size: 15px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* STUDY BUTTON */
+
+.study-btn {
+  height: 56px;
+
+  border: none;
+
+  border-radius: 16px;
+
+  background: #22c55e;
+
+  color: white;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  transition: all 0.2s ease;
+}
+
+.study-btn:hover {
+  background: #16a34a;
+}
+
+.study-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+/* TIP CARD */
+
+.tip-card {
+  background: #fffbeb;
+
+  border: 1px solid #fde68a;
+
+  border-radius: 20px;
+
+  padding: 18px;
+
+  display: flex;
+
+  gap: 14px;
+}
+
+.tip-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.tip-card h4 {
+  color: #92400e;
+
+  margin-bottom: 6px;
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+.tip-card p {
+  color: #78350f;
+
+  line-height: 1.6;
+
+  font-size: 14px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .preview-card {
+    min-height: auto;
+  }
+
+  .preview-content h2 {
+    font-size: 24px;
+  }
+
+  .preview-navigation {
+    gap: 12px;
+  }
+}

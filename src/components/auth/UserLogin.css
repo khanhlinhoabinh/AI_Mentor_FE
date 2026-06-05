@@ -2,7 +2,6 @@
   margin-top: 24px;
 
   border: 1px solid #ccefd8;
-
   background: #f9fffb;
 
   border-radius: 18px;
@@ -13,20 +12,18 @@
 }
 
 .google-box h3 {
-  font-size: 28px;
+  margin: 0 0 10px;
 
+  font-size: 28px;
   font-weight: 700;
 
   color: #15803d;
-
-  margin-bottom: 10px;
 }
 
 .google-box p {
   color: #6b7280;
 
   font-size: 14px;
-
   line-height: 1.6;
 
   margin-bottom: 20px;
@@ -37,10 +34,9 @@
 
   width: 100%;
   max-width: 380px;
+  height: 58px;
 
   margin: 0 auto;
-
-  height: 58px;
 
   display: flex;
   align-items: center;
@@ -48,10 +44,9 @@
 
   gap: 12px;
 
-  background: #fff;
+  background: #ffffff;
 
   border: 1px solid #e5e7eb;
-
   border-radius: 12px;
 
   cursor: pointer;
@@ -75,6 +70,12 @@
 .google-custom-btn img {
   width: 24px;
   height: 24px;
+
+  object-fit: contain;
+}
+
+.google-custom-btn span {
+  color: #111827;
 }
 
 .google-real-btn {
@@ -93,19 +94,15 @@
   margin-top: 16px;
 
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   gap: 8px;
 
-  font-size: 14px;
-
   color: #16a34a;
-}
 
-.safe img {
-  width: 16px;
-  height: 16px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {

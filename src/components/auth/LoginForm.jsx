@@ -8,33 +8,21 @@ export default function LoginForm() {
   return (
     <div className="login-form-wrapper">
       <div className="login-form">
+        <h2>Đăng nhập</h2>
 
-        <div className="login-header">
-          <img
-  src={logo}
-  alt="AI Mentor"
-  className="logo-img"
-/>
-
-          <h2>AI Mentor</h2>
-
-          <p className="sub">
-            Nền tảng học tập thông minh ứng dụng AI,
-            hỗ trợ quản lý tài liệu, chatbot hỏi đáp,
-            flashcard, quiz và cá nhân hóa lộ trình học tập.
-          </p>
-        </div>
+        <p className="sub">
+          Chọn vai trò và phương thức đăng nhập phù hợp
+        </p>
 
         <RoleTabs />
 
         <UserLogin />
 
         <div className="divider">
-          <span>HOẶC ĐĂNG NHẬP ADMIN</span>
+          <span>Hoặc đăng nhập Admin</span>
         </div>
 
         <AdminLogin />
-
       </div>
     </div>
   );

@@ -1,9 +1,8 @@
 import "./AdminLogin.css";
-
 import { useState } from "react";
 
 import LoginName from "../../assets/IconRight/LoginName.png";
-import Password from "../../assets/IconRight/Password.png";
+import PasswordIcon from "../../assets/IconRight/PassWord.png";
 import EyeCrossed from "../../assets/IconRight/EyeCrossed.png";
 
 export default function AdminLogin() {
@@ -16,8 +15,6 @@ export default function AdminLogin() {
       <p className="admin-desc">
         Đăng nhập để quản lý hệ thống AI Mentor
       </p>
-
-      {/* Username */}
 
       <div className="input-group">
         <label>Tên đăng nhập</label>
@@ -36,14 +33,12 @@ export default function AdminLogin() {
         </div>
       </div>
 
-      {/* Password */}
-
       <div className="input-group">
         <label>Mật khẩu</label>
 
         <div className="input-wrapper">
           <img
-            src={Password}
+            src={PasswordIcon}
             alt="password"
             className="input-icon"
           />
@@ -68,18 +63,16 @@ export default function AdminLogin() {
         </div>
       </div>
 
-      {/* Remember */}
-
       <div className="remember">
-        <label>
+        <label className="remember-label">
           <input type="checkbox" />
-          Ghi nhớ đăng nhập
+          <span>Ghi nhớ đăng nhập</span>
         </label>
 
-        <span>Quên mật khẩu?</span>
+        <span className="forgot-password">
+          Quên mật khẩu?
+        </span>
       </div>
-
-      {/* Login Button */}
 
       <button className="login-btn">
         Đăng nhập Admin

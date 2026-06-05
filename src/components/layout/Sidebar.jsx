@@ -1,18 +1,45 @@
 import "./Sidebar.css";
+import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   return (
     <div className="sidebar">
       <h2 className="logo">AI Mentor</h2>
 
-      <button className="create-btn">+ Tạo môn học</button>
+      <button className="create-btn">
+        + Tạo môn học
+      </button>
 
       <ul className="menu">
-        <li className="active">Trang chủ</li>
-        <li>Môn học của tôi</li>
-        <li>Tài liệu</li>
-        <li>Chat AI</li>
-        <li>Flashcard</li>
+        <li>
+          <NavLink to="/">
+            Trang chủ
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/courses">
+            Môn học của tôi
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/documents">
+            Tài liệu
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/chat">
+            Chat AI
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/flashcard">
+            Flashcard
+          </NavLink>
+        </li>
       </ul>
     </div>
   );
