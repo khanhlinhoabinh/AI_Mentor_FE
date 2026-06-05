@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════════════════
+   StudyProgress Card
+   - height: 100% → fill ô bottom-section
+   - flex column  → ghim footer xuống đáy
+   ═══════════════════════════════════════════════════════════ */
+.study-progress {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 18px 14px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.study-progress-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+    flex-shrink: 0;
+}
+
+/* Donut + legend chiếm phần còn lại */
+.study-progress-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+}
+
+.donut-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+}
+
+.donut-total {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1;
+}
+
+.donut-label {
+    font-size: 9px;
+    color: #94a3b8;
+    margin-top: 2px;
+    white-space: nowrap;
+}
+
+.progress-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-dot.green {
+    background: #22c55e;
+}
+
+.legend-dot.blue {
+    background: #3b82f6;
+}
+
+.legend-dot.gray {
+    background: #e2e8f0;
+}
+
+.legend-text {
+    color: #334155;
+    flex: 1;
+    font-size: 12px;
+}
+
+.legend-pct {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.legend-count {
+    color: #94a3b8;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* ─── Footer ghim xuống đáy ─── */
+.progress-footer {
+    flex-shrink: 0;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+    margin-top: 10px;
+}
+
+.progress-detail-btn {
+    background: none;
+    border: none;
+    color: #22c55e;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    display: block;
+}
+
+.progress-detail-btn:hover {
+    text-decoration: underline;
+}

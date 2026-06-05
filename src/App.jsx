@@ -5,6 +5,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import MySubjectsPage from "./pages/MySubjectsPage";
 
 function App() {
   return (
@@ -23,8 +24,8 @@ function App() {
         }
       />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/mysubjects" element={<MySubjectsPage />} />
     </Routes>
   );
 }
