@@ -1,97 +1,40 @@
-
 .google-box {
-  margin-top: 30px;
+  margin-top: 24px;
 
-  border: 2px solid #dcfce7;
+  border: 1px solid #ccefd8;
+  background: #f9fffb;
 
-  background: linear-gradient(
-    135deg,
-    #f7fff9,
-    #f0fdf4
-  );
+  border-radius: 18px;
 
-  border-radius: 24px;
-
-  padding: 32px 28px;
+  padding: 28px 24px;
 
   text-align: center;
-
-  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.06);
 }
 
 .google-box h3 {
-  color: #15803d;
+  margin: 0 0 10px;
 
-  font-size: 22px;
-
+  font-size: 28px;
   font-weight: 700;
 
-  margin-bottom: 10px;
+  color: #15803d;
 }
 
 .google-box p {
   color: #6b7280;
 
-  font-size: 15px;
-
-  line-height: 1.6;
-}
-
-.google-btn {
-  margin-top: 24px;
-
-  width: 100%;
-  height: 60px;
-
-  border: none;
-
-  border-radius: 16px;
-
-  background: white;
-
-  font-size: 17px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  gap: 12px;
-
-  transition: all 0.25s ease;
-
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
-}
-
-.google-btn:hover {
-  transform: translateY(-2px);
-
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
-}
-
-.google-btn img {
-  width: 26px;
-  height: 26px;
-}
-
-.safe {
-  margin-top: 18px;
-
-  color: #16a34a;
-
   font-size: 14px;
+  line-height: 1.6;
 
-  font-weight: 500;
+  margin-bottom: 20px;
 }
 
 .google-custom-btn {
   position: relative;
 
   width: 100%;
-  max-width: 340px;
+  max-width: 380px;
+  height: 58px;
 
   margin: 0 auto;
 
@@ -101,36 +44,38 @@
 
   gap: 12px;
 
-  padding: 15px 22px;
-
-  border-radius: 16px;
-
-  background: white;
+  background: #ffffff;
 
   border: 1px solid #e5e7eb;
-
-  font-weight: 600;
-
-  font-size: 16px;
+  border-radius: 12px;
 
   cursor: pointer;
 
+  font-size: 16px;
+  font-weight: 600;
+
   transition: all 0.25s ease;
 
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .google-custom-btn:hover {
-  transform: translateY(-2px);
-
   border-color: #22c55e;
 
-  box-shadow: 0 10px 22px rgba(34, 197, 94, 0.08);
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.08);
 }
 
 .google-custom-btn img {
   width: 24px;
   height: 24px;
+
+  object-fit: contain;
+}
+
+.google-custom-btn span {
+  color: #111827;
 }
 
 .google-real-btn {
@@ -140,25 +85,36 @@
 
   opacity: 0;
 
+  overflow: hidden;
+
   cursor: pointer;
+}
+
+.safe {
+  margin-top: 16px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #16a34a;
+
+  font-size: 14px;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
   .google-box {
-    padding: 24px 18px;
+    padding: 20px;
   }
 
   .google-box h3 {
-    font-size: 20px;
-  }
-
-  .google-btn {
-    height: 56px;
-    font-size: 15px;
+    font-size: 22px;
   }
 
   .google-custom-btn {
-    font-size: 15px;
-    padding: 14px 18px;
+    max-width: 100%;
   }
 }

@@ -1,40 +1,77 @@
-
 import "./AdminLogin.css";
+import { useState } from "react";
+
+import LoginName from "../../assets/IconRight/LoginName.png";
+import PasswordIcon from "../../assets/IconRight/PassWord.png";
+import EyeCrossed from "../../assets/IconRight/EyeCrossed.png";
 
 export default function AdminLogin() {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="admin-box">
-      <h3>Đăng nhập dành cho Admin</h3>
+      <h3>Admin Login</h3>
 
       <p className="admin-desc">
-        Quản trị hệ thống AI Mentor và theo dõi hoạt động người dùng.
+        Đăng nhập để quản lý hệ thống AI Mentor
       </p>
 
       <div className="input-group">
-        <label>Email Admin</label>
+        <label>Tên đăng nhập</label>
 
-        <input
-          type="email"
-          placeholder="Nhập email admin"
-        />
+        <div className="input-wrapper">
+          <img
+            src={LoginName}
+            alt="username"
+            className="input-icon"
+          />
+
+          <input
+            type="text"
+            placeholder="Nhập tên đăng nhập"
+          />
+        </div>
       </div>
 
       <div className="input-group">
         <label>Mật khẩu</label>
 
-        <input
-          type="password"
-          placeholder="Nhập mật khẩu"
-        />
+        <div className="input-wrapper">
+          <img
+            src={PasswordIcon}
+            alt="password"
+            className="input-icon"
+          />
+
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Nhập mật khẩu"
+          />
+
+          <button
+            type="button"
+            className="toggle-password"
+            onClick={() =>
+              setShowPassword(!showPassword)
+            }
+          >
+            <img
+              src={EyeCrossed}
+              alt="toggle password"
+            />
+          </button>
+        </div>
       </div>
 
       <div className="remember">
-        <label>
+        <label className="remember-label">
           <input type="checkbox" />
-          Ghi nhớ đăng nhập
+          <span>Ghi nhớ đăng nhập</span>
         </label>
 
-        <span>Quên mật khẩu?</span>
+        <span className="forgot-password">
+          Quên mật khẩu?
+        </span>
       </div>
 
       <button className="login-btn">

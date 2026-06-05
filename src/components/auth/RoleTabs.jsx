@@ -1,11 +1,13 @@
-
 import "./RoleTabs.css";
+
+import UserIcon from "../../assets/IconRight/User.png";
+import AdminIcon from "../../assets/IconRight/Admin.png";
 
 export default function RoleTabs() {
   return (
     <div className="role-tabs">
       <button className="active">
-        <span>👤</span>
+        <img src={UserIcon} alt="User" />
 
         <div>
           <strong>User</strong>
@@ -14,7 +16,7 @@ export default function RoleTabs() {
       </button>
 
       <button>
-        <span>🛡️</span>
+        <img src={AdminIcon} alt="Admin" />
 
         <div>
           <strong>Admin</strong>

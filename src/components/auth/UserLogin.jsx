@@ -1,4 +1,3 @@
-
 import "./UserLogin.css";
 
 import { GoogleLogin } from "@react-oauth/google";
@@ -8,43 +7,29 @@ import { useNavigate } from "react-router-dom";
 export default function UserLogin() {
   const navigate = useNavigate();
 
-  const handleGoogleSuccess = async (
-    credentialResponse
-  ) => {
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const idToken =
-        credentialResponse.credential;
+      const idToken = credentialResponse.credential;
 
       const res = await loginGoogle(idToken);
 
-      localStorage.setItem(
-        "token",
-        res.token
-      );
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(res)
-      );
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res));
 
       navigate("/");
-
     } catch (error) {
       console.error(error);
 
-      alert(
-        "Đăng nhập thất bại. Vui lòng thử lại!"
-      );
+      alert("Đăng nhập thất bại. Vui lòng thử lại!");
     }
   };
 
   return (
     <div className="google-box">
-      <h3>Đăng nhập dành cho User</h3>
+      <h3>Đăng nhập nhanh cho người dùng</h3>
 
       <p>
-        Tiếp tục học tập cùng AI Mentor bằng
-        tài khoản Google của bạn.
+        Sử dụng tài khoản Google để đăng nhập nhanh chóng và an toàn
       </p>
 
       <div className="google-custom-btn">
@@ -53,27 +38,81 @@ export default function UserLogin() {
           alt="Google"
         />
 
-        <span>Tiếp tục với Google</span>
+        <span>Đăng nhập với Google</span>
 
         <div className="google-real-btn">
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={() => {
-              console.log(
-                "Google Login Failed"
-              );
-
-              alert(
-                "Không thể đăng nhập bằng Google"
-              );
+              alert("Không thể đăng nhập bằng Google");
             }}
           />
         </div>
       </div>
 
       <p className="safe">
-        🔒 Bảo mật an toàn với Google OAuth2
+        🔒 An toàn, bảo mật và không cần mật khẩu
       </p>
+    </div>
+  );
+}import "./UserLogin.css";
+
+import { GoogleLogin } from "@react-oauth/google";
+import { loginGoogle } from "../../services/auth.services";
+import { useNavigate } from "react-router-dom";
+
+import UserIcon from "../../assets/IconRight/User.png";
+
+export default function UserLogin() {
+  const navigate = useNavigate();
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const idToken = credentialResponse.credential;
+
+      const res = await loginGoogle(idToken);
+
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res));
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+
+      alert("Đăng nhập thất bại. Vui lòng thử lại!");
+    }
+  };
+
+  return (
+    <div className="google-box">
+      <h3>Đăng nhập nhanh cho người dùng</h3>
+
+      <p>
+        Sử dụng tài khoản Google để đăng nhập nhanh chóng
+        và an toàn
+      </p>
+
+      <div className="google-custom-btn">
+        <img
+          src={UserIcon}
+          alt="Google Login"
+        />
+
+        <span>Đăng nhập với Google</span>
+
+        <div className="google-real-btn">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() =>
+              alert("Không thể đăng nhập bằng Google")
+            }
+          />
+        </div>
+      </div>
+
+      <div className="safe">
+        ✓ An toàn, bảo mật và không cần mật khẩu
+      </div>
     </div>
   );
 }

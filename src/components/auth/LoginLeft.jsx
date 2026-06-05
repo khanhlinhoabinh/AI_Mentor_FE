@@ -1,79 +1,98 @@
-
 import "./LoginLeft.css";
+
+import BookIcon from "../../assets/IconsLeft/Book.png";
+import AIIcon from "../../assets/IconsLeft/AI.png";
+import ChatbotIcon from "../../assets/IconsLeft/Chatbot.png";
+import FlashcardIcon from "../../assets/IconsLeft/Flashcard.png";
+import RoadmapIcon from "../../assets/IconsLeft/Roadmap.png";
+
+import LoginBanner from "../../assets/images/LoginBanner.png";
 
 export default function LoginLeft() {
   return (
     <div className="login-left">
       <div className="left-content">
         <h1>
-          Học thông minh hơn cùng
+          Chào mừng bạn đến với
           <span> AI Mentor</span>
         </h1>
 
         <p className="desc">
-          Nền tảng hỗ trợ học tập cá nhân hóa bằng AI giúp bạn
-          quản lý tài liệu, ôn tập hiệu quả và xây dựng lộ trình
-          học tập tối ưu.
+          Trợ lý học tập AI thông minh, đồng hành cùng bạn
+          trên hành trình chinh phục tri thức.
         </p>
 
         <div className="feature-list">
           <div className="feature-item">
-            <div className="icon">📘</div>
+            <div className="icon">
+              <img src={BookIcon} alt="Book" />
+            </div>
 
             <div>
-              <h4>Quản lý môn học</h4>
-
+              <h4>Quản lý môn học & tài liệu</h4>
               <p>
-                Tổ chức tài liệu và nội dung học tập khoa học,
-                dễ dàng tra cứu.
+                Tổ chức tài liệu khoa học, dễ dàng truy cập
               </p>
             </div>
           </div>
 
           <div className="feature-item">
-            <div className="icon">🤖</div>
+            <div className="icon">
+              <img src={AIIcon} alt="AI" />
+            </div>
 
             <div>
-              <h4>AI hỗ trợ học tập</h4>
-
+              <h4>AI tóm tắt & giải thích</h4>
               <p>
-                Tóm tắt tài liệu, giải thích nội dung và hỗ trợ
-                học nhanh hơn.
+                Tóm tắt nội dung, giải thích nhanh chóng
               </p>
             </div>
           </div>
 
           <div className="feature-item">
-            <div className="icon">💬</div>
+            <div className="icon">
+              <img src={ChatbotIcon} alt="Chatbot" />
+            </div>
 
             <div>
-              <h4>Chatbot AI thông minh</h4>
-
+              <h4>Chatbot hỏi đáp thông minh</h4>
               <p>
-                Hỏi bài trực tiếp dựa trên tài liệu học tập của
-                riêng bạn.
+                Đặt câu hỏi và nhận giải đáp chi tiết từ AI
               </p>
             </div>
           </div>
 
           <div className="feature-item">
-            <div className="icon">📈</div>
+            <div className="icon">
+              <img src={FlashcardIcon} alt="Flashcard" />
+            </div>
 
             <div>
-              <h4>Lộ trình cá nhân hóa</h4>
-
+              <h4>Flashcard thông minh</h4>
               <p>
-                Theo dõi tiến độ học tập và nhận nhắc nhở phù
-                hợp với mục tiêu.
+                Tạo bộ thẻ ghi nhớ tự động từ tài liệu học tập
+              </p>
+            </div>
+          </div>
+
+          <div className="feature-item">
+            <div className="icon">
+              <img src={RoadmapIcon} alt="Roadmap" />
+            </div>
+
+            <div>
+              <h4>Lộ trình học tập cá nhân hóa</h4>
+              <p>
+                Xây dựng lộ trình phù hợp với mục tiêu của bạn
               </p>
             </div>
           </div>
         </div>
 
         <img
-          className="banner-img"
-          src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
+          src={LoginBanner}
           alt="AI Mentor"
+          className="banner-img"
         />
       </div>
     </div>
