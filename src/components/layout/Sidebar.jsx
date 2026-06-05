@@ -11,11 +11,13 @@ import {
   Settings,
   Plus,
 } from "lucide-react";
-
+import { useNavigate, useLocation } from "react-router-dom";
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const navItems = [
-    { icon: Home, label: "Trang chủ" },
-    { icon: BookOpen, label: "Môn học của tôi" },
+    { icon: Home, label: "Trang chủ", path: "/", },
+    { icon: BookOpen, label: "Môn học của tôi", path: "/mysubjects", },
     { icon: FileText, label: "Tài liệu" },
     { icon: MessageCircle, label: "Chat AI" },
     { icon: StickyNote, label: "Ghi chú" },
@@ -40,9 +42,13 @@ export default function Sidebar() {
           return (
             <div
               key={index}
-              className={`nav-item ${
-                index === 0 ? "active" : ""
-              }`}
+              className={`nav-item ${location.pathname === item.path ? "active" : ""
+                }`}
+              onClick={() => {
+                if (item.path) {
+                  navigate(item.path);
+                }
+              }}
             >
               <Icon size={18} />
               <span>{item.label}</span>

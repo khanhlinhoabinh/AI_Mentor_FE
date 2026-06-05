@@ -7,6 +7,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import ChangePassword from "./pages/ChangePassword";
 
+import MySubjectsPage from "./pages/MySubjectsPage";
 
 function App() {
   return (
@@ -25,9 +26,9 @@ function App() {
         }
       />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/admin/change-password" element={<ChangePassword />} />
+      <Route path="/mysubjects" element={<MySubjectsPage />} />
     </Routes>
     
   );

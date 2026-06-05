@@ -4,25 +4,24 @@ export default function SubjectCard({ item }) {
       <div className="subject-more">⋮</div>
 
       <div className="subject-icon">
-        {item.icon}
+        📚
       </div>
 
-      <h4>{item.title}</h4>
+      <h4>{item.subjectName}</h4>
 
       <div className="progress-wrapper">
         <div className="progress-bar">
           <div
             className="progress-fill"
             style={{
-              width: `${item.progress}%`,
+              width: "0%",
             }}
           />
         </div>
 
         <div className="subject-footer">
-          <span>{item.progress}%</span>
-
-          <span>{item.docs} tài liệu</span>
+          <span>Môn học</span>
+          <span>ID: {item.subjectId}</span>
         </div>
       </div>
     </div>
