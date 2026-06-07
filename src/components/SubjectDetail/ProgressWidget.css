@@ -1,0 +1,56 @@
+.pw-widget {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-sizing: border-box;
+}
+
+.pw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.pw-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.pw-select {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #334155;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+.pw-select:focus { border-color: #22c55e; }
+
+.pw-chart-wrap {
+  margin: 0 -4px;
+}
+
+.pw-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #475569;
+}
+
+.pw-trend-icon { color: #22c55e; flex-shrink: 0; }
+
+.pw-growth {
+  font-size: 11px;
+  color: #22c55e;
+  font-weight: 500;
+  margin-top: 4px;
+}
