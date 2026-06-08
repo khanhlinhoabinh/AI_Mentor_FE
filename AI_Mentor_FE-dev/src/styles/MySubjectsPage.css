@@ -1,0 +1,156 @@
+.app-layout {
+  width: 100%;
+  height: 100vh;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 70px);
+}
+ 
+/* ═══════════════════════════════════════════════════════════
+   MAIN SCROLL AREA — chỉ vùng này scroll theo chiều dọc
+   ═══════════════════════════════════════════════════════════ */
+.my-subjects-content {
+  flex: 1;
+  min-height: 0;
+  padding: 20px 24px 20px;
+  overflow-y: auto;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+ 
+/* ═══════════════════════════════════════════════════════════
+   PAGE HEADER
+   ═══════════════════════════════════════════════════════════ */
+.ms-page-header { flex-shrink: 0; }
+ 
+.ms-page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+ 
+.ms-page-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+ 
+/* ═══════════════════════════════════════════════════════════
+   TOP SECTION — chiều cao cố định, 2 cột
+   Trái (360px): OverviewStats + RecentSubjects
+   Phải (flex): SubjectsGrid
+   ═══════════════════════════════════════════════════════════ */
+.ms-top-section {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 16px;
+  height: 420px;   /* ← CỐ ĐỊNH, không thay đổi dù data nhiều hay ít */
+  flex-shrink: 0;
+  min-height: 0;
+}
+ 
+.ms-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  overflow: hidden;
+  /* OverviewStats: flex-shrink: 0 (tự nhiên), RecentSubjects: flex: 1 */
+}
+ 
+.ms-right-col {
+  min-width: 0;
+  overflow: hidden;
+}
+ 
+/* ═══════════════════════════════════════════════════════════
+   BOTTOM SECTION — chiều cao cố định, 3 cột bằng nhau
+   StudyProgress | LearningStreak | RecentActivity
+   ═══════════════════════════════════════════════════════════ */
+.ms-bottom-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  height: 260px;   /* ← CỐ ĐỊNH */
+  flex-shrink: 0;
+  min-height: 0;
+}
+ 
+/* Mỗi child trong bottom section phải fill 100% height của ô */
+.ms-bottom-section > * {
+  min-height: 0;
+  overflow: hidden;
+}
+ 
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM BANNER
+   ═══════════════════════════════════════════════════════════ */
+.ms-premium-row {
+  flex-shrink: 0;
+  max-width: 280px;
+  padding-bottom: 8px;
+}
+ 
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — Tablet 768–1199px
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 1199px) {
+  .ms-top-section {
+    grid-template-columns: 1fr;
+    height: auto;           /* Trên tablet bỏ fixed height ở section */
+    gap: 14px;
+  }
+ 
+  /* Left col: OverviewStats + RecentSubjects có chiều cao riêng */
+  .ms-left-col {
+    height: auto;
+  }
+ 
+  .ms-bottom-section {
+    grid-template-columns: repeat(2, 1fr);
+    height: auto;
+    gap: 14px;
+  }
+ 
+  .ms-bottom-section > * {
+    height: 260px;          /* Mỗi card vẫn giữ height cố định */
+  }
+ 
+  .ms-premium-row {
+    max-width: 100%;
+  }
+}
+ 
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile < 768px
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .my-subjects-content {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+ 
+  .ms-page-title { font-size: 18px; }
+ 
+  .ms-top-section {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 12px;
+  }
+ 
+  .ms-bottom-section {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 12px;
+  }
+ 
+  .ms-bottom-section > * {
+    height: 250px;
+  }
+}

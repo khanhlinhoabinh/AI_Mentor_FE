@@ -1,0 +1,160 @@
+.login-left {
+  width: 50%;
+  min-height: 100vh;
+
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  padding: 70px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background-image: url("../../assets/background.JPG");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(51, 84, 47, 0.5);
+
+  z-index: 1;
+}
+
+.left-content {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 620px;
+
+  margin-top: 20px;
+}
+
+.left-content h1 {
+  margin: 0;
+
+  font-size: 58px;
+  font-weight: 800;
+
+  line-height: 1.15;
+
+  color: white;
+}
+
+.left-content h1 span {
+  color: #4ade80;
+}
+
+.desc {
+  margin-top: 24px;
+
+  max-width: 560px;
+
+  font-size: 18px;
+  line-height: 1.8;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.feature-list {
+  margin-top: 45px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 26px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 18px;
+}
+
+.feature-item img {
+  width: 42px;
+  height: 42px;
+
+  object-fit: contain;
+
+  flex-shrink: 0;
+
+  margin-top: 3px;
+}
+
+.feature-item h4 {
+  margin: 0;
+
+  font-size: 19px;
+  font-weight: 700;
+
+  color: white;
+}
+
+.feature-item p {
+  margin-top: 5px;
+
+  font-size: 15px;
+  line-height: 1.7;
+
+  color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 1200px) {
+  .left-content h1 {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 992px) {
+  .login-left {
+    width: 100%;
+
+    padding: 50px 35px;
+  }
+
+  .left-content {
+    max-width: 100%;
+  }
+
+  .left-content h1 {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-left {
+    padding: 35px 24px;
+  }
+
+  .left-content h1 {
+    font-size: 34px;
+  }
+
+  .desc {
+    font-size: 15px;
+  }
+
+  .feature-item img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .feature-item h4 {
+    font-size: 17px;
+  }
+
+  .feature-item p {
+    font-size: 14px;
+  }
+}
