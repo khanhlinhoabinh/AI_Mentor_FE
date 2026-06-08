@@ -47,7 +47,9 @@
   max-width: 160px;
 }
 
-.sgs-select:focus { border-color: #22c55e; }
+.sgs-select:focus {
+  border-color: #22c55e;
+}
 
 .sgs-toggle {
   display: flex;
@@ -69,8 +71,15 @@
   transition: background 0.2s, color 0.2s;
 }
 
-.sgs-toggle-btn.active { background: #f0fdf4; color: #22c55e; }
-.sgs-toggle-btn:hover  { background: #f8fafc; color: #22c55e; }
+.sgs-toggle-btn.active {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+
+.sgs-toggle-btn:hover {
+  background: #f8fafc;
+  color: #22c55e;
+}
 
 /* ── Cards area — flex:1, chiếm phần còn lại, không scroll ── */
 .sgs-cards-area {
@@ -86,11 +95,32 @@
    ═══════════════════════════════════════════════════════════════ */
 .sgs-grid {
   height: 100%;
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);   /* 2 hàng đều nhau — CHỈ dùng ở grid */
+
+  grid-auto-rows: 165px;
+
   gap: 10px;
-  overflow: hidden;                     /* không scroll, không giãn */
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-right: 4px;
+
+  align-content: start;
+}
+.sgs-grid::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sgs-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sgs-grid::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 999px;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -103,14 +133,24 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  overflow-y: auto;   /* list mode được scroll nội bộ vì rows không cố định */
+  overflow-y: auto;
+  /* list mode được scroll nội bộ vì rows không cố định */
   padding-right: 2px;
 }
 
 /* Ẩn scrollbar trên webkit, vẫn scroll được */
-.sgs-list::-webkit-scrollbar { width: 4px; }
-.sgs-list::-webkit-scrollbar-track { background: transparent; }
-.sgs-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 99px; }
+.sgs-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sgs-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sgs-list::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 99px;
+}
 
 /* ── Footer ── */
 .sgs-footer {
@@ -133,7 +173,9 @@
   display: block;
 }
 
-.sgs-view-all-btn:hover { text-decoration: underline; }
+.sgs-view-all-btn:hover {
+  text-decoration: underline;
+}
 
 /* ═══════════════════════════════════════════════════════════════
    ADD SUBJECT CARD — Grid variant
@@ -153,7 +195,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 0;       /* fill ô grid */
+  height: 165px;
+  /* fill ô grid */
 }
 
 .sgs-add-grid:hover {
@@ -228,13 +271,6 @@
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 1199px) {
-  /* Tablet: grid 3 cột vẫn giữ, bỏ fixed rows vì section height = auto */
-  .sgs-grid {
-    grid-template-rows: none;
-    /* Các card sẽ dùng min-height từ SubjectCard */
-  }
-}
 
 @media (max-width: 768px) {
   .sgs-grid {
@@ -242,9 +278,18 @@
     grid-template-rows: none;
   }
 
-  .sgs-toggle { margin-left: 0; }
-  .sgs-controls { flex-wrap: wrap; }
-  .sgs-select { max-width: none; flex: 1; }
+  .sgs-toggle {
+    margin-left: 0;
+  }
+
+  .sgs-controls {
+    flex-wrap: wrap;
+  }
+
+  .sgs-select {
+    max-width: none;
+    flex: 1;
+  }
 }
 
 @media (max-width: 480px) {
