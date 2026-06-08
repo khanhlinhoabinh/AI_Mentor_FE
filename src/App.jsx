@@ -9,7 +9,6 @@ import ChangePassword from "./pages/ChangePassword";
 
 import MySubjectsPage from "./pages/MySubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
-
 function App() {
   return (
     <Routes>
@@ -34,8 +33,9 @@ function App() {
         path="/mysubjects/:subjectId"
         element={<SubjectDetailPage />}
       />
+
     </Routes>
-    
+
   );
 }
 
