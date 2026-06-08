@@ -228,6 +228,9 @@ export default function SubjectsGrid({
     onClose={() =>
       setShowModal(false)
     }
+    onCreated={() => {
+    loadSubjects();
+  }}
   />
 )}
     </div>
