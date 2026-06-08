@@ -4,7 +4,8 @@ import { LayoutGrid, List, Plus } from "lucide-react";
 import SubjectCard from "../SubjectCard/SubjectCard";
 import { getSubjects } from "../../../services/subject.services";
 import "./SubjectsGrid.css";
-
+import CreateSubjectModal
+  from "../CreateSubjectModal/CreateSubject";
 const MAX_SUBJECTS = 5;
 
 export default function SubjectsGrid({
@@ -30,6 +31,8 @@ export default function SubjectsGrid({
   const [selectedSort, setSelectedSort] =
     useState(sortOptions[0]);
 
+  const [showModal, setShowModal] =
+    useState(false);
   const [viewMode, setViewMode] =
     useState("grid");
 
@@ -55,21 +58,21 @@ export default function SubjectsGrid({
   };
 
   const mappedSubjects = subjects.map((item) => ({
-  id: item.subjectId,
-  name: item.subjectName,
-  description: item.description,
+    id: item.subjectId,
+    name: item.subjectName,
+    description: item.description,
 
-  initials: item.subjectName
-    ?.split(" ")
-    ?.slice(0, 2)
-    ?.map(word => word[0].toUpperCase())
-    ?.join(""),
+    initials: item.subjectName
+      ?.split(" ")
+      ?.slice(0, 2)
+      ?.map(word => word[0].toUpperCase())
+      ?.join(""),
 
-  color:
-    COLORS[
+    color:
+      COLORS[
       item.subjectId % COLORS.length
-    ],
-}));
+      ],
+  }));
 
   const displayed =
     mappedSubjects.slice(0, MAX_SUBJECTS);
@@ -159,7 +162,10 @@ export default function SubjectsGrid({
 
           <div className="sgs-grid">
 
-            <div className="sgs-add-card sgs-add-grid">
+            <div
+              className="sgs-add-card sgs-add-grid"
+              onClick={() => setShowModal(true)}
+            >
               <div className="sgs-add-icon">
                 <Plus size={22} />
               </div>
@@ -183,7 +189,10 @@ export default function SubjectsGrid({
 
           <div className="sgs-list">
 
-            <div className="sgs-add-card sgs-add-list">
+            <div
+              className="sgs-add-card sgs-add-list"
+              onClick={() => setShowModal(true)}
+            >
               <div className="sgs-add-icon-sm">
                 <Plus size={18} />
               </div>
@@ -214,7 +223,13 @@ export default function SubjectsGrid({
           ) →
         </button>
       </div>
-
+          {showModal && (
+  <CreateSubjectModal
+    onClose={() =>
+      setShowModal(false)
+    }
+  />
+)}
     </div>
   );
 }
