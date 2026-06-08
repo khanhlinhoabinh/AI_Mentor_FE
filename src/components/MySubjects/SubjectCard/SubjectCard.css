@@ -61,12 +61,12 @@
   display: flex;
   flex-direction: column;
 
-  gap: 6px;          /* 8 -> 6 */
+  gap: 6px;
+  /* 8 -> 6 */
 
   cursor: pointer;
 
-  min-height: 165px; /* 190 -> 165 */
-
+  height: 100%;
   overflow: hidden;
 
   transition: transform 0.2s ease,
