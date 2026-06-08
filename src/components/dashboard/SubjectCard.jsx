@@ -14,14 +14,14 @@ export default function SubjectCard({ item }) {
           <div
             className="progress-fill"
             style={{
-              width: `${item.progress || 0}%`,
+              width: "0%",
             }}
           />
         </div>
 
         <div className="subject-footer">
-          <span>{item.progress || 0}%</span>
-          <span>{item.totalDocuments || 0} tài liệu</span>
+          <span>Môn học</span>
+          <span>ID: {item.subjectId}</span>
         </div>
       </div>
     </div>

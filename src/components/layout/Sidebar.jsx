@@ -5,23 +5,24 @@ import {
   BarChart2, Settings, Plus,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import CreateSubjectModal from "./CreateSubjectModal"; 
+import LoginRequiredModal
+  from "../LoginRequiredModal/LoginRequiredModal";
 
-export default function Sidebar() {
+  export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showModal, setShowModal] = useState(false);
-
+const [showLoginModal, setShowLoginModal] =
+  useState(false);
   
   const isLoggedIn = !!localStorage.getItem("token");
 
   const handleCreateSubject = () => {
-    if (isLoggedIn) {
-      navigate("/mysubjects");
-    } else {
-      setShowModal(true);
-    }
-  };
+  if (isLoggedIn) {
+    navigate("/mysubjects");
+  } else {
+    setShowLoginModal(true);
+  }
+};
 
   const navItems = [
     { icon: Home,          label: "Trang chủ",       path: "/" },
@@ -62,9 +63,13 @@ export default function Sidebar() {
       </aside>
 
       {/* Modal chỉ render khi showModal = true */}
-      {showModal && (
-        <CreateSubjectModal onClose={() => setShowModal(false)} />
-      )}
+      {showLoginModal && (
+  <LoginRequiredModal
+    onClose={() =>
+      setShowLoginModal(false)
+    }
+  />
+)}
     </>
   );
 }
