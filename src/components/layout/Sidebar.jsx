@@ -8,33 +8,61 @@ import { useNavigate, useLocation } from "react-router-dom";
 import LoginRequiredModal
   from "../LoginRequiredModal/LoginRequiredModal";
 
-  export default function Sidebar() {
+export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-const [showLoginModal, setShowLoginModal] =
-  useState(false);
-  
+  const [showLoginModal, setShowLoginModal] =
+    useState(false);
+  const [modalContent, setModalContent] =
+    useState({});
+
   const isLoggedIn = !!localStorage.getItem("token");
 
   const handleCreateSubject = () => {
-  if (isLoggedIn) {
-    navigate("/mysubjects");
-  } else {
-    setShowLoginModal(true);
-  }
-};
+    if (isLoggedIn) {
+      navigate("/mysubjects");
+    } else {
+      setModalContent({
+        title: "Bạn chưa có môn học nào! 📚",
+        subtitle:
+          "Hãy đăng nhập để tạo môn học đầu tiên và bắt đầu hành trình học tập cùng AI Mentor.",
+      });
+
+      setShowLoginModal(true);
+    }
+  };
+  const handleNavigate = (path) => {
+
+    if (path === "/") {
+      navigate(path);
+      return;
+    }
+
+    if (!isLoggedIn) {
+
+      setModalContent({
+        title: "Đăng nhập để khám phá AI Mentor ✨",
+        subtitle:
+          "Đăng nhập để sử dụng các tính năng như môn học, flashcard, chat AI, luyện tập và nhiều công cụ học tập thông minh khác.",
+      });
+
+      setShowLoginModal(true);
+      return;
+    }
+
+    navigate(path);
+  };
 
   const navItems = [
-    { icon: Home,          label: "Trang chủ",       path: "/" },
-    { icon: BookOpen,      label: "Môn học của tôi", path: "/mysubjects" },
-    { icon: FileText,      label: "Tài liệu" },
-    { icon: MessageCircle, label: "Chat AI" },
-    { icon: StickyNote,    label: "Ghi chú" },
-    { icon: Layers,        label: "Flashcard" },
-    { icon: PenTool,       label: "Luyện tập" },
-    { icon: Map,           label: "Lộ trình học tập" },
-    { icon: BarChart2,     label: "Thống kê" },
-    { icon: Settings,      label: "Cài đặt" },
+    { icon: Home, label: "Trang chủ", path: "/" },
+    { icon: BookOpen, label: "Môn học của tôi", path: "/mysubjects" },
+    { icon: MessageCircle, label: "Chat AI", path: "/chat" },
+    { icon: StickyNote, label: "Ghi chú", path: "/notes" },
+    { icon: Layers, label: "Flashcard", path: "/flashcards" },
+    { icon: PenTool, label: "Luyện tập", path: "/practice"  },
+    { icon: Map, label: "Lộ trình học tập", path: "/roadmap" },
+    { icon: BarChart2, label: "Thống kê", path: "/statistics" },
+    { icon: Settings, label: "Cài đặt", path: "/settings" },
   ];
 
   return (
@@ -52,8 +80,10 @@ const [showLoginModal, setShowLoginModal] =
               <div
                 key={index}
                 className={`nav-item ${location.pathname === item.path ? "active" : ""}`}
-                onClick={() => item.path && navigate(item.path)}
-              >
+                onClick={() =>
+                  item.path &&
+                  handleNavigate(item.path)
+                }              >
                 <Icon size={18} />
                 <span>{item.label}</span>
               </div>
@@ -64,12 +94,12 @@ const [showLoginModal, setShowLoginModal] =
 
       {/* Modal chỉ render khi showModal = true */}
       {showLoginModal && (
-  <LoginRequiredModal
-    onClose={() =>
-      setShowLoginModal(false)
-    }
-  />
-)}
+        <LoginRequiredModal
+          onClose={() => setShowLoginModal(false)}
+          title={modalContent.title}
+          subtitle={modalContent.subtitle}
+        />
+      )}
     </>
   );
 }
