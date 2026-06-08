@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 // Layout components (already exist in project)
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
+import EditSubjectModal
+  from "../components/SubjectDetail/EditSubjectModal/EditSubjectModal";
+
 
 // SubjectDetail components
 import SubjectHero from "../components/SubjectDetail/SubjectHero";
@@ -28,6 +31,9 @@ import "../styles/SubjectDetailPage.css";
 export default function SubjectDetailPage() {
   const [activeTab, setActiveTab] = useState("Tổng quan");
   const { subjectId } = useParams();
+  const [showEditModal,
+    setShowEditModal] =
+    useState(false);
   const [subject, setSubject] =
     useState(null);
   useEffect(() => {
@@ -99,6 +105,9 @@ export default function SubjectDetailPage() {
               {/* Hero */}
               <SubjectHero
                 subject={subject}
+                onEdit={() =>
+                  setShowEditModal(true)
+                }
               />
 
               {/* Tabs */}
@@ -132,6 +141,17 @@ export default function SubjectDetailPage() {
           </div>
         </div>
       </div>
+      {showEditModal && (
+        <EditSubjectModal
+          subject={subject}
+          onClose={() =>
+            setShowEditModal(false)
+          }
+          onUpdated={() => {
+            loadSubject();
+          }}
+        />
+      )}
     </div>
   );
 }

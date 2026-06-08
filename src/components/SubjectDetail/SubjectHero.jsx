@@ -1,7 +1,7 @@
 import { Edit2, Users } from "lucide-react";
 import "./SubjectHero.css";
 
-export default function SubjectHero({ subject }) {
+export default function SubjectHero({ subject, onEdit, }) {
   const {
     subjectName,
     description,
@@ -35,8 +35,13 @@ export default function SubjectHero({ subject }) {
         <div className="sh-name-row">
           <h1 className="sh-name">
             {subjectName}
-          </h1>          <button className="sh-edit-btn"><Edit2 size={15} /></button>
-        </div>
+          </h1>
+          <button
+            className="sh-edit-btn"
+            onClick={onEdit}
+          >
+            <Edit2 size={15} />
+          </button>        </div>
         <div className="sh-meta">
           <span>{category}</span>
           <span className="sh-dot">•</span>

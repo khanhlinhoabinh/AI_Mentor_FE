@@ -28,3 +28,14 @@ export const getSubjectById = async (subjectId) => {
 
   return response.data;
 };
+export const updateSubject = async (
+  subjectId,
+  subjectData
+) => {
+  const response = await api.put(
+    `/subjects/${subjectId}`,
+    subjectData
+  );
+
+  return response.data;
+};
