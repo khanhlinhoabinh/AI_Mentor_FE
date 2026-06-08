@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { LayoutGrid, List, Plus } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 import SubjectCard from "../SubjectCard/SubjectCard";
-import { getSubjects } from "../../../services/subject.services";
 import "./SubjectsGrid.css";
+import {
+  getSubjects,
+  deleteSubject,
+} from "../../../services/subject.services";
 import CreateSubjectModal
   from "../CreateSubjectModal/CreateSubject";
 const MAX_SUBJECTS = 5;
@@ -24,7 +27,29 @@ export default function SubjectsGrid({
   ];
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const handleViewDetail = (subjectId) => {
+    navigate(`/mysubjects/${subjectId}`);
+  };
 
+  const handleDelete = async (subjectId) => {
+    if (!window.confirm("Bạn có chắc muốn xóa môn học này?")) {
+      return;
+    }
+
+    try {
+      await deleteSubject(subjectId);
+
+      setSubjects((prev) =>
+        prev.filter((item) => item.subjectId !== subjectId)
+      );
+
+      alert("Xóa môn học thành công");
+    } catch (error) {
+      console.error(error);
+      alert("Xóa môn học thất bại");
+    }
+  };
   const [selectedCategory, setSelectedCategory] =
     useState(categories[0]);
 
@@ -180,6 +205,8 @@ export default function SubjectsGrid({
                 key={subject.id}
                 subject={subject}
                 viewMode="grid"
+                onViewDetail={handleViewDetail}
+                onDelete={handleDelete}
               />
             ))}
 
@@ -207,6 +234,8 @@ export default function SubjectsGrid({
                 key={subject.id}
                 subject={subject}
                 viewMode="list"
+                onViewDetail={handleViewDetail}
+                onDelete={handleDelete}
               />
             ))}
 
@@ -223,16 +252,16 @@ export default function SubjectsGrid({
           ) →
         </button>
       </div>
-          {showModal && (
-  <CreateSubjectModal
-    onClose={() =>
-      setShowModal(false)
-    }
-    onCreated={() => {
-    loadSubjects();
-  }}
-  />
-)}
+      {showModal && (
+        <CreateSubjectModal
+          onClose={() =>
+            setShowModal(false)
+          }
+          onCreated={() => {
+            loadSubjects();
+          }}
+        />
+      )}
     </div>
   );
 }

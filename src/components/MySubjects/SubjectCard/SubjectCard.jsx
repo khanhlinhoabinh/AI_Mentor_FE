@@ -1,10 +1,16 @@
 import { MoreVertical } from "lucide-react";
 import "./SubjectCard.css";
+import { useState } from "react";
 
 export default function SubjectCard({
   subject,
   viewMode = "grid",
+  onViewDetail,
+  onDelete,
 }) {
+  const [showMenu, setShowMenu] =
+    useState(false);
+
   const progressColor = "#94a3b8";
 
   if (viewMode === "list") {
@@ -39,9 +45,46 @@ export default function SubjectCard({
           Chưa có dữ liệu
         </div>
 
-        <button className="sc-more-btn">
-          <MoreVertical size={16} />
-        </button>
+        <div className="sc-menu-wrapper">
+
+          <button
+            className="sc-more-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(!showMenu);
+            }}
+          >
+            <MoreVertical size={16} />
+          </button>
+
+          {showMenu && (
+            <div className="sc-dropdown">
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                  onViewDetail(subject.id);
+                }}
+              >
+                Xem chi tiết
+              </button>
+
+              <button
+                className="danger"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                  onDelete(subject.id);
+                }}
+              >
+                Xóa môn học
+              </button>
+
+            </div>
+          )}
+
+        </div>
 
       </div>
     );
@@ -59,9 +102,46 @@ export default function SubjectCard({
           {subject.initials}
         </div>
 
-        <button className="sc-more-btn">
-          <MoreVertical size={16} />
-        </button>
+        <div className="sc-menu-wrapper">
+
+          <button
+            className="sc-more-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(!showMenu);
+            }}
+          >
+            <MoreVertical size={16} />
+          </button>
+
+          {showMenu && (
+            <div className="sc-dropdown">
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                  onViewDetail(subject.id);
+                }}
+              >
+                Xem chi tiết
+              </button>
+
+              <button
+                className="danger"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                  onDelete(subject.id);
+                }}
+              >
+                Xóa môn học
+              </button>
+
+            </div>
+          )}
+
+        </div>
 
       </div>
 
@@ -76,20 +156,20 @@ export default function SubjectCard({
         </div>
 
       </div>
-      
+
 
       <div className="sc-grid-footer">
 
         <div
-  className="sc-progress-value"
-  style={{ color: progressColor }}
->
-  --
-</div>
+          className="sc-progress-value"
+          style={{ color: progressColor }}
+        >
+          --
+        </div>
 
         <div className="sc-date">
-  Chưa cập nhật
-</div>
+          Chưa cập nhật
+        </div>
 
       </div>
 

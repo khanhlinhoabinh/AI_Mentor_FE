@@ -14,3 +14,10 @@ export const createSubject = async (subjectData) => {
 
   return response.data;
 };
+export const deleteSubject = async (subjectId) => {
+  const response = await api.delete(
+    `/subjects/${subjectId}`
+  );
+
+  return response.data;
+};
