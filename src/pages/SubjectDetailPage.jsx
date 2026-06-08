@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { useParams } from "react-router-dom";
-// Layout components (already exist in project)
+
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
-import EditSubjectModal
-  from "../components/SubjectDetail/EditSubjectModal/EditSubjectModal";
+import EditSubjectModal from "../components/SubjectDetail/EditSubjectModal/EditSubjectModal";
 
-
-// SubjectDetail components
 import SubjectHero from "../components/SubjectDetail/SubjectHero";
 import SubjectTabs from "../components/SubjectDetail/SubjectTabs";
 import FeaturedDocuments from "../components/SubjectDetail/FeaturedDocuments";
@@ -17,6 +14,8 @@ import RecentActivities from "../components/SubjectDetail/RecentActivities";
 import ProgressWidget from "../components/SubjectDetail/ProgressWidget";
 import ReminderWidget from "../components/SubjectDetail/ReminderWidget";
 import AchievementWidget from "../components/SubjectDetail/AchievementWidget";
+import DocumentTab from "../components/SubjectDetail/DocumentTab"; // ✅ đã có sẵn
+
 import { getSubjectById } from "../services/subject.services";
 import {
   documents,
@@ -31,11 +30,12 @@ import "../styles/SubjectDetailPage.css";
 export default function SubjectDetailPage() {
   const [activeTab, setActiveTab] = useState("Tổng quan");
   const { subjectId } = useParams();
-  const [showEditModal,
-    setShowEditModal] =
-    useState(false);
-  const [subject, setSubject] =
-    useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [subject, setSubject] = useState(null);
+
+  // ✅ THÊM MỚI: state lưu số tài liệu thực từ API
+  const [totalDocs, setTotalDocs] = useState(0);
+
   useEffect(() => {
     loadSubject();
   }, [subjectId]);
@@ -44,27 +44,18 @@ export default function SubjectDetailPage() {
     try {
       const data = await getSubjectById(subjectId);
 
-      console.log(data);
-
       setSubject({
         ...data,
-
         category: "Computer Science",
-
-        totalDocs: 0,
-
+        totalDocs: 0,           // khởi tạo 0, sẽ được cập nhật bởi DocumentTab
         updatedAt: data.updatedAt,
-
         initials: data.subjectName
           ?.split(" ")
           ?.slice(0, 2)
           ?.map(word => word[0].toUpperCase())
           ?.join(""),
-
         color: "#22c55e",
-
         students: 0,
-
         progress: {
           overall: 0,
           completed: 0,
@@ -76,20 +67,20 @@ export default function SubjectDetailPage() {
       console.error(error);
     }
   };
+
   if (!subject) {
     return <div>Đang tải...</div>;
   }
+
   return (
     <div className="sdp-layout">
-      {/* ─── Sidebar ─── */}
       <Sidebar />
 
-      {/* ─── Main area ─── */}
       <div className="sdp-main">
         <Header />
 
         <div className="sdp-body">
-          {/* ── Breadcrumb ── */}
+          {/* Breadcrumb */}
           <nav className="sdp-breadcrumb">
             <span>Môn học của tôi</span>
             <ChevronRight size={14} className="sdp-bc-sep" />
@@ -98,24 +89,23 @@ export default function SubjectDetailPage() {
             </span>
           </nav>
 
-          {/* ── Content grid ── */}
           <div className="sdp-content">
-            {/* Left / center column */}
             <div className="sdp-center">
-              {/* Hero */}
+
+              {/* ✅ THAY ĐỔI: truyền totalDocs từ state thay vì subject.totalDocs cứng */}
               <SubjectHero
-                subject={subject}
-                onEdit={() =>
-                  setShowEditModal(true)
-                }
+                subject={{ ...subject, totalDocs }}
+                onEdit={() => setShowEditModal(true)}
               />
 
-              {/* Tabs */}
               <div className="sdp-tabs-wrap">
-                <SubjectTabs activeTab={activeTab} onTabChange={setActiveTab} />
+                <SubjectTabs
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                />
               </div>
 
-              {/* Tab content: Tổng quan */}
+              {/* Tab: Tổng quan */}
               {activeTab === "Tổng quan" && (
                 <div className="sdp-tab-content">
                   <FeaturedDocuments documents={documents} />
@@ -124,12 +114,24 @@ export default function SubjectDetailPage() {
                 </div>
               )}
 
-              {/* Placeholder for other tabs — easy to add later */}
-              {activeTab !== "Tổng quan" && (
+              {/* ✅ THÊM MỚI: Tab Tài liệu — gọi DocumentTab thật */}
+              {activeTab === "Tài liệu" && (
+                <DocumentTab
+                  subjectId={subjectId}
+                  onCountChange={(n) => setTotalDocs(n)}
+                />
+              )}
+
+              {/* Placeholder cho các tab chưa làm
+                  Loại trừ "Tổng quan" và "Tài liệu" đã có */}
+              {activeTab !== "Tổng quan" && activeTab !== "Tài liệu" && (
                 <div className="sdp-tab-placeholder">
-                  <p>Nội dung tab <strong>{activeTab}</strong> sẽ được hiển thị ở đây.</p>
+                  <p>
+                    Nội dung tab <strong>{activeTab}</strong> sẽ được hiển thị ở đây.
+                  </p>
                 </div>
               )}
+
             </div>
 
             {/* Right panel */}
@@ -141,15 +143,12 @@ export default function SubjectDetailPage() {
           </div>
         </div>
       </div>
+
       {showEditModal && (
         <EditSubjectModal
           subject={subject}
-          onClose={() =>
-            setShowEditModal(false)
-          }
-          onUpdated={() => {
-            loadSubject();
-          }}
+          onClose={() => setShowEditModal(false)}
+          onUpdated={() => loadSubject()}
         />
       )}
     </div>
