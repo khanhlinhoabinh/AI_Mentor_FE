@@ -13,6 +13,8 @@ import {
   openFile,     
 } from "../../services/document.services";
 import "./DocumentTab.css";
+import DocxEditor from "./DocxEditor"; 
+import PdfViewerWithAnnotations from "./PdfViewerWithAnnotations";
 
 /* ── Helper: format ngày ── */
 function formatDate(ts) {
@@ -56,6 +58,16 @@ export default function DocumentTab({ subjectId, onCountChange }) {
   const [saving, setSaving]       = useState(false);
   const [toast, setToast]         = useState(null);   // { msg, type }
   const fileInputRef = useRef();
+  const [docxEditorDoc, setDocxEditorDoc] = useState(null);
+  const [viewingDoc, setViewingDoc] = useState(null);
+  
+  // Khi click nút xem PDF
+  const getFileUrl = (doc) =>
+  `http://localhost:8080/api/subjects/${subjectId}/documents/${doc.documentId}/file`;
+
+const handleViewPdf = (doc) => {
+  setViewingDoc(doc);
+};
 
   /* ── Load danh sách + count ── */
   const fetchAll = async () => {
@@ -131,18 +143,22 @@ const handleView = async (doc) => {
     showToast("Không thể cập nhật trạng thái", "error");
   }
 
-  // Mở file trong tab mới
-  try {
-    await openFile(subjectId, doc.documentId);
-  } catch {
-    showToast("Không thể mở file, thử lại!", "error");
+  if (doc.fileType === "PDF") {
+    // ✅ PDF → mở viewer nội bộ có annotation
+    setViewingDoc(doc);
+  } else {
+    // DOCX → vẫn mở tab mới như cũ
+    try {
+      await openFile(subjectId, doc.documentId);
+    } catch {
+      showToast("Không thể mở file, thử lại!", "error");
+    }
   }
 };
 
   /* ── Mở modal chỉnh sửa Word ── */
   const handleOpenEdit = (doc) => {
-    setEditDoc(doc);
-    setEditText(doc.extractedText ?? "");
+    setDocxEditorDoc(doc);
   };
 
   /* ── Lưu chỉnh sửa ── */
@@ -167,15 +183,34 @@ const handleView = async (doc) => {
 
   /* ── Xóa ── */
   const handleDelete = async (doc) => {
-    if (!window.confirm(`Xóa tài liệu "${doc.fileName}"?`)) return;
-    try {
-      await deleteDocument(subjectId, doc.documentId);
-      showToast("Đã xóa tài liệu");
-      fetchAll();
-    } catch {
-      showToast("Xóa thất bại", "error");
-    }
-  };
+  if (!window.confirm(`Xóa tài liệu "${doc.fileName}"?`)) return;
+  
+  // ✅ Thêm dòng này để debug — xem documentId thực sự là gì
+  console.log("Deleting doc:", doc.documentId, typeof doc.documentId);
+  
+  try {
+    await deleteDocument(subjectId, doc.documentId);
+    setDocs(prev => prev.filter(d => d.documentId !== doc.documentId));
+    setCount(prev => {
+      if (!prev) return prev;
+      const isPdf  = doc.fileType === "PDF";
+      const isDocx = doc.fileType === "DOCX";
+      const updated = {
+        ...prev,
+        totalDocuments: prev.totalDocuments - 1,
+        totalPdf:  isPdf  ? prev.totalPdf  - 1 : prev.totalPdf,
+        totalDocx: isDocx ? prev.totalDocx - 1 : prev.totalDocx,
+      };
+      onCountChange?.(updated.totalDocuments);
+      return updated;
+    });
+    showToast("Đã xóa tài liệu");
+  } catch (err) {
+    // ✅ Log lỗi chi tiết
+    console.error("Delete error:", err.response?.status, err.response?.data);
+    showToast("Xóa thất bại", "error");
+  }
+};
 
   /* ══ RENDER ══ */
   return (
@@ -311,55 +346,54 @@ const handleView = async (doc) => {
         )}
       </div>
 
-      {/* ── Edit Modal ── */}
-      {editDoc && (
-        <div
-          className="dt-edit-overlay"
-          onClick={(e) => e.target === e.currentTarget && setEditDoc(null)}
-        >
-          <div className="dt-edit-modal">
-            <div className="dt-edit-header">
-              <div className="dt-edit-title">
-                <Edit2 size={16} color="#22c55e" />
-                Chỉnh sửa: {editDoc.fileName}
-              </div>
-              <button
-                className="dt-edit-close"
-                onClick={() => setEditDoc(null)}
-              >
-                <X size={16} />
-              </button>
-            </div>
+{/* ── PDF Viewer với Annotations ── */}
+{viewingDoc && viewingDoc.fileType === "PDF" && (
+  <div className="pdf-modal-overlay">
+    <div className="pdf-modal">
 
-            <div className="dt-edit-body">
-              <div className="dt-edit-label">Nội dung tài liệu</div>
-              <textarea
-                className="dt-edit-textarea"
-                value={editText}
-                onChange={(e) => setEditText(e.target.value)}
-                placeholder="Nhập nội dung tài liệu..."
-              />
-            </div>
-
-            <div className="dt-edit-footer">
-              <button
-                className="dt-btn-cancel"
-                onClick={() => setEditDoc(null)}
-              >
-                Hủy
-              </button>
-              <button
-                className="dt-btn-save"
-                onClick={handleSaveEdit}
-                disabled={saving}
-              >
-                <Save size={14} />
-                {saving ? "Đang lưu..." : "Lưu thay đổi"}
-              </button>
-            </div>
-          </div>
+      {/* Header modal */}
+      <div className="pdf-modal-header">
+        <div className="pdf-modal-title">
+          <FileIcon type="PDF" />
+          <span>{viewingDoc.fileName}</span>
         </div>
-      )}
+        <button
+          className="pdf-modal-close"
+          onClick={() => setViewingDoc(null)}
+        >
+          <X size={18} />
+        </button>
+      </div>
+
+      {/* Nội dung viewer */}
+      <div className="pdf-modal-body">
+        <PdfViewerWithAnnotations
+          subjectId={subjectId}
+          documentId={viewingDoc.documentId}
+          fileUrl={getFileUrl(viewingDoc)}
+        />
+      </div>
+
+    </div>
+  </div>
+)}
+
+      {/* ── DocxEditor ── */}
+{docxEditorDoc && (
+  <DocxEditor
+    doc={docxEditorDoc}
+    subjectId={subjectId}
+    onClose={() => setDocxEditorDoc(null)}
+    onSaved={(updated) => {
+      setDocs(prev =>
+        prev.map(d => d.documentId === updated.documentId ? updated : d)
+      );
+      setDocxEditorDoc(null);
+      showToast("Lưu thành công!");
+    }}
+  />
+)}
+
 
       {/* ── Toast ── */}
       {toast && (

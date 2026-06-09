@@ -1,0 +1,226 @@
+.pdf-viewer-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f1f5f9;
+  position: relative;
+}
+
+/* ── Toolbar ── */
+.pdf-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pdf-color-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdf-right-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pdf-hint       { font-size: 13px; color: #64748b; }
+.pdf-hint-small { font-size: 12px; color: #94a3b8; }
+
+.pdf-save-status       { font-size: 12px; color: #94a3b8; }
+.pdf-save-status.saved { color: #22c55e; }
+
+/* ── Color buttons ── */
+.color-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.color-btn:hover  { transform: scale(1.2); }
+.color-btn.active { border-color: #334155; transform: scale(1.15); }
+
+/* ── Scroll area ── */
+.pdf-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  gap: 16px;
+}
+
+/* ── Mỗi trang ── */
+.pdf-page-wrap {
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  background: #fff;
+  border-radius: 4px;
+  overflow: visible;
+  cursor: text;
+}
+
+/* ── Highlight layer ── */
+.pdf-highlight-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ── Mỗi rect highlight ── */
+.pdf-highlight-rect {
+  position: absolute;
+  opacity: 0.45;
+  border-radius: 2px;
+  pointer-events: all;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.pdf-highlight-rect:hover { opacity: 0.75; }
+
+/* Viền nét đứt khi có ghi chú */
+.pdf-highlight-rect.has-note {
+  outline: 2px dashed rgba(0,0,0,0.3);
+  outline-offset: 1px;
+}
+
+/* Chấm báo ghi chú */
+.note-dot {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  font-size: 12px;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* ── Note popup ── */
+.note-popup {
+  position: fixed;
+  z-index: 9999;
+  width: 280px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.note-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.note-popup-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.note-popup-close:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.note-popup-textarea {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  color: #334155;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.note-popup-textarea:focus { border-color: #22c55e; }
+
+.note-popup-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.note-btn {
+  padding: 6px 14px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.note-btn:hover   { opacity: 0.85; transform: translateY(-1px); }
+.note-btn:active  { transform: translateY(0); }
+
+.note-btn.delete  { background: #fee2e2; color: #ef4444; }
+.note-btn.save    { background: #22c55e; color: #fff; }
+
+.pdf-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+/* ── Toolbar left ── */
+.pdf-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Mode buttons ── */
+.pdf-mode-btns {
+  display: flex;
+  gap: 4px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.mode-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.mode-btn:hover  { background: #e2e8f0; color: #334155; }
+.mode-btn.active { background: #fff; color: #22c55e; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+/* ── Manage mode: highlight layer lên trên text layer ── */
+.pdf-highlight-layer.manage-mode {
+  z-index: 10;
+}
