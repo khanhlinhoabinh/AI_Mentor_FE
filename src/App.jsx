@@ -6,11 +6,14 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import ChangePassword from "./pages/ChangePassword";
+import FloatingAssistant from "./components/ai/FloatingAssistant";
 
 import MySubjectsPage from "./pages/MySubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
 function App() {
   return (
+    <>
+      <FloatingAssistant />
     <Routes>
       {/* LOGIN */}
       <Route path="/login" element={<LoginPage />} />
@@ -34,8 +37,9 @@ function App() {
         element={<SubjectDetailPage />}
       />
 
-    </Routes>
 
+    </Routes>
+    </>
   );
 }
 
