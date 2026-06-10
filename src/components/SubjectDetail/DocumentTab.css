@@ -451,3 +451,75 @@
 
 .dt-toast.success { background: #22c55e; }
 .dt-toast.error   { background: #ef4444; }
+
+/* ══════════════════════════════
+   PDF MODAL OVERLAY
+══════════════════════════════ */
+.pdf-modal-overlay {
+  position: fixed;
+  inset: 0;                         /* top/right/bottom/left = 0 */
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.pdf-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 960px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Header */
+.pdf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+.pdf-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.pdf-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s, color 0.2s;
+}
+.pdf-modal-close:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* Body chứa viewer */
+.pdf-modal-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;        /* ✅ thêm dòng này */
+  position: relative; 
+}

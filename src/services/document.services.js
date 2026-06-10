@@ -75,3 +75,20 @@ export const openFile = async (subjectId, documentId) => {
   const blobUrl = URL.createObjectURL(blob);
   window.open(blobUrl, "_blank");
 };
+
+// Lấy annotations của 1 document
+export const getAnnotations = async (subjectId, documentId) => {
+  const response = await api.get(
+    `/subjects/${subjectId}/documents/${documentId}/annotations`
+  );
+  return response.data;
+};
+
+// Lưu annotations
+export const saveAnnotations = async (subjectId, documentId, annotationsJson) => {
+  const response = await api.put(
+    `/subjects/${subjectId}/documents/${documentId}/annotations`,
+    { annotationsJson }
+  );
+  return response.data;
+};
