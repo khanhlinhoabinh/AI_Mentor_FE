@@ -9,6 +9,7 @@ import ChangePassword from "./pages/ChangePassword";
 
 import MySubjectsPage from "./pages/MySubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
+import FlashcardEditPage from "./pages/FlashcardEditPage";
 function App() {
   return (
     <Routes>
@@ -33,6 +34,7 @@ function App() {
         path="/mysubjects/:subjectId"
         element={<SubjectDetailPage />}
       />
+      <Route path="/flashcards" element={<FlashcardEditPage />} />
 
     </Routes>
 

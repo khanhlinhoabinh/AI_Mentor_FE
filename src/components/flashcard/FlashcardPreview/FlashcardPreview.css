@@ -1,0 +1,28 @@
+.flashcard-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.flashcard-preview__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flashcard-preview__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.flashcard-preview__counter {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.flashcard-preview__card-wrapper {
+  width: 100%;
+}
