@@ -10,6 +10,7 @@ import FloatingAssistant from "./components/ai/FloatingAssistant";
 
 import MySubjectsPage from "./pages/MySubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
+import FlashcardEditPage from "./pages/FlashcardEditPage";
 function App() {
   return (
     <>
@@ -36,6 +37,7 @@ function App() {
         path="/mysubjects/:subjectId"
         element={<SubjectDetailPage />}
       />
+      <Route path="/flashcards" element={<FlashcardEditPage />} />
 
 
     </Routes>
