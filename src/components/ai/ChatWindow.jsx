@@ -43,7 +43,7 @@ const ChatWindow = ({ onClose, onMinimize }) => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const userId = getUserId();
-
+  console.log("USER ID:", userId);
   // Auto scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
