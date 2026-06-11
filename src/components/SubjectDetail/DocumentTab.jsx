@@ -379,7 +379,7 @@ const handleView = async (doc) => {
 )}
 
       {/* ── DocxEditor ── */}
-{docxEditorDoc && (
+{docxEditorDoc && docxEditorDoc.fileName && (
   <DocxEditor
     doc={docxEditorDoc}
     subjectId={subjectId}
