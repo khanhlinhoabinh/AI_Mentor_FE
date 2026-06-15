@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import {
   Upload, Eye, Edit2, Trash2, X,
-  Save, FileText, File
+  Save, FileText, File, Plus
 } from "lucide-react";
 import {
   uploadDocument,
@@ -11,10 +11,12 @@ import {
   editDocument,
   countDocuments,
   openFile,     
+  createEmptyDocument,
 } from "../../services/document.services";
 import "./DocumentTab.css";
 import DocxEditor from "./DocxEditor"; 
 import PdfViewerWithAnnotations from "./PdfViewerWithAnnotations";
+import CreateDocModal from "./CreateDocModal";
 
 /* ── Helper: format ngày ── */
 function formatDate(ts) {
@@ -60,6 +62,7 @@ export default function DocumentTab({ subjectId, onCountChange }) {
   const fileInputRef = useRef();
   const [docxEditorDoc, setDocxEditorDoc] = useState(null);
   const [viewingDoc, setViewingDoc] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   
   // Khi click nút xem PDF
   const getFileUrl = (doc) =>
@@ -155,6 +158,20 @@ const handleView = async (doc) => {
     }
   }
 };
+//tạo docx mới
+const handleCreateEmpty = async (fileName) => {
+  try {
+    const newDoc = await createEmptyDocument(subjectId, fileName);
+    setShowCreateModal(false);
+    // Reload list để có doc mới
+    await fetchAll();
+    // Mở thẳng editor với doc vừa tạo
+    setDocxEditorDoc(newDoc);
+    showToast("Đã tạo tài liệu mới!");
+  } catch {
+    showToast("Tạo tài liệu thất bại!", "error");
+  }
+};
 
   /* ── Mở modal chỉnh sửa Word ── */
   const handleOpenEdit = (doc) => {
@@ -242,6 +259,27 @@ const handleView = async (doc) => {
           </div>
         </div>
       )}
+
+      {/* ── Action bar ── */}
+<div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+  {/* Nút tạo tài liệu trống */}
+  <button
+    onClick={() => setShowCreateModal(true)}
+    style={{
+      display: "flex", alignItems: "center", gap: 6,
+      padding: "8px 16px",
+      background: "#2563eb", color: "#fff",
+      border: "none", borderRadius: 9,
+      fontSize: 13, fontWeight: 600, cursor: "pointer",
+      transition: "opacity 0.15s",
+    }}
+    onMouseOver={e => e.currentTarget.style.opacity="0.88"}
+    onMouseOut={e => e.currentTarget.style.opacity="1"}
+  >
+    <Plus size={15}/> Tạo tài liệu trống
+  </button>
+</div>
+
 
       {/* ── Upload zone ── */}
       <div
@@ -378,6 +416,13 @@ const handleView = async (doc) => {
   </div>
 )}
 
+{/* Modal tạo tài liệu trống */}
+{showCreateModal && (
+  <CreateDocModal
+    onClose={() => setShowCreateModal(false)}
+    onCreate={handleCreateEmpty}
+  />
+)}
       {/* ── DocxEditor ── */}
 {docxEditorDoc && docxEditorDoc.fileName && (
   <DocxEditor
