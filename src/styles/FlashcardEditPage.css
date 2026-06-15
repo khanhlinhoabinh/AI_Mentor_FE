@@ -1,0 +1,233 @@
+/* ─── App Layout ────────────────────────────────────────────── */
+.flashcard-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.flashcard-layout__body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.flashcard-layout__main {
+  flex: 1;
+  overflow-y: auto;
+  background: #f9fafb;
+}
+
+/* ─── Page ──────────────────────────────────────────────────── */
+.flashcard-page {
+  padding: 24px 28px;
+  max-width: 1400px;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ─── Page Header ──────────────────────────────────────────── */
+.flashcard-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.flashcard-page__header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.flashcard-page__header-icon {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.flashcard-page__title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+
+.flashcard-page__subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.flashcard-page__header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.flashcard-page__btn-guide {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.flashcard-page__btn-guide:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.flashcard-page__btn-library {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #8b5cf6;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.flashcard-page__btn-library:hover {
+  background: #7c3aed;
+}
+
+/* ─── Steps ────────────────────────────────────────────────── */
+.flashcard-page__steps {
+  border-top: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f3f4f6;
+  margin: 0 -28px;
+  padding: 0 28px;
+  margin-bottom: 24px;
+}
+
+/* ─── Main Content ──────────────────────────────────────────── */
+.flashcard-page__content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ─── Card wrapper ──────────────────────────────────────────── */
+.flashcard-page__card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.flashcard-page__section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 20px;
+}
+
+/* ─── Right column ──────────────────────────────────────────── */
+.flashcard-page__right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 24px;
+}
+
+/* ─── Empty state ───────────────────────────────────────────── */
+.flashcard-page__empty-preview {
+  background: #f9fafb;
+  border: 1.5px dashed #e5e7eb;
+  border-radius: 14px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* ─── Study mode btn ────────────────────────────────────────── */
+.flashcard-page__btn-study {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.flashcard-page__btn-study:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  background: #f5f3ff;
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .flashcard-page__content {
+    grid-template-columns: 1fr;
+  }
+
+  .flashcard-page__right {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .flashcard-page {
+    padding: 16px;
+  }
+
+  .flashcard-page__steps {
+    margin: 0 -16px;
+    padding: 0 16px;
+  }
+
+  .flashcard-page__title {
+    font-size: 20px;
+  }
+
+  .flashcard-page__header-right {
+    width: 100%;
+  }
+
+  .flashcard-page__btn-guide,
+  .flashcard-page__btn-library {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .flashcard-page__card {
+    padding: 16px;
+  }
+
+  .flashcard-page__content {
+    gap: 16px;
+  }
+}

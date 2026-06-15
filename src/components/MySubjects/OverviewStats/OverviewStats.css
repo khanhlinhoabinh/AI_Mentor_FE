@@ -1,0 +1,62 @@
+/* OverviewStats — chiều cao cố định, không giãn */
+.overview-stats {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  flex-shrink: 0;    /* Không giãn — nhường phần còn lại cho RecentSubjects */
+}
+
+.overview-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.stat-icon-wrap {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3px;
+}
+
+.stat-icon-wrap.green  { background: #dcfce7; color: #22c55e; }
+.stat-icon-wrap.teal   { background: #d1fae5; color: #10b981; }
+.stat-icon-wrap.orange { background: #ffedd5; color: #f97316; }
+.stat-icon-wrap.purple { background: #ede9fe; color: #8b5cf6; }
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

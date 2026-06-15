@@ -1,0 +1,102 @@
+.flashcard-card {
+  width: 100%;
+  height: 280px;
+  perspective: 1000px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.flashcard-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  border-radius: 16px;
+}
+
+.flashcard-card__inner--flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-card__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: #fff;
+  overflow: hidden;
+}
+
+.flashcard-card__face--back {
+  transform: rotateY(180deg);
+}
+
+.flashcard-card__face-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.flashcard-card__face-label {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+  letter-spacing: 0.03em;
+}
+
+.flashcard-card__copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: opacity 0.15s;
+}
+
+.flashcard-card__copy-btn:hover {
+  opacity: 0.8;
+}
+
+.flashcard-card__face-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.flashcard-card__question {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.flashcard-card__answer {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.flashcard-card__face-footer {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.flashcard-card__hint {
+  font-size: 11px;
+  opacity: 0.55;
+}
