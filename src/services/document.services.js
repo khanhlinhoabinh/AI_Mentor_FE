@@ -92,3 +92,12 @@ export const saveAnnotations = async (subjectId, documentId, annotationsJson) =>
   );
   return response.data;
 };
+
+// TẠO tài liệu trống
+export const createEmptyDocument = async (subjectId, fileName) => {
+  const response = await api.post(
+    `/subjects/${subjectId}/documents/empty`,
+    { fileName }
+  );
+  return response.data;
+};
