@@ -81,3 +81,25 @@ export const sendMessage = async (
 
   return response.data;
 };
+
+/**
+ * Gửi tin nhắn kèm file tới AI
+ * POST /api/chat/{conversationId}/file
+ * body: multipart/form-data
+ */
+export const sendMessageWithFile = async (
+  conversationId,
+  message,
+  file
+) => {
+  const formData = new FormData();
+  formData.append("message", message);
+  formData.append("file", file);
+
+  const response = await axiosInstance.post(
+    `/chat/${conversationId}/file`,
+    formData
+  );
+
+  return response.data;
+};
