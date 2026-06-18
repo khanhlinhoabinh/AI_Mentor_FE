@@ -1,24 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
-  Upload, Eye, Edit2, Trash2, X,
-  Save, FileText, File, Plus
+  Upload, Eye, Edit2, Trash2, X, Save,
+  Search, Filter, ArrowUpDown, ArrowUp, ArrowDown,
 } from "lucide-react";
 import {
-  uploadDocument,
-  getDocumentsBySubject,
-  deleteDocument,
-  viewDocument,
-  editDocument,
-  countDocuments,
-  openFile,     
+  uploadDocument, getDocumentsBySubject, deleteDocument,
+  viewDocument, editDocument, countDocuments, openFile,
   createEmptyDocument,
 } from "../../services/document.services";
-import "./DocumentTab.css";
-import DocxEditor from "./DocxEditor"; 
-import PdfViewerWithAnnotations from "./PdfViewerWithAnnotations";
+import DocxEditor from "./DocxEditor";
 import CreateDocModal from "./CreateDocModal";
+import "./DocumentTab.css";
 
-/* ── Helper: format ngày ── */
+/* ── Helpers ── */
 function formatDate(ts) {
   if (!ts) return "";
   return new Date(ts).toLocaleDateString("vi-VN", {
@@ -26,7 +20,6 @@ function formatDate(ts) {
   });
 }
 
-/* ── Helper: icon theo loại file ── */
 function FileIcon({ type }) {
   return (
     <div className={`dt-file-icon ${type?.toLowerCase() === "pdf" ? "pdf" : "docx"}`}>
@@ -35,7 +28,6 @@ function FileIcon({ type }) {
   );
 }
 
-/* ── Status badge ── */
 function StatusBadge({ status }) {
   const map = {
     UPLOADED: { label: "Mới upload", cls: "uploaded" },
@@ -47,32 +39,40 @@ function StatusBadge({ status }) {
 }
 
 /* ══════════════════════════════════════
+   SORT OPTIONS
+══════════════════════════════════════ */
+const SORT_OPTIONS = [
+  { key: "date_desc",   label: "Mới nhất",        icon: <ArrowDown size={12}/> },
+  { key: "date_asc",    label: "Cũ nhất",          icon: <ArrowUp size={12}/>   },
+  { key: "edited_desc", label: "Chỉnh sửa gần nhất", icon: <ArrowDown size={12}/> },
+  { key: "name_asc",    label: "Tên A→Z",          icon: <ArrowUp size={12}/>   },
+  { key: "name_desc",   label: "Tên Z→A",          icon: <ArrowDown size={12}/> },
+];
+
+/* ══════════════════════════════════════
    MAIN COMPONENT
 ══════════════════════════════════════ */
 export default function DocumentTab({ subjectId, onCountChange }) {
-  const [docs, setDocs]           = useState([]);
-  const [count, setCount]         = useState(null);
-  const [loading, setLoading]     = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const [dragOver, setDragOver]   = useState(false);
-  const [editDoc, setEditDoc]     = useState(null);   // document đang edit
-  const [editText, setEditText]   = useState("");
-  const [saving, setSaving]       = useState(false);
-  const [toast, setToast]         = useState(null);   // { msg, type }
-  const fileInputRef = useRef();
+  const [docs,          setDocs]          = useState([]);
+  const [count,         setCount]         = useState(null);
+  const [loading,       setLoading]       = useState(true);
+  const [uploading,     setUploading]     = useState(false);
+  const [dragOver,      setDragOver]      = useState(false);
   const [docxEditorDoc, setDocxEditorDoc] = useState(null);
-  const [viewingDoc, setViewingDoc] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  
-  // Khi click nút xem PDF
-  const getFileUrl = (doc) =>
-  `http://localhost:8080/api/subjects/${subjectId}/documents/${doc.documentId}/file`;
+  const [saving,        setSaving]        = useState(false);
+  const [toast,         setToast]         = useState(null);
 
-const handleViewPdf = (doc) => {
-  setViewingDoc(doc);
-};
+  /* ── Search / Filter / Sort state ── */
+  const [search,   setSearch]   = useState("");
+  const [typeFilter, setTypeFilter] = useState("ALL"); // ALL | PDF | DOCX
+  const [sortKey,  setSortKey]  = useState("date_desc");
+  const [showSortMenu, setShowSortMenu] = useState(false);
 
-  /* ── Load danh sách + count ── */
+  const fileInputRef = useRef();
+  const sortMenuRef  = useRef();
+
+  /* ── Load data ── */
   const fetchAll = async () => {
     try {
       const [list, cnt] = await Promise.all([
@@ -81,7 +81,6 @@ const handleViewPdf = (doc) => {
       ]);
       setDocs(list);
       setCount(cnt);
-      // Báo lên SubjectHero cập nhật totalDocs
       onCountChange?.(cnt.totalDocuments);
     } catch {
       showToast("Không thể tải danh sách tài liệu", "error");
@@ -90,16 +89,66 @@ const handleViewPdf = (doc) => {
     }
   };
 
- useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    setLoading(false); // ✅ tránh loading mãi mãi
-    return;
-  }
-  fetchAll();
-}, [subjectId]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) { setLoading(false); return; }
+    fetchAll();
+  }, [subjectId]);
 
-  /* ── Toast helper ── */
+  /* ── Đóng sort menu khi click ra ngoài ── */
+  useEffect(() => {
+    const handler = (e) => {
+      if (sortMenuRef.current && !sortMenuRef.current.contains(e.target)) {
+        setShowSortMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  /* ══ SEARCH + FILTER + SORT (useMemo) ══ */
+  const filteredDocs = useMemo(() => {
+    let result = [...docs];
+
+    // 1. Tìm kiếm theo tên
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      result = result.filter(d =>
+        d.fileName.toLowerCase().includes(q)
+      );
+    }
+
+    // 2. Lọc theo loại
+    if (typeFilter !== "ALL") {
+      result = result.filter(d => d.fileType === typeFilter);
+    }
+
+    // 3. Sắp xếp
+    result.sort((a, b) => {
+      switch (sortKey) {
+        case "date_desc":
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        case "date_asc":
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        case "edited_desc": {
+          // Ưu tiên lastEditedAt, fallback updatedAt, rồi createdAt
+          const ta = new Date(a.lastEditedAt || a.updatedAt || a.createdAt);
+          const tb = new Date(b.lastEditedAt || b.updatedAt || b.createdAt);
+          return tb - ta;
+        }
+        case "name_asc":
+          return a.fileName.localeCompare(b.fileName, "vi");
+        case "name_desc":
+          return b.fileName.localeCompare(a.fileName, "vi");
+        default:
+          return 0;
+      }
+    });
+
+    return result;
+  }, [docs, search, typeFilter, sortKey]);
+
+  /* ── Toast ── */
   const showToast = (msg, type = "success") => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
@@ -122,7 +171,6 @@ const handleViewPdf = (doc) => {
       showToast("Upload thất bại, thử lại!", "error");
     } finally {
       setUploading(false);
-      // Reset input để có thể upload lại cùng file
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
@@ -130,104 +178,55 @@ const handleViewPdf = (doc) => {
   const handleDrop = (e) => {
     e.preventDefault();
     setDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    handleFileSelect(file);
+    handleFileSelect(e.dataTransfer.files?.[0]);
   };
 
- /* ── Xem tài liệu → SEEN + mở file ── */
-const handleView = async (doc) => {
-  // Cập nhật status SEEN
-  try {
-    const updated = await viewDocument(subjectId, doc.documentId);
-    setDocs(prev =>
-      prev.map(d => d.documentId === updated.documentId ? updated : d)
-    );
-  } catch {
-    showToast("Không thể cập nhật trạng thái", "error");
-  }
-
-  if (doc.fileType === "PDF") {
-    // ✅ PDF → mở viewer nội bộ có annotation
-    setViewingDoc(doc);
-  } else {
-    // DOCX → vẫn mở tab mới như cũ
+  /* ── View ── */
+  const handleView = async (doc) => {
     try {
-      await openFile(subjectId, doc.documentId);
+      const updated = await viewDocument(subjectId, doc.documentId);
+      setDocs(prev => prev.map(d => d.documentId === updated.documentId ? updated : d));
     } catch {
-      showToast("Không thể mở file, thử lại!", "error");
+      showToast("Không thể cập nhật trạng thái", "error");
     }
-  }
-};
-//tạo docx mới
-const handleCreateEmpty = async (fileName) => {
-  try {
-    const newDoc = await createEmptyDocument(subjectId, fileName);
-    setShowCreateModal(false);
-    // Reload list để có doc mới
-    await fetchAll();
-    // Mở thẳng editor với doc vừa tạo
-    setDocxEditorDoc(newDoc);
-    showToast("Đã tạo tài liệu mới!");
-  } catch {
-    showToast("Tạo tài liệu thất bại!", "error");
-  }
-};
+    try { await openFile(subjectId, doc.documentId); } catch {
+      showToast("Không thể mở file!", "error");
+    }
+  };
 
-  /* ── Mở modal chỉnh sửa Word ── */
+  /* ── Edit ── */
   const handleOpenEdit = (doc) => {
+    if (!doc?.fileName) return;
     setDocxEditorDoc(doc);
   };
 
-  /* ── Lưu chỉnh sửa ── */
-  const handleSaveEdit = async () => {
-    if (!editDoc) return;
-    setSaving(true);
+  /* ── Delete ── */
+  const handleDelete = async (doc) => {
+    if (!window.confirm(`Xóa tài liệu "${doc.fileName}"?`)) return;
     try {
-      const updated = await editDocument(
-        subjectId, editDoc.documentId, editText
-      );
-      setDocs(prev =>
-        prev.map(d => d.documentId === updated.documentId ? updated : d)
-      );
-      showToast("Lưu thành công!");
-      setEditDoc(null);
+      await deleteDocument(subjectId, doc.documentId);
+      showToast("Đã xóa tài liệu");
+      fetchAll();
     } catch {
-      showToast("Lưu thất bại, thử lại!", "error");
-    } finally {
-      setSaving(false);
+      showToast("Xóa thất bại", "error");
     }
   };
 
-  /* ── Xóa ── */
-  const handleDelete = async (doc) => {
-  if (!window.confirm(`Xóa tài liệu "${doc.fileName}"?`)) return;
-  
-  // ✅ Thêm dòng này để debug — xem documentId thực sự là gì
-  console.log("Deleting doc:", doc.documentId, typeof doc.documentId);
-  
-  try {
-    await deleteDocument(subjectId, doc.documentId);
-    setDocs(prev => prev.filter(d => d.documentId !== doc.documentId));
-    setCount(prev => {
-      if (!prev) return prev;
-      const isPdf  = doc.fileType === "PDF";
-      const isDocx = doc.fileType === "DOCX";
-      const updated = {
-        ...prev,
-        totalDocuments: prev.totalDocuments - 1,
-        totalPdf:  isPdf  ? prev.totalPdf  - 1 : prev.totalPdf,
-        totalDocx: isDocx ? prev.totalDocx - 1 : prev.totalDocx,
-      };
-      onCountChange?.(updated.totalDocuments);
-      return updated;
-    });
-    showToast("Đã xóa tài liệu");
-  } catch (err) {
-    // ✅ Log lỗi chi tiết
-    console.error("Delete error:", err.response?.status, err.response?.data);
-    showToast("Xóa thất bại", "error");
-  }
-};
+  /* ── Create empty ── */
+  const handleCreateEmpty = async (fileName) => {
+    try {
+      const newDoc = await createEmptyDocument(subjectId, fileName);
+      setShowCreateModal(false);
+      await fetchAll();
+      setDocxEditorDoc(newDoc);
+      showToast("Đã tạo tài liệu mới!");
+    } catch {
+      showToast("Tạo tài liệu thất bại!", "error");
+    }
+  };
+
+  /* ── Current sort label ── */
+  const currentSort = SORT_OPTIONS.find(s => s.key === sortKey);
 
   /* ══ RENDER ══ */
   return (
@@ -261,25 +260,20 @@ const handleCreateEmpty = async (fileName) => {
       )}
 
       {/* ── Action bar ── */}
-<div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-  {/* Nút tạo tài liệu trống */}
-  <button
-    onClick={() => setShowCreateModal(true)}
-    style={{
-      display: "flex", alignItems: "center", gap: 6,
-      padding: "8px 16px",
-      background: "#2563eb", color: "#fff",
-      border: "none", borderRadius: 9,
-      fontSize: 13, fontWeight: 600, cursor: "pointer",
-      transition: "opacity 0.15s",
-    }}
-    onMouseOver={e => e.currentTarget.style.opacity="0.88"}
-    onMouseOut={e => e.currentTarget.style.opacity="1"}
-  >
-    <Plus size={15}/> Tạo tài liệu trống
-  </button>
-</div>
-
+      <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+        <button
+          onClick={() => setShowCreateModal(true)}
+          style={{
+            display:"flex", alignItems:"center", gap:6,
+            padding:"8px 16px",
+            background:"#2563eb", color:"#fff",
+            border:"none", borderRadius:9,
+            fontSize:13, fontWeight:600, cursor:"pointer",
+          }}
+        >
+          + Tạo tài liệu trống
+        </button>
+      </div>
 
       {/* ── Upload zone ── */}
       <div
@@ -294,14 +288,12 @@ const handleCreateEmpty = async (fileName) => {
           accept=".pdf,.docx"
           onChange={(e) => handleFileSelect(e.target.files?.[0])}
         />
-        <div className="dt-upload-icon">
-          <Upload size={18} />
-        </div>
+        <div className="dt-upload-icon"><Upload size={18}/></div>
         {uploading ? (
           <>
             <div className="dt-upload-title">Đang upload...</div>
             <div className="dt-upload-progress">
-              <div className="dt-upload-progress-bar" style={{ width: "70%" }} />
+              <div className="dt-upload-progress-bar" style={{ width:"70%" }}/>
             </div>
           </>
         ) : (
@@ -309,19 +301,119 @@ const handleCreateEmpty = async (fileName) => {
             <div className="dt-upload-title">
               Kéo thả file vào đây hoặc <span>chọn file</span>
             </div>
-            <div className="dt-upload-hint">
-              Hỗ trợ PDF, DOCX • Tối đa 50MB
-            </div>
+            <div className="dt-upload-hint">Hỗ trợ PDF, DOCX • Tối đa 50MB</div>
           </>
         )}
+      </div>
+
+      {/* ══ SEARCH / FILTER / SORT BAR ══ */}
+      <div className="dt-toolbar">
+
+        {/* Tìm kiếm */}
+        <div className="dt-search-wrap">
+          <span className="dt-search-icon">
+            <Search size={14}/>
+          </span>
+          <input
+            className="dt-search-input"
+            placeholder="Tìm kiếm tên file..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          {search && (
+            <button className="dt-search-clear" onClick={() => setSearch("")}>
+              ✕
+            </button>
+          )}
+        </div>
+
+        {/* Lọc theo loại */}
+        <select
+          className="dt-filter-select"
+          value={typeFilter}
+          onChange={e => setTypeFilter(e.target.value)}
+          title="Lọc theo loại file"
+        >
+          <option value="ALL">Tất cả loại</option>
+          <option value="PDF">📕 PDF</option>
+          <option value="DOCX">📘 DOCX</option>
+        </select>
+
+        {/* Sắp xếp */}
+        <div style={{ position:"relative" }} ref={sortMenuRef}>
+          <button
+            className={`dt-sort-btn ${showSortMenu ? "active" : ""}`}
+            onClick={() => setShowSortMenu(v => !v)}
+          >
+            <ArrowUpDown size={13}/>
+            {currentSort?.label}
+          </button>
+
+          {showSortMenu && (
+            <div style={{
+              position:"absolute", top:"calc(100% + 6px)", right:0,
+              background:"#fff",
+              border:"1px solid #e2e8f0",
+              borderRadius:10,
+              boxShadow:"0 8px 24px rgba(0,0,0,0.1)",
+              zIndex:100,
+              minWidth:180,
+              overflow:"hidden",
+            }}>
+              {SORT_OPTIONS.map(opt => (
+                <button
+                  key={opt.key}
+                  onClick={() => { setSortKey(opt.key); setShowSortMenu(false); }}
+                  style={{
+                    display:"flex", alignItems:"center", gap:8,
+                    width:"100%", padding:"9px 14px",
+                    background: sortKey === opt.key ? "#f0fdf4" : "transparent",
+                    color: sortKey === opt.key ? "#22c55e" : "#374151",
+                    border:"none", cursor:"pointer",
+                    fontSize:12, fontWeight: sortKey === opt.key ? 600 : 400,
+                    textAlign:"left",
+                    transition:"background 0.12s",
+                  }}
+                  onMouseOver={e => {
+                    if (sortKey !== opt.key)
+                      e.currentTarget.style.background = "#f8fafc";
+                  }}
+                  onMouseOut={e => {
+                    if (sortKey !== opt.key)
+                      e.currentTarget.style.background = "transparent";
+                  }}
+                >
+                  {opt.icon}
+                  {opt.label}
+                  {sortKey === opt.key && (
+                    <span style={{ marginLeft:"auto", color:"#22c55e" }}>✓</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── Danh sách tài liệu ── */}
       <div className="dt-list">
         <div className="dt-list-header">
           <span className="dt-list-title">
-            Danh sách tài liệu ({docs.length})
+            Danh sách tài liệu ({filteredDocs.length}
+            {filteredDocs.length !== docs.length && `/${docs.length}`})
           </span>
+          {(search || typeFilter !== "ALL") && (
+            <button
+              onClick={() => { setSearch(""); setTypeFilter("ALL"); }}
+              style={{
+                background:"none", border:"none",
+                color:"#94a3b8", fontSize:11, cursor:"pointer",
+                textDecoration:"underline",
+              }}
+            >
+              Xóa bộ lọc
+            </button>
+          )}
         </div>
 
         {loading ? (
@@ -331,11 +423,25 @@ const handleCreateEmpty = async (fileName) => {
             <div className="dt-empty-icon">📂</div>
             <div>Chưa có tài liệu nào. Upload file đầu tiên ngay!</div>
           </div>
+        ) : filteredDocs.length === 0 ? (
+          <div className="dt-no-result">
+            <div className="dt-no-result-icon">🔍</div>
+            <div>Không tìm thấy tài liệu phù hợp</div>
+            <button
+              onClick={() => { setSearch(""); setTypeFilter("ALL"); }}
+              style={{
+                marginTop:8, background:"none", border:"1px solid #e2e8f0",
+                borderRadius:6, padding:"4px 12px",
+                fontSize:11, color:"#64748b", cursor:"pointer",
+              }}
+            >
+              Xóa bộ lọc
+            </button>
+          </div>
         ) : (
-          docs.map((doc) => (
+          filteredDocs.map((doc) => (
             <div key={doc.documentId} className="dt-doc-card">
-
-              <FileIcon type={doc.fileType} />
+              <FileIcon type={doc.fileType}/>
 
               <div className="dt-doc-info">
                 <div className="dt-doc-name">{doc.fileName}</div>
@@ -343,108 +449,66 @@ const handleCreateEmpty = async (fileName) => {
                   <span>{doc.fileType}</span>
                   <span>•</span>
                   <span>{formatDate(doc.createdAt)}</span>
+                  {doc.lastEditedAt && (
+                    <>
+                      <span>•</span>
+                      <span style={{ color:"#22c55e" }}>
+                        Sửa: {formatDate(doc.lastEditedAt)}
+                      </span>
+                    </>
+                  )}
                   <span>•</span>
-                  <StatusBadge status={doc.status} />
+                  <StatusBadge status={doc.status}/>
                 </div>
               </div>
 
               <div className="dt-doc-actions">
-                {/* Xem */}
-                <button
-                  className="dt-action-btn view"
-                  title="Xem tài liệu"
-                  onClick={() => handleView(doc)}
-                >
-                  <Eye size={14} />
+                <button className="dt-action-btn view" title="Xem tài liệu"
+                  onClick={() => handleView(doc)}>
+                  <Eye size={14}/>
                 </button>
-
-                {/* Chỉnh sửa — chỉ hiện với DOCX */}
                 {doc.fileType === "DOCX" && (
-                  <button
-                    className="dt-action-btn edit"
-                    title="Chỉnh sửa nội dung"
-                    onClick={() => handleOpenEdit(doc)}
-                  >
-                    <Edit2 size={14} />
+                  <button className="dt-action-btn edit" title="Chỉnh sửa"
+                    onClick={() => handleOpenEdit(doc)}>
+                    <Edit2 size={14}/>
                   </button>
                 )}
-
-                {/* Xóa */}
-                <button
-                  className="dt-action-btn delete"
-                  title="Xóa tài liệu"
-                  onClick={() => handleDelete(doc)}
-                >
-                  <Trash2 size={14} />
+                <button className="dt-action-btn delete" title="Xóa"
+                  onClick={() => handleDelete(doc)}>
+                  <Trash2 size={14}/>
                 </button>
               </div>
-
             </div>
           ))
         )}
       </div>
 
-{/* ── PDF Viewer với Annotations ── */}
-{viewingDoc && viewingDoc.fileType === "PDF" && (
-  <div className="pdf-modal-overlay">
-    <div className="pdf-modal">
-
-      {/* Header modal */}
-      <div className="pdf-modal-header">
-        <div className="pdf-modal-title">
-          <FileIcon type="PDF" />
-          <span>{viewingDoc.fileName}</span>
-        </div>
-        <button
-          className="pdf-modal-close"
-          onClick={() => setViewingDoc(null)}
-        >
-          <X size={18} />
-        </button>
-      </div>
-
-      {/* Nội dung viewer */}
-      <div className="pdf-modal-body">
-        <PdfViewerWithAnnotations
-          subjectId={subjectId}
-          documentId={viewingDoc.documentId}
-          fileUrl={getFileUrl(viewingDoc)}
+      {/* ── Modals ── */}
+      {showCreateModal && (
+        <CreateDocModal
+          onClose={() => setShowCreateModal(false)}
+          onCreate={handleCreateEmpty}
         />
-      </div>
+      )}
 
-    </div>
-  </div>
-)}
-
-{/* Modal tạo tài liệu trống */}
-{showCreateModal && (
-  <CreateDocModal
-    onClose={() => setShowCreateModal(false)}
-    onCreate={handleCreateEmpty}
-  />
-)}
-      {/* ── DocxEditor ── */}
-{docxEditorDoc && docxEditorDoc.fileName && (
-  <DocxEditor
-    doc={docxEditorDoc}
-    subjectId={subjectId}
-    onClose={() => setDocxEditorDoc(null)}
-    onSaved={(updated) => {
-      setDocs(prev =>
-        prev.map(d => d.documentId === updated.documentId ? updated : d)
-      );
-      setDocxEditorDoc(null);
-      showToast("Lưu thành công!");
-    }}
-  />
-)}
-
+      {docxEditorDoc && docxEditorDoc.fileName && (
+        <DocxEditor
+          doc={docxEditorDoc}
+          subjectId={subjectId}
+          onClose={() => setDocxEditorDoc(null)}
+          onSaved={(updated) => {
+            setDocs(prev =>
+              prev.map(d => d.documentId === updated.documentId ? updated : d)
+            );
+            setDocxEditorDoc(null);
+            showToast("Lưu thành công!");
+          }}
+        />
+      )}
 
       {/* ── Toast ── */}
       {toast && (
-        <div className={`dt-toast ${toast.type}`}>
-          {toast.msg}
-        </div>
+        <div className={`dt-toast ${toast.type}`}>{toast.msg}</div>
       )}
     </div>
   );
