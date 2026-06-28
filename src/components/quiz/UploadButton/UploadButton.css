@@ -1,0 +1,46 @@
+/* UploadButton.css */
+
+.upload-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.upload-button__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 11px 16px;
+  border: 1.5px dashed #3b82f6;
+  border-radius: 11px;
+  background: #f0f7ff;
+  color: #3b82f6;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.upload-button__btn:hover {
+  background: #dbeafe;
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.upload-button__icon {
+  font-size: 17px;
+}
+
+.upload-button__hint {
+  font-size: 11.5px;
+  color: #8a8fa8;
+  text-align: center;
+  margin: 0;
+}
+
+.upload-button__input {
+  display: none;
+}

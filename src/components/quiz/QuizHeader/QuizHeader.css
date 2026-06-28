@@ -1,0 +1,117 @@
+/* QuizHeader.css */
+
+.quiz-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.quiz-header__left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.quiz-header__icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.quiz-header__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.quiz-header__subtitle {
+  font-size: 13px;
+  color: #8a8fa8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.quiz-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.quiz-header__btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  white-space: nowrap;
+}
+
+.quiz-header__btn-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.quiz-header__btn--outline {
+  background: #fff;
+  color: #4a5568;
+  border: 1.5px solid #e2e8f0;
+}
+
+.quiz-header__btn--outline:hover {
+  background: #f7f8fa;
+  border-color: #c8cfe0;
+  color: #2d3748;
+}
+
+.quiz-header__btn--purple {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+}
+
+.quiz-header__btn--purple:hover {
+  background: linear-gradient(135deg, #6d28d9, #5b21b6);
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.45);
+  transform: translateY(-1px);
+}
+
+.quiz-header__btn--purple:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .quiz-header {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .quiz-header__actions {
+    width: 100%;
+  }
+
+  .quiz-header__btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
