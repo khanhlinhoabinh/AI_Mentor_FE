@@ -11,6 +11,7 @@ import FloatingAssistant from "./components/ai/FloatingAssistant";
 import MySubjectsPage from "./pages/MySubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
 import FlashcardEditPage from "./pages/FlashcardEditPage";
+import QuizCreatePage from "./pages/QuizCreatePage";
 function App() {
   return (
     <>
@@ -38,7 +39,7 @@ function App() {
         element={<SubjectDetailPage />}
       />
       <Route path="/flashcards" element={<FlashcardEditPage />} />
-
+      <Route path="/quiz" element={<QuizCreatePage />} />
 
     </Routes>
     </>

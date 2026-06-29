@@ -1,0 +1,165 @@
+import React from "react";
+import CustomInput from "../CustomInput/CustomInput";
+import CustomSelect from "../CustomSelect/CustomSelect";
+import DifficultySelector from "../DifficultySelector/DifficultySelector";
+import QuestionCountSelector from "../QuestionCountSelector/QuestionCountSelector";
+import QuestionTypeSelector from "../QuestionTypeSelector/QuestionTypeSelector";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import CustomTextarea from "../CustomTextarea/CustomTextarea";
+import "./QuizConfigForm.css";
+
+/**
+ * QuizConfigForm - Left column configuration form
+ * Receives all config data via props; dispatches changes via onChange handlers
+ */
+const QuizConfigForm = ({
+  formData,
+  subjectOptions,
+  topicOptions,
+  difficultyOptions,
+  questionCountPresets,
+  questionTypes,
+  onFieldChange,
+  onDifficultyChange,
+  onCountChange,
+  onCustomCountChange,
+  onTypeToggle,
+  onToggleChange,
+  onInputSettingChange,
+  onBack,
+  onNext,
+}) => {
+  return (
+    <div className="quiz-config-form">
+      <div className="quiz-config-form__card">
+        <h2 className="quiz-config-form__heading">Cấu hình bài Quiz</h2>
+
+        {/* Row 1: Quiz name + Subject */}
+        <div className="quiz-config-form__row quiz-config-form__row--2col">
+          <CustomInput
+            label="Tên bài Quiz"
+            required
+            name="title"
+            placeholder="Cấu trúc dữ liệu và giải thuật"
+            value={formData.title}
+            onChange={(e) => onFieldChange("title", e.target.value)}
+          />
+          <CustomSelect
+            label="Môn học"
+            required
+            name="subject"
+            options={subjectOptions}
+            value={formData.subject}
+            onChange={(e) => onFieldChange("subject", e.target.value)}
+            placeholder="Chọn môn học"
+          />
+        </div>
+
+        {/* Row 2: Topic + Difficulty */}
+        <div className="quiz-config-form__row quiz-config-form__row--2col">
+          <CustomSelect
+            label="Chủ đề / Chương"
+            name="topic"
+            options={topicOptions}
+            value={formData.topic}
+            onChange={(e) => onFieldChange("topic", e.target.value)}
+            placeholder="Chọn chủ đề"
+          />
+          <DifficultySelector
+            label="Cấp độ"
+            options={difficultyOptions}
+            value={formData.difficulty}
+            onChange={onDifficultyChange}
+          />
+        </div>
+
+        {/* Question count */}
+        <div className="quiz-config-form__row">
+          <QuestionCountSelector
+            label="Số lượng câu hỏi"
+            presets={questionCountPresets}
+            value={formData.questionCount}
+            customValue={formData.customCount}
+            onPresetChange={onCountChange}
+            onCustomChange={onCustomCountChange}
+          />
+        </div>
+
+        {/* Question types */}
+        <div className="quiz-config-form__row">
+          <QuestionTypeSelector
+            label="Loại câu hỏi"
+            types={questionTypes}
+            activeTypes={formData.activeTypes}
+            onToggle={onTypeToggle}
+          />
+        </div>
+
+        {/* Settings row */}
+        <div className="quiz-config-form__row quiz-config-form__settings-grid">
+          {/* Time */}
+          <ToggleSwitch
+            label="Thời gian làm bài"
+            checked={formData.timeEnabled}
+            onChange={(val) => onToggleChange("timeEnabled", val)}
+            showInput
+            inputValue={formData.timeValue}
+            onInputChange={(val) => onInputSettingChange("timeValue", val)}
+            inputUnit="phút"
+          />
+
+          {/* Points per question */}
+          <ToggleSwitch
+            label="Điểm mỗi câu"
+            checked={formData.pointsEnabled}
+            onChange={(val) => onToggleChange("pointsEnabled", val)}
+            showInput
+            inputValue={formData.pointsValue}
+            onInputChange={(val) => onInputSettingChange("pointsValue", val)}
+            inputUnit="điểm"
+          />
+
+          {/* Shuffle */}
+          <ToggleSwitch
+            label="Xáo trộn câu hỏi"
+            description="Trộn ngẫu nhiên thứ tự câu hỏi và đáp án"
+            checked={formData.shuffle}
+            onChange={(val) => onToggleChange("shuffle", val)}
+          />
+
+          {/* Show result immediately */}
+          <ToggleSwitch
+            label="Hiển thị kết quả ngay"
+            description="Hiển thị điểm số sau khi nộp bài"
+            checked={formData.showResult}
+            onChange={(val) => onToggleChange("showResult", val)}
+          />
+        </div>
+
+        {/* Description */}
+        <div className="quiz-config-form__row">
+          <CustomTextarea
+            label="Mô tả (không bắt buộc)"
+            name="description"
+            placeholder="Nhập mô tả ngắn về bài quiz này..."
+            value={formData.description}
+            onChange={(e) => onFieldChange("description", e.target.value)}
+            maxHeight={160}
+          />
+        </div>
+      </div>
+
+      {/* Bottom actions */}
+      <div className="quiz-config-form__bottom">
+        <button type="button" className="quiz-config-form__btn quiz-config-form__btn--back" onClick={onBack}>
+          ← Quay lại
+        </button>
+        <button type="button" className="quiz-config-form__btn quiz-config-form__btn--next" onClick={onNext}>
+          Tiếp tục →
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default QuizConfigForm;

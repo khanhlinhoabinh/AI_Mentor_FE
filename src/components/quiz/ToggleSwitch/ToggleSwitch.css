@@ -1,0 +1,97 @@
+/* ToggleSwitch.css */
+
+.toggle-switch {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toggle-switch__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.toggle-switch__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle-switch__label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.toggle-switch__desc {
+  font-size: 12px;
+  color: #8a8fa8;
+  line-height: 1.4;
+}
+
+.toggle-switch__btn {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  border-radius: 13px;
+  background: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.toggle-switch__btn--on {
+  background: #3b82f6;
+}
+
+.toggle-switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s ease;
+}
+
+.toggle-switch__btn--on .toggle-switch__thumb {
+  transform: translateX(20px);
+}
+
+.toggle-switch__input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.toggle-switch__input {
+  width: 70px;
+  padding: 8px 10px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.toggle-switch__input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.toggle-switch__unit {
+  font-size: 13px;
+  color: #4a5568;
+  font-weight: 500;
+}
