@@ -10,6 +10,7 @@ import FloatingAssistant from "./components/ai/FloatingAssistant";
 
 import MySubjectsPage from "./pages/MySubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
+import FlashcardCreatePage from "./pages/FlashcardCreatePage";
 import FlashcardEditPage from "./pages/FlashcardEditPage";
 import QuizCreatePage from "./pages/QuizCreatePage";
 function App() {
@@ -38,7 +39,14 @@ function App() {
         path="/mysubjects/:subjectId"
         element={<SubjectDetailPage />}
       />
-      <Route path="/flashcards" element={<FlashcardEditPage />} />
+
+      {/* FLASHCARD */}
+      <Route path="/flashcards/new" element={<FlashcardCreatePage />} />
+      <Route
+        path="/flashcard-sets/:setId/edit"
+        element={<FlashcardEditPage />}
+      />
+
       <Route path="/quiz" element={<QuizCreatePage />} />
 
     </Routes>

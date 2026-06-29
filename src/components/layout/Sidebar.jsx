@@ -58,7 +58,7 @@ export default function Sidebar() {
     { icon: BookOpen, label: "Môn học của tôi", path: "/mysubjects" },
     { icon: MessageCircle, label: "Chat AI", path: "/chat" },
     { icon: StickyNote, label: "Ghi chú", path: "/notes" },
-    { icon: Layers, label: "Flashcard", path: "/flashcards" },
+    { icon: Layers, label: "Flashcard", path: "/flashcards/new" },
     { icon: PenTool, label: "Quiz", path: "/quiz"  },
     { icon: Map, label: "Lộ trình học tập", path: "/roadmap" },
     { icon: BarChart2, label: "Thống kê", path: "/statistics" },

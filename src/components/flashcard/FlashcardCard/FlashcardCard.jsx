@@ -14,7 +14,7 @@ const FlashcardCard = ({ card, isFlipped, onFlip, color }) => {
               className="flashcard-card__copy-btn"
               onClick={(e) => {
                 e.stopPropagation();
-                navigator.clipboard?.writeText(card.question);
+                navigator.clipboard?.writeText(card.frontContent);
               }}
               title="Sao chép"
             >
@@ -25,7 +25,7 @@ const FlashcardCard = ({ card, isFlipped, onFlip, color }) => {
             </button>
           </div>
           <div className="flashcard-card__face-content">
-            <p className="flashcard-card__question">{card.question}</p>
+            <p className="flashcard-card__question">{card.frontContent}</p>
           </div>
           <div className="flashcard-card__face-footer">
             <span className="flashcard-card__hint">Nhấn để xem đáp án</span>
@@ -41,7 +41,7 @@ const FlashcardCard = ({ card, isFlipped, onFlip, color }) => {
               className="flashcard-card__copy-btn"
               onClick={(e) => {
                 e.stopPropagation();
-                navigator.clipboard?.writeText(card.answer);
+                navigator.clipboard?.writeText(card.backContent);
               }}
               title="Sao chép"
             >
@@ -52,7 +52,7 @@ const FlashcardCard = ({ card, isFlipped, onFlip, color }) => {
             </button>
           </div>
           <div className="flashcard-card__face-content flashcard-card__face-content--answer">
-            <p className="flashcard-card__answer">{card.answer}</p>
+            <p className="flashcard-card__answer">{card.backContent}</p>
           </div>
           <div className="flashcard-card__face-footer">
             <span className="flashcard-card__hint">Nhấn để xem câu hỏi</span>

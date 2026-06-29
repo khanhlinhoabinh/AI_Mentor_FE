@@ -49,3 +49,34 @@
   word-break: break-word;
   overflow-wrap: break-word;
 }
+
+/* ─── Bổ sung mới: hỗ trợ nút "Sửa thẻ" trong header preview ─── */
+/* Không chỉnh sửa các class hiện có của FlashcardPreview.css gốc.   */
+/* Nếu bạn đã có FlashcardPreview.css, hãy nối nội dung dưới đây     */
+/* vào cuối file đó (append), không thay thế nội dung cũ.            */
+
+.flashcard-preview__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flashcard-preview__btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.flashcard-preview__btn-edit:hover {
+  background: #e5e7eb;
+  color: #374151;
+}

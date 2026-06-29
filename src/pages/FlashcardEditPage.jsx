@@ -1,28 +1,42 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../components/layout/Header";
 import Sidebar from "../components/layout/Sidebar";
 import StepProgress from "../components/flashcard/StepProgress/StepProgress";
 import EditFlashcardForm from "../components/flashcard/EditFlashcardForm/EditFlashcardForm";
 import FlashcardPreview from "../components/flashcard/FlashcardPreview/FlashcardPreview";
 import FlashcardTip from "../components/flashcard/FlashcardTip/FlashcardTip";
+import { STEPS, CURRENT_STEP } from "../components/flashcard/mock/flashcardData";
 import {
-  STEPS,
-  CURRENT_STEP,
-  CATEGORIES,
-  DIFFICULTY_LEVELS,
-  FLASHCARD_COLORS,
-  flashcards as initialFlashcards,
-  defaultFormData,
-  TABS,
-} from "../components/flashcard/mock/flashcardData";
+  getFlashcardSetFull,
+  updateFlashcardSourceType,
+  createFlashcard,
+  updateFlashcard,
+  deleteFlashcard,
+} from "../services/flashcard.services";
 import "../styles/FlashcardEditPage.css";
 
+const EMPTY_FORM = {
+  cardType: "QA",
+  frontContent: "",
+  backContent: "",
+};
+
+const DEFAULT_CARD_COLOR = "#8B5CF6";
+
 const FlashcardEditPage = () => {
-  // ─── State ───────────────────────────────────────────────────────────
-  const [flashcards, setFlashcards] = useState(initialFlashcards);
-  const [formData, setFormData] = useState({ ...defaultFormData });
-  const [activeTab, setActiveTab] = useState("manual");
-  const [newTagInput, setNewTagInput] = useState("");
+  const { setId } = useParams();
+
+  // ─── Set / cards state (từ Backend) ────────────────────────────────────
+  const [flashcardSet, setFlashcardSet] = useState(null);
+  const [flashcards, setFlashcards] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // ─── Form state ─────────────────────────────────────────────────────────
+  const [formData, setFormData] = useState({ ...EMPTY_FORM });
+  const [editingCardId, setEditingCardId] = useState(null);
+  const [saving, setSaving] = useState(false);
 
   // Preview state
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -31,45 +45,109 @@ const FlashcardEditPage = () => {
   // Tip
   const [tipVisible, setTipVisible] = useState(true);
 
-  // ─── Form handlers ────────────────────────────────────────────────────
+  // ─── Load dữ liệu set + cards ───────────────────────────────────────────
+  const loadSet = useCallback(async () => {
+    if (!setId) {
+      setError("Thiếu setId trên đường dẫn. Vui lòng truy cập qua /flashcard-sets/:setId/edit.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await getFlashcardSetFull(setId);
+      const data = res.data;
+
+      setFlashcardSet(data);
+      setFlashcards(data.cards || []);
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Không thể tải dữ liệu flashcard set."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [setId]);
+
+  useEffect(() => {
+    loadSet();
+  }, [loadSet]);
+
+  // ─── Đảm bảo set có sourceType = MANUAL trước khi tạo card thủ công ────
+  const ensureManualSource = useCallback(async () => {
+    if (!flashcardSet) return;
+
+    if (flashcardSet.sourceType !== "MANUAL") {
+      const res = await updateFlashcardSourceType(setId, "MANUAL");
+      setFlashcardSet((prev) => ({ ...prev, sourceType: res.data.sourceType }));
+    }
+  }, [flashcardSet, setId]);
+
+  // ─── Form handlers ──────────────────────────────────────────────────────
   const handleFormChange = useCallback((field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   }, []);
 
-  const handleAddTag = useCallback(
-    (tag) => {
-      if (!formData.tags.includes(tag)) {
-        setFormData((prev) => ({ ...prev, tags: [...prev.tags, tag] }));
+  const resetForm = useCallback(() => {
+    setFormData({ ...EMPTY_FORM });
+    setEditingCardId(null);
+  }, []);
+
+  const handleSave = useCallback(async () => {
+    if (!setId || saving) return;
+
+    setSaving(true);
+    setError(null);
+
+    try {
+      if (editingCardId) {
+        await updateFlashcard(editingCardId, {
+          cardType: formData.cardType,
+          frontContent: formData.frontContent,
+          backContent: formData.backContent,
+        });
+      } else {
+        await ensureManualSource();
+        await createFlashcard(setId, {
+          cardType: formData.cardType,
+          frontContent: formData.frontContent,
+          backContent: formData.backContent,
+        });
       }
-      setNewTagInput("");
-    },
-    [formData.tags]
-  );
 
-  const handleRemoveTag = useCallback((tag) => {
-    setFormData((prev) => ({
-      ...prev,
-      tags: prev.tags.filter((t) => t !== tag),
-    }));
-  }, []);
+      resetForm();
+      await loadSet();
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Không thể lưu flashcard."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }, [setId, saving, editingCardId, formData, ensureManualSource, resetForm, loadSet]);
 
-  const handleSave = useCallback(() => {
-    const newCard = {
-      id: Date.now(),
-      question: formData.question,
-      answer: formData.answer,
-    };
-    setFlashcards((prev) => [...prev, newCard]);
-    setFormData({ ...defaultFormData });
-  }, [formData]);
+  const handleDelete = useCallback(async () => {
+    if (!editingCardId || saving) return;
 
-  const handleClearAll = useCallback(() => {
-    setFlashcards([]);
-    setCurrentIndex(0);
-    setIsFlipped(false);
-  }, []);
+    setSaving(true);
+    setError(null);
 
-  // ─── Preview handlers ─────────────────────────────────────────────────
+    try {
+      await deleteFlashcard(editingCardId);
+      resetForm();
+      await loadSet();
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Không thể xóa flashcard."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }, [editingCardId, saving, resetForm, loadSet]);
+
+  // ─── Preview handlers ───────────────────────────────────────────────────
   const handleFlip = useCallback(() => setIsFlipped((f) => !f), []);
 
   const handlePrev = useCallback(() => {
@@ -82,11 +160,24 @@ const FlashcardEditPage = () => {
     setIsFlipped(false);
   }, [flashcards.length]);
 
-  // ─── Safe index ───────────────────────────────────────────────────────
+  // ─── Safe index ──────────────────────────────────────────────────────────
   const safeIndex = useMemo(
     () => Math.min(currentIndex, Math.max(0, flashcards.length - 1)),
     [currentIndex, flashcards.length]
   );
+
+  // ─── Chọn card hiện tại trong Preview để sửa ────────────────────────────
+  const handleEditCurrentCard = useCallback(() => {
+    const card = flashcards[safeIndex];
+    if (!card) return;
+
+    setFormData({
+      cardType: card.cardType,
+      frontContent: card.frontContent,
+      backContent: card.backContent,
+    });
+    setEditingCardId(card.flashcardId);
+  }, [flashcards, safeIndex]);
 
   return (
     <div className="flashcard-layout">
@@ -131,6 +222,13 @@ const FlashcardEditPage = () => {
               <StepProgress steps={STEPS} currentStep={CURRENT_STEP} />
             </div>
 
+            {/* Error banner (Backend đã hoàn thiện, lỗi nếu có là từ API thật) */}
+            {error && (
+              <div className="flashcard-page__error" role="alert">
+                {error}
+              </div>
+            )}
+
             {/* Main Content */}
             <div className="flashcard-page__content">
 
@@ -142,27 +240,24 @@ const FlashcardEditPage = () => {
                   </h2>
                   <EditFlashcardForm
                     formData={formData}
-                    onFormChange={handleFormChange}
-                    tabs={TABS}
-                    activeTab={activeTab}
-                    onTabChange={setActiveTab}
-                    categories={CATEGORIES}
-                    difficultyLevels={DIFFICULTY_LEVELS}
-                    flashcardColors={FLASHCARD_COLORS}
-                    onAddTag={handleAddTag}
-                    onRemoveTag={handleRemoveTag}
+                    onChange={handleFormChange}
                     onSave={handleSave}
-                    onClearAll={handleClearAll}
+                    onDelete={handleDelete}
+                    isEditing={Boolean(editingCardId)}
+                    onCreateNew={resetForm}
+                    saving={saving}
                     totalCards={flashcards.length}
-                    newTagInput={newTagInput}
-                    onNewTagInputChange={setNewTagInput}
                   />
                 </div>
               </div>
 
               {/* Right Column */}
               <div className="flashcard-page__right">
-                {flashcards.length > 0 ? (
+                {loading ? (
+                  <div className="flashcard-page__empty-preview">
+                    <span>Đang tải dữ liệu...</span>
+                  </div>
+                ) : flashcards.length > 0 ? (
                   <FlashcardPreview
                     cards={flashcards}
                     currentIndex={safeIndex}
@@ -170,7 +265,8 @@ const FlashcardEditPage = () => {
                     onFlip={handleFlip}
                     onPrev={handlePrev}
                     onNext={handleNext}
-                    color={formData.color}
+                    onEdit={handleEditCurrentCard}
+                    color={DEFAULT_CARD_COLOR}
                   />
                 ) : (
                   <div className="flashcard-page__empty-preview">
