@@ -1,0 +1,210 @@
+/* ─── FlashcardLibrary: danh sách bộ flashcard ─── */
+.flashcard-library {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.flashcard-library__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.flashcard-library__back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.flashcard-library__back-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.flashcard-library__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  flex: 1;
+}
+
+.flashcard-library__count {
+  font-size: 13px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.flashcard-library__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flashcard-library__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.flashcard-library__item:hover {
+  border-color: #8B5CF6;
+  box-shadow: 0 2px 12px rgba(139, 92, 246, 0.1);
+}
+
+.flashcard-library__item-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.flashcard-library__item-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.flashcard-library__item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.flashcard-library__item-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flashcard-library__item-desc {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flashcard-library__item-meta {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.flashcard-library__item-right {
+  flex-shrink: 0;
+}
+
+.flashcard-library__study-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #8B5CF6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.flashcard-library__study-btn:hover {
+  background: #7c3aed;
+}
+
+.flashcard-library__state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.flashcard-library__state--error {
+  color: #ef4444;
+}
+
+/* ─── Nút Sửa và Xóa (thêm mới) ─── */
+.flashcard-library__item-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.flashcard-library__edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.flashcard-library__edit-btn:hover {
+  background: #e5e7eb;
+}
+
+.flashcard-library__delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ef4444;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.flashcard-library__delete-btn:hover {
+  background: #fee2e2;
+}
+
+.flashcard-library__delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

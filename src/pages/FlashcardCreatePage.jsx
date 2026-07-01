@@ -8,28 +8,36 @@ import {
 } from "../services/flashcard.services";
 import { getSubjects } from "../services/subject.services";
 import { getDocumentsBySubject } from "../services/document.services";
+import StudyModal from "../components/flashcard/StudyModal/StudyModal";
+import FlashcardLibrary from "../components/flashcard/FlashcardLibrary/FlashcardLibrary";
 import "../styles/FlashcardEditPage.css";
 
-const TABS = [
+const FORM_TABS = [
   { id: "manual", label: "Tạo thủ công" },
   { id: "ai", label: "Tạo bằng AI" },
 ];
 
 const FlashcardCreatePage = () => {
   const navigate = useNavigate();
+
+  // ─── View mode: "create" | "library" ────────────────────────────────────
+  const [viewMode, setViewMode] = useState("create");
+  const [studySetId, setStudySetId] = useState(null);
+
+  // ─── Form tab ────────────────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState("manual");
 
-  // ─── Subjects (dùng chung cho cả 2 tab) ─────────────────────────────────
+  // ─── Subjects (dùng chung) ───────────────────────────────────────────────
   const [subjects, setSubjects] = useState([]);
   const [loadingSubjects, setLoadingSubjects] = useState(false);
   const [subjectId, setSubjectId] = useState("");
 
-  // ─── Manual tab state ────────────────────────────────────────────────────
+  // ─── Manual state ────────────────────────────────────────────────────────
   const [setName, setSetName] = useState("");
   const [description, setDescription] = useState("");
   const [creatingManual, setCreatingManual] = useState(false);
 
-  // ─── AI tab state ────────────────────────────────────────────────────────
+  // ─── AI state ────────────────────────────────────────────────────────────
   const [aiSetName, setAiSetName] = useState("");
   const [prompt, setPrompt] = useState("");
   const [numberOfCards, setNumberOfCards] = useState(10);
@@ -40,7 +48,7 @@ const FlashcardCreatePage = () => {
 
   const [error, setError] = useState(null);
 
-  // ─── Load subjects khi mount ─────────────────────────────────────────────
+  // ─── Load subjects ───────────────────────────────────────────────────────
   useEffect(() => {
     const loadSubjects = async () => {
       setLoadingSubjects(true);
@@ -48,39 +56,28 @@ const FlashcardCreatePage = () => {
         const data = await getSubjects();
         setSubjects(data || []);
       } catch (err) {
-        setError(
-          err.response?.data?.message || "Không thể tải danh sách môn học."
-        );
+        setError(err.response?.data?.message || "Không thể tải danh sách môn học.");
       } finally {
         setLoadingSubjects(false);
       }
     };
-
     loadSubjects();
   }, []);
 
-  // ─── Load documents khi subjectId thay đổi (chỉ cần cho tab AI) ─────────
+  // ─── Load documents khi chọn subject ────────────────────────────────────
   useEffect(() => {
-    if (!subjectId) {
-      setDocuments([]);
-      setDocumentId("");
-      return;
-    }
-
+    if (!subjectId) { setDocuments([]); setDocumentId(""); return; }
     const loadDocuments = async () => {
       setLoadingDocuments(true);
       try {
         const docs = await getDocumentsBySubject(subjectId);
         setDocuments(docs || []);
       } catch (err) {
-        setError(
-          err.response?.data?.message || "Không thể tải danh sách tài liệu."
-        );
+        setError(err.response?.data?.message || "Không thể tải danh sách tài liệu.");
       } finally {
         setLoadingDocuments(false);
       }
     };
-
     loadDocuments();
   }, [subjectId]);
 
@@ -89,23 +86,17 @@ const FlashcardCreatePage = () => {
 
   const handleSubmitManual = useCallback(async () => {
     if (!canSubmitManual) return;
-
     setCreatingManual(true);
     setError(null);
-
     try {
       const res = await createFlashcardSet({
         subjectId: subjectId ? Number(subjectId) : null,
         setName: setName.trim(),
         description: description.trim(),
       });
-
-      const newSetId = res.data.flashcardSetId;
-      navigate(`/flashcard-sets/${newSetId}/edit`);
+      navigate(`/flashcard-sets/${res.data.flashcardSetId}/edit`);
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Không thể tạo bộ flashcard."
-      );
+      setError(err.response?.data?.message || "Không thể tạo bộ flashcard.");
       setCreatingManual(false);
     }
   }, [canSubmitManual, subjectId, setName, description, navigate]);
@@ -119,10 +110,8 @@ const FlashcardCreatePage = () => {
 
   const handleSubmitAi = useCallback(async () => {
     if (!canSubmitAi) return;
-
     setGenerating(true);
     setError(null);
-
     try {
       const res = await generateFlashcardSetByAI({
         setName: aiSetName.trim(),
@@ -130,13 +119,9 @@ const FlashcardCreatePage = () => {
         numberOfCards: Number(numberOfCards),
         documentId: documentId ? Number(documentId) : null,
       });
-
-      const newSetId = res.data.flashcardSetId;
-      navigate(`/flashcard-sets/${newSetId}/edit`);
+      navigate(`/flashcard-sets/${res.data.flashcardSetId}/edit`);
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Không thể tạo flashcard bằng AI."
-      );
+      setError(err.response?.data?.message || "Không thể tạo flashcard bằng AI.");
       setGenerating(false);
     }
   }, [canSubmitAi, aiSetName, prompt, numberOfCards, documentId, navigate]);
@@ -149,6 +134,7 @@ const FlashcardCreatePage = () => {
         <main className="flashcard-layout__main">
           <div className="flashcard-page">
 
+            {/* Page Header */}
             <div className="flashcard-page__header">
               <div className="flashcard-page__header-left">
                 <div className="flashcard-page__header-icon">✨</div>
@@ -159,193 +145,227 @@ const FlashcardCreatePage = () => {
                   </p>
                 </div>
               </div>
+              <div className="flashcard-page__header-right">
+                <button
+                  type="button"
+                  className="flashcard-page__btn-library"
+                  onClick={() => setViewMode((v) => v === "library" ? "create" : "library")}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                  {viewMode === "library" ? "Quay lại tạo mới" : "Thư viện Flashcard"}
+                </button>
+              </div>
             </div>
 
             {error && (
-              <div className="flashcard-page__error" role="alert">
-                {error}
+              <div className="flashcard-page__error" role="alert">{error}</div>
+            )}
+
+            {/* ─── VIEW: LIBRARY ─── */}
+            {viewMode === "library" && (
+              <div className="flashcard-page__content">
+                <div style={{ width: "100%" }}>
+                  <FlashcardLibrary
+                    onBack={() => setViewMode("create")}
+                    onStudy={(id) => setStudySetId(id)}
+                  />
+                </div>
               </div>
             )}
 
-            <div className="flashcard-page__content">
-              <div className="flashcard-page__left">
-                <div className="flashcard-page__card">
+            {/* ─── VIEW: CREATE ─── */}
+            {viewMode === "create" && (
+              <div className="flashcard-page__content">
+                <div className="flashcard-page__left">
+                  <div className="flashcard-page__card">
 
-                  {/* Tabs */}
-                  <div className="edit-form__tabs">
-                    {TABS.map((tab) => (
-                      <button
-                        key={tab.id}
-                        type="button"
-                        className={`edit-form__tab ${activeTab === tab.id ? "edit-form__tab--active" : ""}`}
-                        onClick={() => setActiveTab(tab.id)}
-                      >
-                        <span>{tab.label}</span>
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Subject (dùng chung) */}
-                  <div className="edit-form__field">
-                    <div className="edit-form__field-header">
-                      <label className="edit-form__label">Môn học</label>
+                    {/* Form Tabs */}
+                    <div className="edit-form__tabs">
+                      {FORM_TABS.map((tab) => (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          className={`edit-form__tab ${activeTab === tab.id ? "edit-form__tab--active" : ""}`}
+                          onClick={() => setActiveTab(tab.id)}
+                        >
+                          <span>{tab.label}</span>
+                        </button>
+                      ))}
                     </div>
-                    <div className="edit-form__select-wrapper">
-                      <select
-                        className="edit-form__select"
-                        value={subjectId}
-                        onChange={(e) => setSubjectId(e.target.value)}
-                        disabled={loadingSubjects}
-                      >
-                        <option value="">-- Không chọn môn học --</option>
-                        {subjects.map((subject) => (
-                          <option key={subject.subjectId} value={subject.subjectId}>
-                            {subject.subjectName}
-                          </option>
-                        ))}
-                      </select>
+
+                    {/* Subject (dùng chung) */}
+                    <div className="edit-form__field">
+                      <div className="edit-form__field-header">
+                        <label className="edit-form__label">Môn học</label>
+                      </div>
+                      <div className="edit-form__select-wrapper">
+                        <select
+                          className="edit-form__select"
+                          value={subjectId}
+                          onChange={(e) => setSubjectId(e.target.value)}
+                          disabled={loadingSubjects}
+                        >
+                          <option value="">-- Không chọn môn học --</option>
+                          {subjects.map((subject) => (
+                            <option key={subject.subjectId} value={subject.subjectId}>
+                              {subject.subjectName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* ─── TAB: Tạo thủ công ─── */}
-                  {activeTab === "manual" && (
-                    <>
-                      <div className="edit-form__field">
-                        <div className="edit-form__field-header">
-                          <label className="edit-form__label">Tên bộ Flashcard</label>
-                        </div>
-                        <textarea
-                          className="edit-form__textarea"
-                          value={setName}
-                          onChange={(e) => setSetName(e.target.value)}
-                          placeholder="Ví dụ: Cấu trúc dữ liệu và giải thuật"
-                          rows={2}
-                        />
-                      </div>
-
-                      <div className="edit-form__field">
-                        <div className="edit-form__field-header">
-                          <label className="edit-form__label">Mô tả (không bắt buộc)</label>
-                        </div>
-                        <textarea
-                          className="edit-form__textarea"
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                          placeholder="Mô tả ngắn về bộ flashcard này..."
-                          rows={2}
-                        />
-                      </div>
-
-                      <div className="edit-form__actions">
-                        <div className="edit-form__actions-left" />
-                        <div className="edit-form__actions-right">
-                          <button
-                            type="button"
-                            className="edit-form__btn-save"
-                            onClick={handleSubmitManual}
-                            disabled={!canSubmitManual}
-                          >
-                            {creatingManual ? "Đang tạo..." : "Bắt đầu tạo Flashcard"}
-                          </button>
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {/* ─── TAB: Tạo bằng AI ─── */}
-                  {activeTab === "ai" && (
-                    <>
-                      <div className="edit-form__field">
-                        <div className="edit-form__field-header">
-                          <label className="edit-form__label">Tên bộ Flashcard</label>
-                        </div>
-                        <textarea
-                          className="edit-form__textarea"
-                          value={aiSetName}
-                          onChange={(e) => setAiSetName(e.target.value)}
-                          placeholder="Ví dụ: Từ vựng tiếng Anh chủ đề du lịch"
-                          rows={2}
-                        />
-                      </div>
-
-                      <div className="edit-form__field">
-                        <div className="edit-form__field-header">
-                          <label className="edit-form__label">Yêu cầu cho AI (prompt)</label>
-                        </div>
-                        <textarea
-                          className="edit-form__textarea edit-form__textarea--answer"
-                          value={prompt}
-                          onChange={(e) => setPrompt(e.target.value)}
-                          placeholder="Mô tả nội dung bạn muốn AI tạo flashcard, ví dụ: Tạo flashcard về các thuật ngữ cơ bản trong cấu trúc dữ liệu..."
-                          rows={4}
-                        />
-                      </div>
-
-                      <div className="edit-form__row">
+                    {/* ─── TAB: Thủ công ─── */}
+                    {activeTab === "manual" && (
+                      <>
                         <div className="edit-form__field">
                           <div className="edit-form__field-header">
-                            <label className="edit-form__label">Số lượng thẻ</label>
+                            <label className="edit-form__label">Tên bộ Flashcard</label>
                           </div>
-                          <input
-                            type="number"
+                          <textarea
                             className="edit-form__textarea"
-                            min={1}
-                            max={50}
-                            value={numberOfCards}
-                            onChange={(e) => setNumberOfCards(e.target.value)}
+                            value={setName}
+                            onChange={(e) => setSetName(e.target.value)}
+                            placeholder="Ví dụ: Cấu trúc dữ liệu và giải thuật"
+                            rows={2}
                           />
                         </div>
 
                         <div className="edit-form__field">
                           <div className="edit-form__field-header">
-                            <label className="edit-form__label">Tài liệu nguồn (không bắt buộc)</label>
+                            <label className="edit-form__label">Mô tả (không bắt buộc)</label>
                           </div>
-                          <div className="edit-form__select-wrapper">
-                            <select
-                              className="edit-form__select"
-                              value={documentId}
-                              onChange={(e) => setDocumentId(e.target.value)}
-                              disabled={!subjectId || loadingDocuments}
+                          <textarea
+                            className="edit-form__textarea"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Mô tả ngắn về bộ flashcard này..."
+                            rows={2}
+                          />
+                        </div>
+
+                        <div className="edit-form__actions">
+                          <div className="edit-form__actions-left" />
+                          <div className="edit-form__actions-right">
+                            <button
+                              type="button"
+                              className="edit-form__btn-save"
+                              onClick={handleSubmitManual}
+                              disabled={!canSubmitManual}
                             >
-                              <option value="">-- Không dùng tài liệu --</option>
-                              {documents.map((doc) => (
-                                <option key={doc.documentId} value={doc.documentId}>
-                                  {doc.fileName}
-                                </option>
-                              ))}
-                            </select>
+                              {creatingManual ? "Đang tạo..." : "Bắt đầu tạo Flashcard"}
+                            </button>
                           </div>
-                          {!subjectId && (
-                            <span className="edit-form__counter">
-                              Chọn môn học để xem tài liệu
-                            </span>
-                          )}
                         </div>
-                      </div>
+                      </>
+                    )}
 
-                      <div className="edit-form__actions">
-                        <div className="edit-form__actions-left" />
-                        <div className="edit-form__actions-right">
-                          <button
-                            type="button"
-                            className="edit-form__btn-save"
-                            onClick={handleSubmitAi}
-                            disabled={!canSubmitAi}
-                          >
-                            {generating ? "AI đang tạo flashcard..." : "Tạo bằng AI"}
-                          </button>
+                    {/* ─── TAB: AI ─── */}
+                    {activeTab === "ai" && (
+                      <>
+                        <div className="edit-form__field">
+                          <div className="edit-form__field-header">
+                            <label className="edit-form__label">Tên bộ Flashcard</label>
+                          </div>
+                          <textarea
+                            className="edit-form__textarea"
+                            value={aiSetName}
+                            onChange={(e) => setAiSetName(e.target.value)}
+                            placeholder="Ví dụ: Từ vựng tiếng Anh chủ đề du lịch"
+                            rows={2}
+                          />
                         </div>
-                      </div>
-                    </>
-                  )}
 
+                        <div className="edit-form__field">
+                          <div className="edit-form__field-header">
+                            <label className="edit-form__label">Yêu cầu cho AI (prompt)</label>
+                          </div>
+                          <textarea
+                            className="edit-form__textarea edit-form__textarea--answer"
+                            value={prompt}
+                            onChange={(e) => setPrompt(e.target.value)}
+                            placeholder="Mô tả nội dung bạn muốn AI tạo flashcard..."
+                            rows={4}
+                          />
+                        </div>
+
+                        <div className="edit-form__row">
+                          <div className="edit-form__field">
+                            <div className="edit-form__field-header">
+                              <label className="edit-form__label">Số lượng thẻ</label>
+                            </div>
+                            <input
+                              type="number"
+                              className="edit-form__textarea"
+                              min={1}
+                              max={50}
+                              value={numberOfCards}
+                              onChange={(e) => setNumberOfCards(e.target.value)}
+                            />
+                          </div>
+
+                          <div className="edit-form__field">
+                            <div className="edit-form__field-header">
+                              <label className="edit-form__label">Tài liệu nguồn (không bắt buộc)</label>
+                            </div>
+                            <div className="edit-form__select-wrapper">
+                              <select
+                                className="edit-form__select"
+                                value={documentId}
+                                onChange={(e) => setDocumentId(e.target.value)}
+                                disabled={!subjectId || loadingDocuments}
+                              >
+                                <option value="">-- Không dùng tài liệu --</option>
+                                {documents.map((doc) => (
+                                  <option key={doc.documentId} value={doc.documentId}>
+                                    {doc.fileName}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            {!subjectId && (
+                              <span className="edit-form__counter">
+                                Chọn môn học để xem tài liệu
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="edit-form__actions">
+                          <div className="edit-form__actions-left" />
+                          <div className="edit-form__actions-right">
+                            <button
+                              type="button"
+                              className="edit-form__btn-save"
+                              onClick={handleSubmitAi}
+                              disabled={!canSubmitAi}
+                            >
+                              {generating ? "AI đang tạo flashcard..." : "Tạo bằng AI"}
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
           </div>
         </main>
       </div>
+
+      {/* Study Modal */}
+      {studySetId && (
+        <StudyModal
+          setId={studySetId}
+          onClose={() => setStudySetId(null)}
+        />
+      )}
     </div>
   );
 };
