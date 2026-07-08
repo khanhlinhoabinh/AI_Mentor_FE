@@ -13,6 +13,8 @@ import SubjectDetailPage from "./pages/SubjectDetailPage";
 import FlashcardCreatePage from "./pages/FlashcardCreatePage";
 import FlashcardEditPage from "./pages/FlashcardEditPage";
 import QuizCreatePage from "./pages/QuizCreatePage";
+import RoadmapPage from "./pages/RoadmapPage";
+
 function App() {
   return (
     <>
@@ -48,6 +50,7 @@ function App() {
       />
 
       <Route path="/quiz" element={<QuizCreatePage />} />
+      <Route path="/roadmap" element={<RoadmapPage />} />
 
     </Routes>
     </>
