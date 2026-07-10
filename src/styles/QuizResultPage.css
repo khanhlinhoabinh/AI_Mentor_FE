@@ -1,0 +1,238 @@
+.qres-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8fafc;
+}
+.qres-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+.qres-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.qres-score-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border: 1.5px solid #edf0f5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  flex-wrap: wrap;
+}
+.qres-score-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 5px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.qres-score-pct {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+}
+.qres-score-label {
+  font-size: 11px;
+  color: #8a8fa8;
+  margin-top: 2px;
+}
+.qres-score-info {
+  flex: 1;
+}
+.qres-grade {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+.qres-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.qres-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px 20px;
+  min-width: 80px;
+}
+.qres-stat-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+.qres-stat-lbl {
+  font-size: 12px;
+  color: #8a8fa8;
+  font-weight: 500;
+}
+
+.qres-review {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.qres-review-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.qres-q-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  border-left: 4px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.qres-q-card--right {
+  border-left-color: #10b981;
+}
+.qres-q-card--wrong {
+  border-left-color: #ef4444;
+}
+.qres-q-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.qres-q-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+}
+.qres-q-result {
+  font-size: 13px;
+  font-weight: 700;
+}
+.qres-q-result.right {
+  color: #10b981;
+}
+.qres-q-result.wrong {
+  color: #ef4444;
+}
+.qres-q-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.qres-options {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.qres-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 13px;
+  color: #374151;
+}
+.qres-option--correct {
+  border-color: #10b981;
+  background: #ecfdf5;
+  color: #065f46;
+}
+.qres-option--wrong {
+  border-color: #ef4444;
+  background: #fef2f2;
+  color: #991b1b;
+}
+.qres-option-letter {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.qres-tag {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #d1fae5;
+  color: #065f46;
+}
+.qres-tag--wrong {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.qres-explanation {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #4a5568;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  line-height: 1.5;
+}
+
+.qres-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.qres-btn {
+  padding: 11px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none;
+}
+.qres-btn-outline {
+  background: #fff;
+  color: #6b7280;
+  border: 1.5px solid #e2e8f0;
+}
+.qres-btn-outline:hover {
+  background: #f8fafc;
+}
+.qres-btn-primary {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+}
+.qres-btn-primary:hover {
+  transform: translateY(-1px);
+}
