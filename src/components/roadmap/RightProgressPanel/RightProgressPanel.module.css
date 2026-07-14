@@ -1,0 +1,27 @@
+.panel { width: 280px; flex-shrink: 0; }
+
+.card {
+  background: var(--rm-card);
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-lg);
+  box-shadow: var(--rm-shadow);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.heading { margin: 0; align-self: flex-start; font-size: 15px; font-weight: 700; color: #14532d; }
+.donutWrap { position: relative; display: flex; align-items: center; justify-content: center; }
+.donutTrack { stroke: #e6f4ea; }
+.donutValue { stroke: var(--rm-primary); transition: stroke-dashoffset 0.5s ease; }
+.percentLabel { position: absolute; font-size: 26px; font-weight: 700; color: var(--rm-primary-dark); }
+
+.legend { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.legend li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; }
+.legend li strong { margin-left: auto; font-size: 13px; color: #111827; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dotCompleted { background: var(--rm-primary); }
+.dotCurrent { background: #fbbf24; }
+.dotUpcoming { background: var(--rm-gray); }
