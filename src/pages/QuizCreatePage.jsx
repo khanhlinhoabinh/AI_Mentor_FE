@@ -80,7 +80,12 @@ const DEFAULT_FORM = {
 
 /* ─── Helpers ───────────────────────────────────── */
 function parseAIJson(raw) {
-  // Gemini đôi khi trả về ```json ... ```
+  // Nếu backend đã trả object/array thì dùng luôn
+  if (typeof raw !== "string") {
+    return raw;
+  }
+
+  // Nếu backend trả string có ```json ... ``` thì mới xử lý
   const cleaned = raw.replace(/```json|```/g, "").trim();
   return JSON.parse(cleaned);
 }
