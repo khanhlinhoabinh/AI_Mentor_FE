@@ -1,0 +1,255 @@
+.qt-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8fafc;
+}
+.qt-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+.qt-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+.qt-loading {
+  text-align: center;
+  padding: 60px;
+  color: #8a8fa8;
+}
+
+.qt-quiz-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.qt-quiz-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+.qt-quiz-meta {
+  font-size: 13px;
+  color: #8a8fa8;
+  margin: 0;
+}
+.qt-quiz-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.qt-timer {
+  font-size: 22px;
+  font-weight: 700;
+  color: #3b82f6;
+  font-variant-numeric: tabular-nums;
+}
+.qt-timer--danger {
+  color: #ef4444;
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+.qt-progress-text {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.qt-progress-bar {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.qt-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #6d28d9);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.qt-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.qt-q-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 22px;
+  border: 1.5px solid #edf0f5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.qt-q-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7c3aed;
+  background: #f5f3ff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.qt-q-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.qt-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.qt-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 11px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+  color: #374151;
+  transition: all 0.2s;
+}
+.qt-option:hover {
+  border-color: #7c3aed;
+  background: #faf5ff;
+}
+.qt-option--selected {
+  border-color: #7c3aed;
+  background: #f5f3ff;
+  color: #7c3aed;
+  font-weight: 600;
+}
+.qt-option-letter {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.qt-option-text {
+  flex: 1;
+}
+
+.qt-statements {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.qt-stmt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 11px;
+  background: #fff;
+}
+.qt-stmt-text {
+  flex: 1;
+  font-size: 14px;
+  color: #374151;
+}
+.qt-tf-btns {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.qt-tf-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #6b7280;
+}
+.qt-tf-btn--true {
+  border-color: #10b981;
+  background: #ecfdf5;
+  color: #10b981;
+}
+.qt-tf-btn--false {
+  border-color: #ef4444;
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.qt-submit-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-top: 1px solid #edf0f5;
+  margin-top: 8px;
+}
+.qt-back-btn {
+  padding: 10px 20px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.qt-back-btn:hover {
+  background: #f8fafc;
+}
+.qt-submit-btn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+  transition: all 0.25s;
+}
+.qt-submit-btn:hover {
+  transform: translateY(-1px);
+}
+.qt-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
