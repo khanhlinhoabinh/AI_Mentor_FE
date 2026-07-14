@@ -1,0 +1,32 @@
+/* Design tokens cho riêng trang Roadmap - không đụng vào biến global khác */
+.roadmapPage {
+  --rm-primary: #22C55E;
+  --rm-primary-dark: #16A34A;
+  --rm-bg: #F8FCF8;
+  --rm-card: #FFFFFF;
+  --rm-gray: #64748B;
+  --rm-border: #E5E7EB;
+  --rm-orange: #F97316;
+  --rm-red: #EF4444;
+
+  --rm-radius-lg: 22px;
+  --rm-radius-md: 18px;
+
+  --rm-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  --rm-shadow-hover: 0 10px 24px rgba(34, 197, 94, 0.14);
+
+  background: var(--rm-bg);
+}
+
+.roadmapPage .main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.roadmap-error {
+  color: var(--rm-red);
+  background: #fdecec;
+  border-radius: var(--rm-radius-md);
+  padding: 16px 20px;
+}

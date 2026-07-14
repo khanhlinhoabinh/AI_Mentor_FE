@@ -1,0 +1,62 @@
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 28px;
+  background: var(--rm-card);
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-lg);
+  box-shadow: var(--rm-shadow);
+  padding: 28px 32px;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--rm-shadow-hover);
+}
+
+.skeleton {
+  min-height: 160px;
+  background: linear-gradient(90deg, #f1f5f1 25%, #e9f5ea 37%, #f1f5f1 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+.iconBox {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: var(--rm-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info { display: flex; flex-direction: column; gap: 6px; min-width: 240px; }
+.label { font-size: 13px; color: var(--rm-gray); }
+.title { font-size: 22px; font-weight: 700; color: #14532d; margin: 0; }
+.goal { font-size: 14px; color: var(--rm-gray); margin: 0; }
+.dates { display: flex; gap: 16px; font-size: 13px; color: var(--rm-gray); margin-top: 4px; flex-wrap: wrap; }
+
+.progressBox { display: flex; flex-direction: column; gap: 6px; min-width: 200px; }
+.progressValue { font-size: 26px; color: var(--rm-primary-dark); }
+.progressBar { width: 100%; height: 10px; border-radius: 999px; background: #e6f4ea; overflow: hidden; }
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rm-primary), var(--rm-primary-dark));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.illustration { font-size: 48px; }
+
+@media (max-width: 960px) {
+  .card { grid-template-columns: 1fr; text-align: left; }
+  .illustration { display: none; }
+}

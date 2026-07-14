@@ -1,0 +1,47 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--rm-card);
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-md);
+  box-shadow: var(--rm-shadow);
+  padding: 18px 20px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover { box-shadow: var(--rm-shadow-hover); transform: translateY(-1px); }
+
+.iconBox {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #eefaf0;
+  color: var(--rm-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.title { margin: 0; font-size: 15px; font-weight: 600; color: #1f2937; }
+.description { margin: 0; font-size: 13px; color: var(--rm-gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.dueDate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.dueNormal { color: var(--rm-primary-dark); background: #eefaf0; }
+.dueSoon { color: #c2410c; background: #fff2e5; }
+.dueOverdue { color: #b91c1c; background: #fdecec; }
+
+.menuBtn { border: none; background: transparent; color: var(--rm-gray); cursor: pointer; padding: 6px; border-radius: 8px; }
+.menuBtn:hover { background: #f1f5f1; }

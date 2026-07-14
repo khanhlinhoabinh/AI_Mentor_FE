@@ -16,6 +16,8 @@ import QuizListPage from "./pages/QuizListPage";
 import QuizCreatePage from "./pages/QuizCreatePage";
 import QuizTakePage from "./pages/QuizTakePage";
 import QuizResultPage from "./pages/QuizResultPage";
+import RoadmapPage from "./pages/RoadmapPage";
+
 function App() {
   return (
     <>
@@ -53,6 +55,10 @@ function App() {
         <Route path="/quiz/:id" element={<QuizTakePage />} />
         <Route path="/quiz/:id/result" element={<QuizResultPage />} />
       </Routes>
+      <Route path="/quiz" element={<QuizCreatePage />} />
+      <Route path="/roadmap" element={<RoadmapPage />} />
+
+    </Routes>
     </>
   );
 }
