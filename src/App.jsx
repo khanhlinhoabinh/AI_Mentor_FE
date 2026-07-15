@@ -18,6 +18,10 @@ import QuizTakePage from "./pages/QuizTakePage";
 import QuizResultPage from "./pages/QuizResultPage";
 import RoadmapPage from "./pages/RoadmapPage";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./styles/ToastOverride.css";
+
 function App() {
   return (
     <>
@@ -58,6 +62,8 @@ function App() {
       <Route path="/roadmap" element={<RoadmapPage />} />
 
     </Routes>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }

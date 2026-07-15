@@ -1,12 +1,12 @@
 import {
   Search,
-  Bell,
   Calendar,
   ChevronDown,
   LogOut,
 } from "lucide-react";
 
 import { useState } from "react";
+import NotificationBell from "./NotificationBell/NotificationBell";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -45,9 +45,7 @@ export default function Header() {
 
       {/* RIGHT */}
       <div className="top-actions">
-        <div className="top-icon">
-          <Bell size={18} />
-        </div>
+        <NotificationBell />
 
         <div className="top-icon">
           <Calendar size={18} />
