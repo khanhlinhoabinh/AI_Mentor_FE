@@ -1,0 +1,285 @@
+/* ============================================================
+   ReminderCalendar.css
+   Scope: chỉ style phần BÊN TRONG card (.reminder-panel-card).
+   KHÔNG override .panel-card / .panel-header — 2 class đó giữ
+   nguyên từ Dashboard.css để width, padding, border, shadow của
+   card mới khớp 100% với card "Lịch học hôm nay" cũ và các card
+   khác trong RightPanel (Tiến độ học tập, Thành tích...).
+   ============================================================ */
+
+.reminder-panel-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Calendar: thu gọn để không chiếm nhiều chiều cao ---- */
+.reminder-calendar-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.reminder-datepicker.react-datepicker {
+  width: 100%;
+  font-family: var(--font-base);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.reminder-datepicker .react-datepicker__month-container {
+  width: 100%;
+  float: none;
+}
+
+.reminder-datepicker .react-datepicker__header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0 6px;
+}
+
+.reminder-datepicker .react-datepicker__current-month {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.reminder-datepicker .react-datepicker__day-names {
+  display: flex;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+.reminder-datepicker .react-datepicker__day-name {
+  flex: 1 1 0;
+  width: auto;
+  max-width: 14.2857%;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.reminder-datepicker .react-datepicker__month {
+  margin: 4px 0 8px;
+  padding: 0 4px;
+}
+
+.reminder-datepicker .react-datepicker__week {
+  display: flex;
+}
+
+.reminder-datepicker .react-datepicker__day {
+  flex: 1 1 0;
+  width: auto;
+  max-width: 14.2857%;
+  aspect-ratio: 1 / 1;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  box-sizing: border-box;
+  transition: var(--transition);
+}
+
+.reminder-datepicker .react-datepicker__day:hover {
+  background: var(--primary-light);
+  color: var(--primary-hover);
+}
+
+.reminder-datepicker .react-datepicker__day--selected,
+.reminder-datepicker .react-datepicker__day--keyboard-selected {
+  background: var(--gradient-primary);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: var(--shadow-green);
+}
+
+.reminder-datepicker .react-datepicker__day--today {
+  font-weight: 700;
+  color: var(--primary-deep);
+}
+
+.reminder-datepicker .react-datepicker__day--outside-month {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.reminder-datepicker .react-datepicker__day--disabled {
+  color: var(--text-muted);
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.reminder-datepicker .react-datepicker__navigation {
+  top: 10px;
+}
+
+.reminder-datepicker .react-datepicker__navigation-icon::before {
+  border-color: var(--text-secondary);
+}
+
+/* ---- Textarea ---- */
+.reminder-textarea {
+  width: 100%;
+  min-height: 44px;
+  max-height: 58px;
+  resize: none;
+  box-sizing: border-box;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+.reminder-textarea::placeholder {
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.reminder-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow-sm);
+}
+
+/* ---- Button: theo đúng style nút chính AI Mentor ---- */
+.reminder-submit-btn {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  color: #fff;
+  font-family: var(--font-base);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  box-shadow: var(--shadow-green);
+  transition: var(--transition-bounce);
+}
+
+.reminder-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green-lg);
+}
+
+.reminder-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.reminder-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================================
+   RESPONSIVE — bám đúng breakpoint của Dashboard.css
+   1400px: .right-panel 320px -> 290px (vẫn 1 cột dọc)
+   1100px: dashboard xếp dọc, .right-panel lên 100% width
+   768px:  right-panel vẫn full width nhưng layout tổng đổi
+   480px:  mobile, panel-card bo góc lớn hơn (--radius-lg)
+   ============================================================ */
+
+/* Right-panel co còn 290px -> chữ số ngày nhỏ lại chút, ô vẫn tự co theo % */
+@media (max-width: 1400px) {
+  .reminder-datepicker .react-datepicker__day {
+    font-size: 10.5px;
+  }
+}
+
+/* Dashboard xếp dọc, right-panel full width -> card rộng ra,
+   giới hạn max-width để calendar/nút không bị kéo giãn quá to */
+@media (max-width: 1100px) {
+  .reminder-panel-card {
+    max-width: 420px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .reminder-datepicker .react-datepicker__day-name,
+  .reminder-datepicker .react-datepicker__day {
+    font-size: 12px;
+  }
+
+  .reminder-textarea {
+    font-size: 13px;
+  }
+
+  .reminder-submit-btn {
+    height: 42px;
+    font-size: 13.5px;
+  }
+}
+
+/* Tablet nhỏ / mobile ngang: thu gọn khoảng cách, chữ nhỏ lại */
+@media (max-width: 768px) {
+  .reminder-panel-card {
+    max-width: 100%;
+  }
+
+  .reminder-calendar-wrapper {
+    margin-bottom: 10px;
+  }
+
+  .reminder-datepicker .react-datepicker__current-month {
+    font-size: 12px;
+  }
+
+  .reminder-datepicker .react-datepicker__day-name,
+  .reminder-datepicker .react-datepicker__day {
+    font-size: 11px;
+  }
+
+  .reminder-textarea {
+    min-height: 40px;
+    max-height: 52px;
+    margin-bottom: 10px;
+  }
+}
+
+/* Mobile nhỏ (390px trở xuống): calendar co theo đúng chiều rộng
+   màn hình, không tràn ngang, chữ/ô ngày nhỏ vừa đủ chạm ngón tay */
+@media (max-width: 480px) {
+  .reminder-datepicker .react-datepicker__day-name,
+  .reminder-datepicker .react-datepicker__day {
+    font-size: 12px;
+  }
+
+  .reminder-datepicker .react-datepicker__month {
+    padding: 0 2px;
+  }
+
+  .reminder-textarea {
+    font-size: 12.5px;
+  }
+
+  .reminder-submit-btn {
+    height: 44px;
+    font-size: 14px;
+  }
+}
+
+/* Màn hình rất nhỏ (dưới 360px, một số máy Android cũ) */
+@media (max-width: 360px) {
+  .reminder-datepicker .react-datepicker__day-name,
+  .reminder-datepicker .react-datepicker__day {
+    font-size: 10.5px;
+  }
+}
