@@ -1,0 +1,93 @@
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0;
+}
+
+.filterGroup {
+  display: flex;
+  gap: 6px;
+  background: #F3F4F6;
+  border-radius: 999px;
+  padding: 3px;
+}
+
+.filterBtn {
+  border: none;
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+}
+
+.filterActive {
+  background: #2F8F67;
+  color: #fff;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #E8F8F1;
+  color: #2F8F67;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1F2937;
+  margin: 0;
+}
+
+.email {
+  font-size: 12px;
+  color: #6B7280;
+  margin: 0;
+}
+
+.hint {
+  font-size: 13px;
+  color: #9CA3AF;
+  text-align: center;
+  padding: 20px 0;
+  margin: 0;
+}
