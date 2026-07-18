@@ -1,0 +1,291 @@
+/* ── Card wrapper ── */
+.sp-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  border: 1.5px solid #f0f0f0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sp-card--loading {
+  min-height: 200px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-skeleton {
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  border-radius: 12px;
+  animation: spShimmer 1.4s infinite;
+}
+
+@keyframes spShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ── Header ── */
+.sp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp-title-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.sp-flame-icon {
+  color: #ff6b35;
+  animation: spFlicker 1.5s ease-in-out infinite;
+}
+
+@keyframes spFlicker {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.12);
+  }
+}
+
+.sp-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.sp-done-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #10b981;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+/* ── Main: vòng tròn + stats ── */
+.sp-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sp-streak-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.sp-streak-num {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.sp-streak-unit {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+.sp-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.sp-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.sp-stat-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.sp-stat-lbl {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.sp-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: #e2e8f0;
+  flex-shrink: 0;
+}
+
+/* ── Danh hiệu hiện tại ── */
+.sp-current-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.sp-badge-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.sp-badge-title {
+  font-size: 13px;
+  font-weight: 700;
+}
+.sp-badge-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+/* ── Danh sách tất cả danh hiệu ── */
+.sp-badges-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sp-badges-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sp-badges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sp-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  transition: all 0.2s;
+}
+
+.sp-badge-item--achieved {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.sp-badge-item--locked {
+  background: #f8fafc;
+  opacity: 0.6;
+}
+
+.sp-badge-item-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.sp-badge-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.sp-badge-item-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.sp-badge-item-desc {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.sp-badge-check {
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Progress bar ── */
+.sp-next-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sp-next-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp-next-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sp-next-count {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.sp-progress-track {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.sp-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b35, #ff4500);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* ── All done ── */
+.sp-all-done {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f59e0b;
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 10px;
+  padding: 10px;
+}

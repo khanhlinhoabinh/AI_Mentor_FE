@@ -1,0 +1,122 @@
+.ci-wrap {
+  position: relative;
+}
+
+/* ── Nút chính ── */
+.ci-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  background: linear-gradient(135deg, #ff6b35, #ff4500);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(255, 107, 53, 0.4);
+}
+
+.ci-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(255, 107, 53, 0.5);
+}
+
+.ci-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Đã điểm danh → mờ đi */
+.ci-btn--done {
+  background: #e2e8f0;
+  color: #94a3b8;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.ci-btn--done:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Đang xử lý */
+.ci-btn--loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ── Icon lửa ── */
+.ci-flame {
+  flex-shrink: 0;
+}
+.ci-flame--active {
+  color: #fff;
+  animation: ciFlicker 1.2s ease-in-out infinite;
+}
+.ci-flame--done {
+  color: #94a3b8;
+}
+
+@keyframes ciFlicker {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* ── Badge số ngày ── */
+.ci-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ci-badge--done {
+  background: #cbd5e1;
+  color: #64748b;
+}
+
+/* ── Toast ── */
+.ci-toast {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 9999;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  animation: ciSlideDown 0.2s ease;
+}
+
+@keyframes ciSlideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
