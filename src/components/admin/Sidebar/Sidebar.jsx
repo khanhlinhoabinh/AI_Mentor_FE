@@ -1,49 +1,37 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import {
-  MdGridView, MdPeople, MdMenuBook, MdInsertDriveFile,
-  MdLayers, MdMap, MdShowChart, MdNotifications, MdSecurity,
-  MdFlag, MdBarChart, MdFormatListBulleted, MdStorage,
-  MdChevronLeft, MdChevronRight,
+  MdGridView,
+  MdPeople,
+  MdInsertDriveFile,
+  MdBarChart,
+  MdHistory,
+  MdChevronLeft,
+  MdChevronRight,
 } from "react-icons/md";
 
+/**
+ * Theo yêu cầu Product Owner: Admin chỉ còn 4 chức năng
+ * (+ Dashboard tổng quan). Không còn menu nào khác.
+ */
 const NAV = [
   {
     section: null,
-    items: [{ id: "overview", label: "Tổng quan", icon: MdGridView }],
-  },
-  {
-    section: "QUẢN LÝ HỆ THỐNG",
     items: [
-      { id: "users",     label: "Người dùng",       icon: MdPeople           },
-      { id: "courses",   label: "Môn học",           icon: MdMenuBook         },
-      { id: "docs",      label: "Tài liệu học tập",  icon: MdInsertDriveFile  },
-      { id: "flashcard", label: "Flashcard & Quiz",  icon: MdLayers           },
-      { id: "roadmap",   label: "Roadmap học tập",   icon: MdMap              },
-      { id: "progress",  label: "Tiến độ học tập",   icon: MdShowChart        },
-      { id: "reminder",  label: "Nhắc nhở",          icon: MdNotifications    },
-    ],
-  },
-  {
-    section: "KIỂM DUYỆT & BẢO MẬT",
-    items: [
-      { id: "violation", label: "Nội dung vi phạm",  icon: MdSecurity, badge: 3 },
-      { id: "report",    label: "Báo cáo hệ thống",  icon: MdFlag             },
-    ],
-  },
-  {
-    section: "THỐNG KÊ & BÁO CÁO",
-    items: [
-      { id: "stats",  label: "Thống kê chi tiết",  icon: MdBarChart           },
-      { id: "logs",   label: "Nhật ký hoạt động",  icon: MdFormatListBulleted },
-      { id: "backup", label: "Sao lưu dữ liệu",    icon: MdStorage            },
+      { id: "overview", label: "Dashboard", icon: MdGridView, path: "/admin/dashboard" },
+      { id: "users", label: "Quản lý người dùng", icon: MdPeople, path: "/admin/users" },
+      { id: "content", label: "Quản lý nội dung", icon: MdInsertDriveFile, path: "/admin/content" },
+      { id: "reports", label: "Báo cáo thống kê", icon: MdBarChart, path: "/admin/reports" },
+      { id: "history", label: "Lịch sử hệ thống", icon: MdHistory, path: "/admin/system-history" },
     ],
   },
 ];
 
 export default function Sidebar() {
-  const [active, setActive]       = useState("overview");
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
@@ -73,18 +61,16 @@ export default function Sidebar() {
             )}
             {group.items.map((item) => {
               const Icon = item.icon;
+              const active = location.pathname === item.path;
               return (
                 <button
                   key={item.id}
-                  className={`${styles.navItem} ${active === item.id ? styles.active : ""}`}
-                  onClick={() => setActive(item.id)}
+                  className={`${styles.navItem} ${active ? styles.active : ""}`}
+                  onClick={() => navigate(item.path)}
                   title={collapsed ? item.label : ""}
                 >
                   <span className={styles.navIcon}><Icon size={18} /></span>
                   {!collapsed && <span className={styles.navLabel}>{item.label}</span>}
-                  {!collapsed && item.badge && (
-                    <span className={styles.badge}>{item.badge}</span>
-                  )}
                   {!collapsed && <MdChevronRight size={14} className={styles.navArrow} />}
                 </button>
               );
@@ -92,7 +78,6 @@ export default function Sidebar() {
           </div>
         ))}
       </nav>
-
 
       {/* Collapse */}
       <button className={styles.collapseBtn} onClick={() => setCollapsed(!collapsed)}>
