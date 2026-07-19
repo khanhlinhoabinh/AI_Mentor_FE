@@ -20,8 +20,8 @@ import QuizListPage from "./pages/QuizListPage";
 import QuizCreatePage from "./pages/QuizCreatePage";
 import QuizTakePage from "./pages/QuizTakePage";
 import QuizResultPage from "./pages/QuizResultPage";
-import RoadmapPage from "./pages/RoadmapPage";
-
+import RoadmapListPage from "./pages/RoadmapListPage";
+import RoadmapDetailPage from "./pages/RoadmapDetailPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/ToastOverride.css";
@@ -33,12 +33,13 @@ function App() {
       <Routes>
         {/* LOGIN */}
         <Route path="/login" element={<LoginPage />} />
-
         {/* DASHBOARD */}
         <Route path="/" element={<HomePage />} />
-
         {/* ADMIN — chỉ còn 4 chức năng + Dashboard theo yêu cầu PO */}
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route
+          path="/admin"
+          element={<Navigate to="/admin/dashboard" replace />}
+        />
         <Route
           path="/admin/dashboard"
           element={
@@ -79,27 +80,28 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
-
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/admin/change-password" element={<ChangePassword />} />
         <Route path="/mysubjects" element={<MySubjectsPage />} />
         <Route path="/mysubjects/:subjectId" element={<SubjectDetailPage />} />
-
         {/* FLASHCARD */}
         <Route path="/flashcards/new" element={<FlashcardCreatePage />} />
         <Route
           path="/flashcard-sets/:setId/edit"
           element={<FlashcardEditPage />}
         />
-
         {/* Quiz routes */}
         <Route path="/quiz" element={<QuizListPage />} />
         <Route path="/quiz/create" element={<QuizCreatePage />} />
         <Route path="/quiz/:id" element={<QuizTakePage />} />
         <Route path="/quiz/:id/result" element={<QuizResultPage />} />
         <Route path="/quiz" element={<QuizCreatePage />} />
-        <Route path="/roadmap" element={<RoadmapPage />} />
+        <Route path="/roadmap" element={<RoadmapListPage />} />
+        <Route
+          path="/roadmap/:roadmapId"
+          element={<RoadmapDetailPage />}
+        />{" "}
       </Routes>
 
       <ToastContainer position="top-right" autoClose={3000} />

@@ -1,7 +1,11 @@
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import Header from "../components/layout/Header";
 import Sidebar from "../components/layout/Sidebar";
 
-import CreateRoadmapPanel from "../components/roadmap/CreateRoadmapPanel/CreateRoadmapPanel";
+import CreateStagePanel from "../components/roadmap/CreateStagePanel/CreateStagePanel";
+import CreateMilestoneModal from "../components/roadmap/CreateMilestoneModal/CreateMilestoneModal";
 import RoadmapOverview from "../components/roadmap/RoadmapOverview/RoadmapOverview";
 import RoadmapTimeline from "../components/roadmap/RoadmapTimeline/RoadmapTimeline";
 import StageDetail from "../components/roadmap/StageDetail/StageDetail";
@@ -13,8 +17,11 @@ import useRoadmapData from "../hooks/useRoadmapData";
 import "../styles/Dashboard.css";
 import "../styles/RoadmapTokens.css";
 
-export default function RoadmapPage() {
+export default function RoadmapDetailPage() {
+  const { roadmapId: roadmapIdParam } = useParams();
+
   const {
+    roadmapId,
     roadmap,
     stages,
     activeStage,
@@ -25,27 +32,10 @@ export default function RoadmapPage() {
     error,
     selectStage,
     addMilestone,
-    setActiveRoadmapId,
-  } = useRoadmapData();
+    handleStageCreated,
+  } = useRoadmapData(roadmapIdParam);
 
-  const handleRoadmapCreated = (createdRoadmap) => {
-    setActiveRoadmapId(createdRoadmap.roadmapId);
-  };
-
-  // TODO: thay bằng modal thật khi có thiết kế UI riêng cho việc tạo milestone
-  const handleAddMilestone = async () => {
-    const title = window.prompt("Tên milestone:");
-    if (!title) return;
-
-    const dueDate = window.prompt("Hạn hoàn thành (yyyy-mm-dd):");
-    if (!dueDate) return;
-
-    try {
-      await addMilestone({ milestoneTitle: title, dueDate });
-    } catch (err) {
-      console.error("Không thể tạo milestone:", err);
-    }
-  };
+  const [isMilestoneModalOpen, setIsMilestoneModalOpen] = useState(false);
 
   return (
     <div className="page roadmapPage">
@@ -55,17 +45,26 @@ export default function RoadmapPage() {
         <Sidebar />
 
         <main className="main-content">
-          <CreateRoadmapPanel onCreated={handleRoadmapCreated} />
+          <Link to="/roadmap" className="roadmap-back-link">
+            <ArrowLeft size={16} />
+            Danh sách roadmap
+          </Link>
 
           {error && <p className="roadmap-error">Không tải được dữ liệu roadmap. Vui lòng thử lại.</p>}
 
-          {!error && !roadmap && !isLoadingRoadmap && (
-            <p className="roadmap-error">Bạn chưa có roadmap nào. Hãy tạo roadmap mới ở nút phía trên.</p>
-          )}
-
-          {!error && (roadmap || isLoadingRoadmap) && (
+          {!error && (
             <>
               <RoadmapOverview roadmap={roadmap} isLoading={isLoadingRoadmap} />
+
+              <CreateStagePanel
+                roadmapId={roadmapId}
+                onCreated={handleStageCreated}
+                disabled={!roadmap}
+              />
+
+              {!isLoadingRoadmap && stages.length === 0 && (
+                <p className="roadmap-error">Roadmap này chưa có giai đoạn nào. Hãy thêm giai đoạn đầu tiên ở nút bên trên.</p>
+              )}
 
               <RoadmapTimeline
                 stages={stages}
@@ -77,20 +76,24 @@ export default function RoadmapPage() {
               <StageDetail
                 stage={activeStage}
                 milestoneCount={milestones.length}
-                onAddMilestone={handleAddMilestone}
+                onAddMilestone={() => setIsMilestoneModalOpen(true)}
               />
 
-              <MilestoneList
-                milestones={milestones}
-                isLoading={isLoadingMilestones}
-                onAddMilestone={handleAddMilestone}
-              />
+              <MilestoneList milestones={milestones} isLoading={isLoadingMilestones} />
             </>
           )}
         </main>
 
         <RightProgressPanel stats={stageStats} />
       </div>
+
+      {isMilestoneModalOpen && (
+        <CreateMilestoneModal
+          stageName={activeStage?.title}
+          onClose={() => setIsMilestoneModalOpen(false)}
+          onSubmit={addMilestone}
+        />
+      )}
     </div>
   );
 }
