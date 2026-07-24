@@ -1,8 +1,7 @@
-import { Plus } from "lucide-react";
 import MilestoneCard from "./MilestoneCard";
 import styles from "./MilestoneList.module.css";
 
-export default function MilestoneList({ milestones, isLoading, onAddMilestone }) {
+export default function MilestoneList({ milestones, isLoading }) {
   return (
     <section className={styles.wrapper}>
       <div className={styles.list}>
@@ -20,11 +19,6 @@ export default function MilestoneList({ milestones, isLoading, onAddMilestone })
         {!isLoading &&
           milestones.map((milestone) => <MilestoneCard key={milestone.id} milestone={milestone} />)}
       </div>
-
-      <button type="button" className={styles.floatingAddBtn} onClick={onAddMilestone}>
-        <Plus size={18} />
-        Thêm Milestone
-      </button>
     </section>
   );
 }
