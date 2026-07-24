@@ -1,7 +1,7 @@
 import MilestoneCard from "./MilestoneCard";
 import styles from "./MilestoneList.module.css";
 
-export default function MilestoneList({ milestones, isLoading }) {
+export default function MilestoneList({ milestones, isLoading, onStatusChange }) {
   return (
     <section className={styles.wrapper}>
       <div className={styles.list}>
@@ -17,7 +17,9 @@ export default function MilestoneList({ milestones, isLoading }) {
         )}
 
         {!isLoading &&
-          milestones.map((milestone) => <MilestoneCard key={milestone.id} milestone={milestone} />)}
+          milestones.map((milestone) => (
+            <MilestoneCard key={milestone.id} milestone={milestone} onStatusChange={onStatusChange} />
+          ))}
       </div>
     </section>
   );

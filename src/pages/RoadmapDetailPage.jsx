@@ -20,7 +20,7 @@ import "../styles/RoadmapTokens.css";
 export default function RoadmapDetailPage() {
   const { roadmapId: roadmapIdParam } = useParams();
 
-  const {
+ const {
     roadmapId,
     roadmap,
     stages,
@@ -32,6 +32,7 @@ export default function RoadmapDetailPage() {
     error,
     selectStage,
     addMilestone,
+    updateMilestoneStatus,
     handleStageCreated,
   } = useRoadmapData(roadmapIdParam);
 
@@ -79,8 +80,12 @@ export default function RoadmapDetailPage() {
                 onAddMilestone={() => setIsMilestoneModalOpen(true)}
               />
 
-              <MilestoneList milestones={milestones} isLoading={isLoadingMilestones} />
-            </>
+<MilestoneList
+                milestones={milestones}
+                isLoading={isLoadingMilestones}
+                onStatusChange={updateMilestoneStatus}
+              />
+                          </>
           )}
         </main>
 

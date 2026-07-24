@@ -4,11 +4,13 @@ import { getTasksByRoadmapId } from "../services/roadmapTask.services";
 import {
   getMilestonesByTaskId,
   createMilestone as createMilestoneApi,
+  updateMilestoneStatus as updateMilestoneStatusApi,
 } from "../services/milestone.services";
 import { mapRoadmapToViewModel } from "../utils/roadmapMapper";
 import { mapTasksToStages } from "../utils/taskMapper";
 import { mapMilestoneToViewModel } from "../utils/milestoneMapper";
-import { findDefaultActiveStage, getStageStats } from "../utils/roadmapUtils";
+import { findDefaultActiveStage } from "../utils/roadmapUtils";
+import { getMilestoneStats } from "../utils/milestoneStatusUtils";
 
 export default function useRoadmapData(initialRoadmapId = null) {
   const [currentRoadmapId, setCurrentRoadmapId] = useState(initialRoadmapId);
@@ -16,31 +18,37 @@ export default function useRoadmapData(initialRoadmapId = null) {
   const [roadmap, setRoadmap] = useState(null);
   const [stages, setStages] = useState([]);
   const [activeStageId, setActiveStageId] = useState(null);
-  const [milestones, setMilestones] = useState([]);
+  const [allMilestones, setAllMilestones] = useState([]);
 
   const [isLoadingRoadmap, setIsLoadingRoadmap] = useState(true);
   const [isLoadingMilestones, setIsLoadingMilestones] = useState(false);
   const [error, setError] = useState(null);
 
-  const loadMilestones = useCallback(async (taskId) => {
-    if (!taskId) {
-      setMilestones([]);
-      return;
+  // Tải milestone của TẤT CẢ giai đoạn cùng lúc (đủ để vừa hiển thị theo giai đoạn đang chọn,
+  // vừa tính tiến độ tổng theo status milestone cho RightProgressPanel)
+  const loadAllMilestones = useCallback(async (stagesList) => {
+    if (!stagesList || stagesList.length === 0) {
+      setAllMilestones([]);
+      return [];
     }
 
     setIsLoadingMilestones(true);
 
     try {
-      const data = await getMilestonesByTaskId(taskId);
-      setMilestones(data.map(mapMilestoneToViewModel));
+      const results = await Promise.all(
+        stagesList.map((stage) => getMilestonesByTaskId(stage.id))
+      );
+      const flat = results.flat().map(mapMilestoneToViewModel);
+      setAllMilestones(flat);
+      return flat;
     } catch (err) {
       setError(err);
+      return [];
     } finally {
       setIsLoadingMilestones(false);
     }
   }, []);
 
-  // Effect DUY NHẤT: đồng bộ với API bên ngoài khi roadmapId đổi (đây là lý do chính đáng để dùng effect)
   useEffect(() => {
     let ignore = false;
 
@@ -66,7 +74,7 @@ export default function useRoadmapData(initialRoadmapId = null) {
             setRoadmap(null);
             setStages([]);
             setActiveStageId(null);
-            setMilestones([]);
+            setAllMilestones([]);
           }
           return;
         }
@@ -87,8 +95,7 @@ export default function useRoadmapData(initialRoadmapId = null) {
 
         if (!currentRoadmapId) setCurrentRoadmapId(resolvedId);
 
-        // Load milestone ngay trong effect này (thay vì effect phụ theo activeStageId)
-        await loadMilestones(defaultStage?.id ?? null);
+        await loadAllMilestones(mappedStages);
       } catch (err) {
         if (!ignore) setError(err);
       } finally {
@@ -98,33 +105,46 @@ export default function useRoadmapData(initialRoadmapId = null) {
 
     loadRoadmap();
     return () => { ignore = true; };
-  }, [currentRoadmapId, loadMilestones]);
+  }, [currentRoadmapId, loadAllMilestones]);
 
   const activeStage = useMemo(
     () => stages.find((stage) => stage.id === activeStageId) ?? null,
     [stages, activeStageId]
   );
 
-  const stageStats = useMemo(() => getStageStats(stages), [stages]);
-
-  // Người dùng bấm chọn giai đoạn -> gọi thẳng loadMilestones ở đây, không qua effect
-  const selectStage = useCallback(
-    (stageId) => {
-      setActiveStageId(stageId);
-      loadMilestones(stageId);
-    },
-    [loadMilestones]
+  // Milestone hiển thị trong StageDetail/MilestoneList — lọc từ dữ liệu đã tải sẵn, không gọi API lại
+  const activeMilestones = useMemo(
+    () => allMilestones.filter((m) => m.taskId === activeStageId),
+    [allMilestones, activeStageId]
   );
+
+  // Tiến độ tổng cho RightProgressPanel — tính theo status của TẤT CẢ milestone trong roadmap
+  const milestoneStats = useMemo(() => getMilestoneStats(allMilestones), [allMilestones]);
+
+  // Chỉ đổi state cục bộ, không có tác vụ bất đồng bộ nào -> không còn rủi ro cascading render
+  const selectStage = useCallback((stageId) => {
+    setActiveStageId(stageId);
+  }, []);
 
   const addMilestone = useCallback(
     async (payload) => {
       if (!activeStageId) return;
 
-      await createMilestoneApi(activeStageId, payload);
-      await loadMilestones(activeStageId);
+      const created = await createMilestoneApi(activeStageId, payload);
+      setAllMilestones((prev) => [...prev, mapMilestoneToViewModel(created)]);
     },
-    [activeStageId, loadMilestones]
+    [activeStageId]
   );
+
+  // MỚI: đổi status 1 milestone, cập nhật lại đúng item đó trong state
+  const updateMilestoneStatus = useCallback(async (milestoneId, status) => {
+    const updated = await updateMilestoneStatusApi(milestoneId, status);
+    const mapped = mapMilestoneToViewModel(updated);
+
+    setAllMilestones((prev) =>
+      prev.map((m) => (m.id === mapped.id ? mapped : m))
+    );
+  }, []);
 
   const reloadStages = useCallback(async () => {
     if (!currentRoadmapId) return [];
@@ -147,9 +167,9 @@ export default function useRoadmapData(initialRoadmapId = null) {
       const nextActiveId = newStage?.id ?? findDefaultActiveStage(mappedStages)?.id ?? null;
 
       setActiveStageId(nextActiveId);
-      await loadMilestones(nextActiveId);
+      await loadAllMilestones(mappedStages);
     },
-    [reloadStages, loadMilestones]
+    [reloadStages, loadAllMilestones]
   );
 
   const setActiveRoadmapId = useCallback((roadmapId) => {
@@ -161,13 +181,14 @@ export default function useRoadmapData(initialRoadmapId = null) {
     roadmap,
     stages,
     activeStage,
-    milestones,
-    stageStats,
+    milestones: activeMilestones,
+    stageStats: milestoneStats,
     isLoadingRoadmap,
     isLoadingMilestones,
     error,
     selectStage,
     addMilestone,
+    updateMilestoneStatus,
     handleStageCreated,
     setActiveRoadmapId,
   };

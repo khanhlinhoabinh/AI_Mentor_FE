@@ -28,6 +28,23 @@
 .title { margin: 0; font-size: 15px; font-weight: 600; color: #1f2937; }
 .description { margin: 0; font-size: 13px; color: var(--rm-gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+.statusSelect {
+  border: 1px solid var(--rm-border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  background: #fff;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.statusNotStarted { color: var(--rm-gray); background: #f1f5f1; border-color: var(--rm-border); }
+.statusInProgress { color: #b45309; background: #fff2e5; border-color: #fed7aa; }
+.statusCompleted { color: var(--rm-primary-dark); background: #eefaf0; border-color: var(--rm-primary); }
+
 .dueDate {
   display: flex;
   align-items: center;

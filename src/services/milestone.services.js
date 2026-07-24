@@ -10,3 +10,9 @@ export const createMilestone = async (taskId, data) => {
   const response = await api.post(`/milestones/${taskId}`, data);
   return response.data;
 };
+
+// MỚI
+export const updateMilestoneStatus = async (milestoneId, status) => {
+  const response = await api.patch(`/milestones/${milestoneId}/status`, { status });
+  return response.data;
+};
