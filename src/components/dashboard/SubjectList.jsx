@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SubjectCard from "./SubjectCard";
 import { getSubjects } from "../../services/subject.services";
+
 export default function SubjectList() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadSubjects();
@@ -19,9 +22,6 @@ export default function SubjectList() {
       }
 
       const data = await getSubjects();
-
-      console.log("SUBJECTS:", data);
-
       setSubjects(data);
     } catch (error) {
       console.error("Load subjects failed:", error);
@@ -34,7 +34,7 @@ export default function SubjectList() {
     <section className="section">
       <div className="section-header">
         <h3>Môn học của tôi</h3>
-        <button>Xem tất cả</button>
+        <button onClick={() => navigate("/mysubjects")}>Xem tất cả</button>
       </div>
 
       {loading ? (
@@ -44,10 +44,7 @@ export default function SubjectList() {
       ) : (
         <div className="subject-grid">
           {subjects.map((item) => (
-            <SubjectCard
-              key={item.subjectId}
-              item={item}
-            />
+            <SubjectCard key={item.subjectId} item={item} />
           ))}
         </div>
       )}
