@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
@@ -14,12 +14,15 @@ import RecentActivities from "../components/SubjectDetail/RecentActivities";
 import ProgressWidget from "../components/SubjectDetail/ProgressWidget";
 import ReminderWidget from "../components/SubjectDetail/ReminderWidget";
 import AchievementWidget from "../components/SubjectDetail/AchievementWidget";
-import DocumentTab from "../components/SubjectDetail/DocumentTab"; // ✅ đã có sẵn
+import DocumentTab from "../components/SubjectDetail/DocumentTab";
 
 import { getSubjectById } from "../services/subject.services";
+import { getDocumentsBySubject } from "../services/document.services";
+import { getRoadmaps } from "../services/roadmap.services";
+import { getTasksByRoadmapId } from "../services/roadmapTask.services";
+import { mapTasksToStages } from "../utils/taskMapper";
+
 import {
-  documents,
-  roadmap,
   activities,
   reminders,
   achievements,
@@ -27,27 +30,33 @@ import {
 } from "../components/SubjectDetail/mockData";
 import "../styles/SubjectDetailPage.css";
 
+const MAX_RECENT_DOCS = 5;
+
 export default function SubjectDetailPage() {
   const [activeTab, setActiveTab] = useState("Tổng quan");
   const { subjectId } = useParams();
+  const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
   const [subject, setSubject] = useState(null);
 
-  // ✅ THÊM MỚI: state lưu số tài liệu thực từ API
   const [totalDocs, setTotalDocs] = useState(0);
 
-  useEffect(() => {
-    loadSubject();
-  }, [subjectId]);
+  const [recentDocs, setRecentDocs] = useState([]);
+  const [loadingDocs, setLoadingDocs] = useState(true);
 
-  const loadSubject = async () => {
+  const [linkedRoadmapId, setLinkedRoadmapId] = useState(null);
+  const [roadmapStages, setRoadmapStages] = useState([]);
+  const [loadingRoadmap, setLoadingRoadmap] = useState(true);
+
+  // ✅ Khai báo bằng useCallback, đặt TRƯỚC useEffect gọi nó
+  const loadSubject = useCallback(async () => {
     try {
       const data = await getSubjectById(subjectId);
 
       setSubject({
         ...data,
         category: "Computer Science",
-        totalDocs: 0,           // khởi tạo 0, sẽ được cập nhật bởi DocumentTab
+        totalDocs: 0,
         updatedAt: data.updatedAt,
         initials: data.subjectName
           ?.split(" ")
@@ -66,7 +75,61 @@ export default function SubjectDetailPage() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [subjectId]);
+
+  const loadRecentDocuments = useCallback(async () => {
+    setLoadingDocs(true);
+    try {
+      const docs = await getDocumentsBySubject(subjectId);
+      const sorted = [...(docs || [])].sort((a, b) => {
+        const ta = new Date(a.lastEditedAt || a.createdAt);
+        const tb = new Date(b.lastEditedAt || b.createdAt);
+        return tb - ta;
+      });
+      setRecentDocs(sorted.slice(0, MAX_RECENT_DOCS));
+    } catch (err) {
+      console.error("Không thể tải tài liệu gần đây:", err);
+      setRecentDocs([]);
+    } finally {
+      setLoadingDocs(false);
+    }
+  }, [subjectId]);
+
+  const loadLinkedRoadmap = useCallback(async () => {
+    setLoadingRoadmap(true);
+    try {
+      const allRoadmaps = await getRoadmaps();
+      const candidates = (allRoadmaps || []).filter(
+        (r) => String(r.subjectId) === String(subjectId)
+      );
+
+      if (candidates.length === 0) {
+        setLinkedRoadmapId(null);
+        setRoadmapStages([]);
+        return;
+      }
+
+      const target =
+        candidates.find((r) => r.status === "IN_PROGRESS") ?? candidates[0];
+
+      const tasks = await getTasksByRoadmapId(target.roadmapId);
+      setLinkedRoadmapId(target.roadmapId);
+      setRoadmapStages(mapTasksToStages(tasks || []));
+    } catch (err) {
+      console.error("Không thể tải lộ trình học tập:", err);
+      setLinkedRoadmapId(null);
+      setRoadmapStages([]);
+    } finally {
+      setLoadingRoadmap(false);
+    }
+  }, [subjectId]);
+
+  // ✅ useEffect đặt sau, gọi các hàm đã khai báo ở trên — hết lỗi
+  useEffect(() => {
+    loadSubject();
+    loadRecentDocuments();
+    loadLinkedRoadmap();
+  }, [loadSubject, loadRecentDocuments, loadLinkedRoadmap]);
 
   if (!subject) {
     return <div>Đang tải...</div>;
@@ -92,7 +155,6 @@ export default function SubjectDetailPage() {
           <div className="sdp-content">
             <div className="sdp-center">
 
-              {/* ✅ THAY ĐỔI: truyền totalDocs từ state thay vì subject.totalDocs cứng */}
               <SubjectHero
                 subject={{ ...subject, totalDocs }}
                 onEdit={() => setShowEditModal(true)}
@@ -108,13 +170,25 @@ export default function SubjectDetailPage() {
               {/* Tab: Tổng quan */}
               {activeTab === "Tổng quan" && (
                 <div className="sdp-tab-content">
-                  <FeaturedDocuments documents={documents} />
-                  <LearningRoadmap roadmap={roadmap} />
+                  <FeaturedDocuments
+                    documents={recentDocs}
+                    loading={loadingDocs}
+                    onViewAll={() => setActiveTab("Tài liệu")}
+                  />
+                  <LearningRoadmap
+                    stages={roadmapStages}
+                    roadmapId={linkedRoadmapId}
+                    loading={loadingRoadmap}
+                    onViewDetail={() =>
+                      linkedRoadmapId && navigate(`/roadmap/${linkedRoadmapId}`)
+                    }
+                    onCreateRoadmap={() => navigate("/roadmap")}
+                  />
                   <RecentActivities activities={activities} />
                 </div>
               )}
 
-              {/* ✅ THÊM MỚI: Tab Tài liệu — gọi DocumentTab thật */}
+              {/* Tab Tài liệu — DocumentTab thật */}
               {activeTab === "Tài liệu" && (
                 <DocumentTab
                   subjectId={subjectId}
@@ -122,8 +196,6 @@ export default function SubjectDetailPage() {
                 />
               )}
 
-              {/* Placeholder cho các tab chưa làm
-                  Loại trừ "Tổng quan" và "Tài liệu" đã có */}
               {activeTab !== "Tổng quan" && activeTab !== "Tài liệu" && (
                 <div className="sdp-tab-placeholder">
                   <p>
