@@ -11,7 +11,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import ChangePassword from "./pages/ChangePassword";
 import FloatingAssistant from "./components/ai/FloatingAssistant";
-
+import ChatAIPage from "./pages/ChatAIPage";
 import MySubjectsPage from "./pages/MySubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
 import FlashcardCreatePage from "./pages/FlashcardCreatePage";
@@ -91,6 +91,7 @@ function App() {
           path="/flashcard-sets/:setId/edit"
           element={<FlashcardEditPage />}
         />
+        <Route path="/chat" element={<ChatAIPage />} />
         {/* Quiz routes */}
         <Route path="/quiz" element={<QuizListPage />} />
         <Route path="/quiz/create" element={<QuizCreatePage />} />
