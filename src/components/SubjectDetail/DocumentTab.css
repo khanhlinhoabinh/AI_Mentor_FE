@@ -40,11 +40,18 @@
   flex-shrink: 0;
 }
 
-.dt-stat-icon.green { background: rgba(34, 197, 94, 0.1); }
-.dt-stat-icon.red   { background: rgba(239, 68, 68, 0.1); }
-.dt-stat-icon.blue  { background: rgba(59, 130, 246, 0.1); }
+.dt-stat-icon.green {
+  background: rgba(34, 197, 94, 0.1);
+}
+.dt-stat-icon.red {
+  background: rgba(239, 68, 68, 0.1);
+}
+.dt-stat-icon.blue {
+  background: rgba(59, 130, 246, 0.1);
+}
 
-.dt-stat-info {}
+.dt-stat-info {
+}
 .dt-stat-num {
   font-size: 20px;
   font-weight: 700;
@@ -68,7 +75,9 @@
   gap: 8px;
   background: #f0fdf4;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
   position: relative;
 }
 
@@ -161,7 +170,9 @@
   align-items: center;
   gap: 12px;
   background: #fff;
-  transition: box-shadow 0.15s, border-color 0.15s;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
 }
 
 .dt-doc-card:hover {
@@ -195,7 +206,10 @@
 }
 
 /* Doc info */
-.dt-doc-info { flex: 1; min-width: 0; }
+.dt-doc-info {
+  flex: 1;
+  min-width: 0;
+}
 
 .dt-doc-name {
   font-size: 13px;
@@ -263,19 +277,33 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
-.dt-action-btn:hover { background: #e2e8f0; color: #1e293b; }
-.dt-action-btn.view:hover  { background: #eff6ff; color: #3b82f6; }
-.dt-action-btn.edit:hover  { background: #f0fdf4; color: #22c55e; }
-.dt-action-btn.delete:hover { background: #fef2f2; color: #ef4444; }
+.dt-action-btn:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+.dt-action-btn.view:hover {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+.dt-action-btn.edit:hover {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+.dt-action-btn.delete:hover {
+  background: #fef2f2;
+  color: #ef4444;
+}
 
 /* ─── Edit modal ─── */
 .dt-edit-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(3px);
   z-index: 1000;
   display: flex;
@@ -286,8 +314,12 @@
 }
 
 @keyframes dtFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .dt-edit-modal {
@@ -298,13 +330,19 @@
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  animation: dtSlideUp 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: dtSlideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes dtSlideUp {
-  from { opacity: 0; transform: translateY(20px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .dt-edit-header {
@@ -338,7 +376,10 @@
   transition: background 0.15s;
 }
 
-.dt-edit-close:hover { background: #e2e8f0; color: #1e293b; }
+.dt-edit-close:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
 
 .dt-edit-body {
   flex: 1;
@@ -370,7 +411,9 @@
   transition: border-color 0.15s;
 }
 
-.dt-edit-textarea:focus { border-color: #22c55e; }
+.dt-edit-textarea:focus {
+  border-color: #22c55e;
+}
 
 .dt-edit-footer {
   display: flex;
@@ -393,7 +436,9 @@
   transition: background 0.15s;
 }
 
-.dt-btn-cancel:hover { background: #f8fafc; }
+.dt-btn-cancel:hover {
+  background: #f8fafc;
+}
 
 .dt-btn-save {
   padding: 8px 20px;
@@ -410,8 +455,13 @@
   transition: opacity 0.15s;
 }
 
-.dt-btn-save:hover { opacity: 0.88; }
-.dt-btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+.dt-btn-save:hover {
+  opacity: 0.88;
+}
+.dt-btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 /* ─── Empty state ─── */
 .dt-empty {
@@ -446,18 +496,22 @@
   color: #fff;
   z-index: 2000;
   animation: dtFadeIn 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.dt-toast.success { background: #22c55e; }
-.dt-toast.error   { background: #ef4444; }
+.dt-toast.success {
+  background: #22c55e;
+}
+.dt-toast.error {
+  background: #ef4444;
+}
 
 /* ══════════════════════════════
    PDF MODAL OVERLAY
 ══════════════════════════════ */
 .pdf-modal-overlay {
   position: fixed;
-  inset: 0;                         /* top/right/bottom/left = 0 */
+  inset: 0; /* top/right/bottom/left = 0 */
   background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
   display: flex;
@@ -507,7 +561,9 @@
   border-radius: 6px;
   display: flex;
   align-items: center;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 .pdf-modal-close:hover {
   background: #fee2e2;
@@ -520,8 +576,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 0;        /* ✅ thêm dòng này */
-  position: relative; 
+  min-height: 0; /* ✅ thêm dòng này */
+  position: relative;
 }
 /* ═══════════════════════════════════════
    SEARCH / FILTER / SORT BAR
@@ -561,7 +617,9 @@
   outline: none;
   background: #f8fafc;
   box-sizing: border-box;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 
 .dt-search-input:focus {
@@ -590,7 +648,9 @@
   transition: background 0.15s;
 }
 
-.dt-search-clear:hover { background: #94a3b8; }
+.dt-search-clear:hover {
+  background: #94a3b8;
+}
 
 .dt-filter-select {
   height: 34px;
@@ -599,7 +659,9 @@
   padding: 0 28px 0 10px;
   font-size: 12px;
   color: #475569;
-  background: #f8fafc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center;
+  background: #f8fafc
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")
+    no-repeat right 8px center;
   appearance: none;
   cursor: pointer;
   outline: none;
@@ -607,7 +669,9 @@
   flex-shrink: 0;
 }
 
-.dt-filter-select:focus { border-color: #22c55e; }
+.dt-filter-select:focus {
+  border-color: #22c55e;
+}
 
 .dt-sort-btn {
   height: 34px;
@@ -624,7 +688,10 @@
   gap: 5px;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
 }
 
 .dt-sort-btn:hover,
@@ -647,4 +714,328 @@
   font-size: 13px;
 }
 
-.dt-no-result-icon { font-size: 32px; margin-bottom: 8px; }
+.dt-no-result-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+/* ═══════════════════════════════════════
+   MODERATION — Cảnh báo vi phạm
+   ═══════════════════════════════════════ */
+
+/* Card bị vi phạm — viền đỏ cam */
+.dt-doc-card--violation {
+  border-color: #fed7aa;
+  background: #fffbf7;
+}
+
+.dt-doc-card--violation:hover {
+  border-color: #fb923c;
+  box-shadow: 0 2px 8px rgba(251, 146, 60, 0.15);
+}
+
+/* Risk badge trên card */
+.dt-risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.dt-risk-badge--HIGH {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.dt-risk-badge--MEDIUM {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+
+.dt-risk-badge--LOW {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+/* Banner cảnh báo bên dưới meta */
+.dt-violation-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 7px 10px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #92400e;
+  line-height: 1.45;
+}
+
+.dt-violation-banner-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 0px;
+}
+
+.dt-violation-banner-text {
+  flex: 1;
+}
+.dt-violation-banner-summary {
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: #7c2d12;
+}
+.dt-violation-banner-warning {
+  color: #92400e;
+}
+
+/* Stat card cho vi phạm */
+.dt-stat-icon.orange {
+  background: rgba(251, 146, 60, 0.12);
+}
+
+/* Upload zone khi đang kiểm duyệt */
+.dt-upload-zone--checking {
+  border-color: #fb923c;
+  background: #fff7ed;
+}
+
+.dt-upload-checking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.dt-upload-checking-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2.5px solid #fed7aa;
+  border-top-color: #fb923c;
+  border-radius: 50%;
+  animation: dtSpin 0.8s linear infinite;
+}
+
+@keyframes dtSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dt-upload-checking-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #92400e;
+}
+
+/* Toast cảnh báo */
+.dt-toast.warning {
+  background: #f97316;
+}
+
+/* Modal chi tiết vi phạm */
+.dt-mod-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: dtFadeIn 0.2s ease;
+}
+
+.dt-mod-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  animation: dtSlideUp 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+.dt-mod-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #fff7ed, #fff);
+  border-bottom: 1px solid #fed7aa;
+}
+
+.dt-mod-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dt-mod-header-icon {
+  width: 38px;
+  height: 38px;
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.dt-mod-header-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #7c2d12;
+}
+
+.dt-mod-header-sub {
+  font-size: 11px;
+  color: #92400e;
+  margin-top: 1px;
+}
+
+.dt-mod-close {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background 0.15s;
+}
+
+.dt-mod-close:hover {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.dt-mod-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dt-mod-risk-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dt-mod-risk-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+/* Risk level indicator lớn */
+.dt-mod-risk-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dt-mod-risk-pill--HIGH {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1.5px solid #fecaca;
+}
+.dt-mod-risk-pill--MEDIUM {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1.5px solid #fde68a;
+}
+.dt-mod-risk-pill--LOW {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1.5px solid #bbf7d0;
+}
+
+.dt-mod-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.dt-mod-summary {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.55;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.dt-mod-warning {
+  font-size: 12.5px;
+  color: #92400e;
+  line-height: 1.5;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.dt-mod-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dt-mod-cat-tag {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.dt-mod-footer {
+  padding: 12px 20px 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dt-mod-ok-btn {
+  padding: 8px 20px;
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.dt-mod-ok-btn:hover {
+  opacity: 0.85;
+}

@@ -101,3 +101,9 @@ export const createEmptyDocument = async (subjectId, fileName) => {
   );
   return response.data;
 };
+export const getFlaggedDocuments = async () => {
+  const response = await api.get(
+    `/subjects/1/documents/admin/flagged`
+  );
+  return response.data;
+};
