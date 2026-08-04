@@ -3,12 +3,9 @@ import "./SubjectTabs.css";
 const TABS = [
   "Tổng quan",
   "Tài liệu",
-  "Ghi chú",
-  "Chat AI",
   "Flashcard",
-  "Luyện tập",
+  "Quiz và Luyện tập",
   "Lộ trình học tập",
-  "Thống kê",
 ];
 
 export default function SubjectTabs({ activeTab, onTabChange }) {

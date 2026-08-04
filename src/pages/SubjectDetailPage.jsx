@@ -15,6 +15,9 @@ import ProgressWidget from "../components/SubjectDetail/ProgressWidget";
 import ReminderWidget from "../components/SubjectDetail/ReminderWidget";
 import AchievementWidget from "../components/SubjectDetail/AchievementWidget";
 import DocumentTab from "../components/SubjectDetail/DocumentTab";
+import SubjectFlashcardTab from "../components/SubjectDetail/SubjectFlashcardTab";
+import SubjectQuizTab from "../components/SubjectDetail/SubjectQuizTab";
+import SubjectRoadmapTab from "../components/SubjectDetail/SubjectRoadmapTab";
 
 import { getSubjectById } from "../services/subject.services";
 import { getDocumentsBySubject } from "../services/document.services";
@@ -196,12 +199,19 @@ export default function SubjectDetailPage() {
                 />
               )}
 
-              {activeTab !== "Tổng quan" && activeTab !== "Tài liệu" && (
-                <div className="sdp-tab-placeholder">
-                  <p>
-                    Nội dung tab <strong>{activeTab}</strong> sẽ được hiển thị ở đây.
-                  </p>
-                </div>
+              {/* Tab Flashcard — chỉ hiện bộ liên kết với môn học này */}
+              {activeTab === "Flashcard" && (
+                <SubjectFlashcardTab subjectId={subjectId} />
+              )}
+
+              {/* Tab Quiz và Luyện tập — chỉ hiện bộ liên kết với môn học này */}
+              {activeTab === "Quiz và Luyện tập" && (
+                <SubjectQuizTab subjectId={subjectId} />
+              )}
+
+              {/* Tab Lộ trình học tập — chỉ hiện roadmap liên kết với môn học này */}
+              {activeTab === "Lộ trình học tập" && (
+                <SubjectRoadmapTab subjectId={subjectId} />
               )}
 
             </div>
