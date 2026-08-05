@@ -7,7 +7,7 @@
   height: 72px;
 
   background: #fff;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid #e5e7eb;
 
   position: sticky;
   top: 0;
@@ -22,7 +22,7 @@
 .greeting {
   font-size: 20px;
   font-weight: 700;
-  color: #1F2937;
+  color: #1f2937;
 
   white-space: nowrap;
   overflow: hidden;
@@ -30,7 +30,6 @@
 
   max-width: 320px;
 }
-
 
 .searchWrap {
   position: relative;
@@ -47,25 +46,29 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #9CA3AF;
+  color: #9ca3af;
 }
 
 .searchInput {
   width: 100%;
   height: 44px;
   border-radius: 12px;
-  border: 1.5px solid #E5E7EB;
-  background: #F6F8FA;
+  border: 1.5px solid #e5e7eb;
+  background: #f6f8fa;
   padding: 0 80px 0 42px;
   font-size: 13px;
-  color: #1F2937;
+  color: #1f2937;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 
-  &::placeholder { color: #9CA3AF; }
+  &::placeholder {
+    color: #9ca3af;
+  }
   &:focus {
-    border-color: #2F8F67;
-    box-shadow: 0 0 0 3px rgba(47,143,103,0.1);
+    border-color: #2f8f67;
+    box-shadow: 0 0 0 3px rgba(47, 143, 103, 0.1);
     background: #fff;
   }
 }
@@ -76,9 +79,9 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 10px;
-  color: #9CA3AF;
-  background: #F3F4F6;
-  border: 1px solid #E5E7EB;
+  color: #9ca3af;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
   border-radius: 5px;
   padding: 2px 6px;
   font-family: ui-monospace, monospace;
@@ -98,18 +101,20 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  border: 1.5px solid #E5E7EB;
+  border: 1.5px solid #e5e7eb;
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6B7280;
+  color: #6b7280;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
 
   &:hover {
-    border-color: #2F8F67;
-    color: #2F8F67;
+    border-color: #2f8f67;
+    color: #2f8f67;
   }
 }
 
@@ -117,7 +122,7 @@
   position: absolute;
   top: -4px;
   right: -4px;
-  background: #EF4444;
+  background: #ef4444;
   color: #fff;
   font-size: 9px;
   font-weight: 700;
@@ -136,7 +141,7 @@
   padding: 5px 10px 5px 5px;
 
   border-radius: 12px;
-  border: 1.5px solid #E5E7EB;
+  border: 1.5px solid #e5e7eb;
 
   background: #fff;
 
@@ -151,7 +156,7 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #2F8F67, #0d4a2f);
+  background: linear-gradient(135deg, #2f8f67, #0d4a2f);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,7 +186,7 @@
 .userName {
   font-size: 12.5px;
   font-weight: 600;
-  color: #1F2937;
+  color: #1f2937;
 
   white-space: nowrap;
   overflow: hidden;
@@ -190,11 +195,11 @@
 
 .userRole {
   font-size: 10.5px;
-  color: #6B7280;
+  color: #6b7280;
 }
 
 .userChev {
-  color: #9CA3AF;
+  color: #9ca3af;
 }
 .userDropdown {
   position: relative;
@@ -214,7 +219,7 @@
 
   overflow: hidden;
 
-  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 
   z-index: 999;
 }
@@ -253,4 +258,205 @@
 
 .dropdownMenu button:hover {
   background: #f5f5f5;
+}
+/* ── Notification dropdown ── */
+.notifDropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 380px;
+  max-height: 520px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: notifSlide 0.18s ease;
+}
+
+@keyframes notifSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notifHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f2f4;
+  flex-shrink: 0;
+}
+
+.notifHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notifTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.notifUnreadBadge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+
+.markAllBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #2f8f67;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.markAllBtn:hover {
+  background: #f0fdf4;
+}
+.markAllBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.notifList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.notifState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 20px;
+  color: #9ca3af;
+  font-size: 13px;
+  text-align: center;
+}
+
+.notifItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f9fafb;
+  transition: background 0.12s;
+}
+.notifItem:last-child {
+  border-bottom: none;
+}
+.notifItem:hover {
+  background: #f9fafb;
+}
+
+.notifItemUnread {
+  background: #fafbff;
+}
+.notifItemUnread:hover {
+  background: #f0f4ff;
+}
+
+.notifItemViolation {
+  background: #fffbf7 !important;
+}
+.notifItemViolation:hover {
+  background: #fff4e6 !important;
+}
+
+.notifIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.notifContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.notifItemTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.35;
+  margin-bottom: 3px;
+}
+
+.notifItemBody {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.45;
+  margin-bottom: 5px;
+}
+
+.notifMeta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.notifTypeBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 20px;
+}
+
+.notifTime {
+  font-size: 10.5px;
+  color: #9ca3af;
+}
+
+.notifStatus {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.unreadDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+  display: block;
+}
+
+.notifFooter {
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+  border-top: 1px solid #f1f2f4;
+  background: #fafbfc;
+  flex-shrink: 0;
 }

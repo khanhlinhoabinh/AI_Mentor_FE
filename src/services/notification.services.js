@@ -36,3 +36,27 @@ export const markAllNotificationsAsRead = async () => {
 export const sendMoodFeedback = async (id, mood) => {
   return api.post(`${BASE_URL}/${id}/feedback`, { mood });
 };
+
+// Lấy tất cả notification
+export const getNotifications = async () => {
+  const response = await api.get("/notifications");
+  return response.data;
+};
+
+// Đếm notification chưa đọc
+export const countUnread = async () => {
+  const response = await api.get("/notifications/count");
+  return response.data;
+};
+
+// Đánh dấu đã đọc 1 notification
+export const markAsRead = async (notificationId) => {
+  const response = await api.put(`/notifications/${notificationId}/read`);
+  return response.data;
+};
+
+// Đánh dấu đọc tất cả
+export const markAllAsRead = async () => {
+  const response = await api.put("/notifications/read-all");
+  return response.data;
+};

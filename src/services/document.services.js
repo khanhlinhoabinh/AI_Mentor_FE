@@ -4,25 +4,20 @@ import api from "../configs/axios.config";
 export const uploadDocument = async (subjectId, file) => {
   const formData = new FormData();
   formData.append("file", file);
-  const response = await api.post(
-    `/subjects/${subjectId}/documents`,
-    formData
-  );
+  const response = await api.post(`/subjects/${subjectId}/documents`, formData);
   return response.data;
 };
 
 // LẤY DANH SÁCH tài liệu của môn học
 export const getDocumentsBySubject = async (subjectId) => {
-  const response = await api.get(
-    `/subjects/${subjectId}/documents`
-  );
+  const response = await api.get(`/subjects/${subjectId}/documents`);
   return response.data;
 };
 
 // XÓA tài liệu
 export const deleteDocument = async (subjectId, documentId) => {
   const response = await api.delete(
-    `/subjects/${subjectId}/documents/${documentId}`
+    `/subjects/${subjectId}/documents/${documentId}`,
   );
   return response.data;
 };
@@ -30,7 +25,7 @@ export const deleteDocument = async (subjectId, documentId) => {
 // XEM tài liệu → cập nhật status SEEN
 export const viewDocument = async (subjectId, documentId) => {
   const response = await api.patch(
-    `/subjects/${subjectId}/documents/${documentId}/view`
+    `/subjects/${subjectId}/documents/${documentId}/view`,
   );
   return response.data;
 };
@@ -39,16 +34,14 @@ export const viewDocument = async (subjectId, documentId) => {
 export const editDocument = async (subjectId, documentId, content) => {
   const response = await api.put(
     `/subjects/${subjectId}/documents/${documentId}/edit`,
-    { content }
+    { content },
   );
   return response.data;
 };
 
 // ĐẾM số tài liệu của môn học
 export const countDocuments = async (subjectId) => {
-  const response = await api.get(
-    `/subjects/${subjectId}/documents/count`
-  );
+  const response = await api.get(`/subjects/${subjectId}/documents/count`);
   return response.data;
 };
 
@@ -79,31 +72,42 @@ export const openFile = async (subjectId, documentId) => {
 // Lấy annotations của 1 document
 export const getAnnotations = async (subjectId, documentId) => {
   const response = await api.get(
-    `/subjects/${subjectId}/documents/${documentId}/annotations`
+    `/subjects/${subjectId}/documents/${documentId}/annotations`,
   );
   return response.data;
 };
 
 // Lưu annotations
-export const saveAnnotations = async (subjectId, documentId, annotationsJson) => {
+export const saveAnnotations = async (
+  subjectId,
+  documentId,
+  annotationsJson,
+) => {
   const response = await api.put(
     `/subjects/${subjectId}/documents/${documentId}/annotations`,
-    { annotationsJson }
+    { annotationsJson },
   );
   return response.data;
 };
 
 // TẠO tài liệu trống
 export const createEmptyDocument = async (subjectId, fileName) => {
-  const response = await api.post(
-    `/subjects/${subjectId}/documents/empty`,
-    { fileName }
-  );
+  const response = await api.post(`/subjects/${subjectId}/documents/empty`, {
+    fileName,
+  });
   return response.data;
 };
+
+// ADMIN: Lấy toàn bộ tài liệu vi phạm trong hệ thống
 export const getFlaggedDocuments = async () => {
-  const response = await api.get(
-    `/subjects/1/documents/admin/flagged`
+  const response = await api.get("/admin/documents/flagged");
+  return response.data;
+};
+
+// ADMIN: Xóa tài liệu vi phạm
+export const adminDeleteDocument = async (subjectId, documentId) => {
+  const response = await api.delete(
+    `/subjects/${subjectId}/documents/${documentId}`,
   );
   return response.data;
 };
