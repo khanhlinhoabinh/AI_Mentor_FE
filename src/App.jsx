@@ -25,7 +25,7 @@ import RoadmapDetailPage from "./pages/RoadmapDetailPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/ToastOverride.css";
-
+import RemindersPage from "./pages/RemindersPage";
 function App() {
   return (
     <>
@@ -85,6 +85,7 @@ function App() {
         <Route path="/admin/change-password" element={<ChangePassword />} />
         <Route path="/mysubjects" element={<MySubjectsPage />} />
         <Route path="/mysubjects/:subjectId" element={<SubjectDetailPage />} />
+        <Route path="/reminders" element={<RemindersPage />} />
         {/* FLASHCARD */}
         <Route path="/flashcards/new" element={<FlashcardCreatePage />} />
         <Route

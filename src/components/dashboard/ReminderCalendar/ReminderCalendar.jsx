@@ -5,17 +5,11 @@ import useReminderCalendar from "./useReminderCalendar";
 
 /**
  * ReminderCalendar
- * Thay thế card "Lịch học hôm nay" cũ bằng card "Tạo lịch nhắc nhở"
- * trong RightPanel.
- *
- * Dùng lại nguyên class "panel-card" + "panel-header" của Dashboard.css
- * (width 320px right-panel, padding 22px/18px, panel-card padding 24px/22px,
- * border, shadow-sm...) nên width/padding/border tự động khớp 100% với
- * card cũ và các card khác (Tiến độ học tập, Thành tích). Chỉ phần bên
- * trong (calendar/textarea/button) là mới, được scope qua class riêng
- * trong ReminderCalendar.css để không đụng style .panel-card dùng chung.
+ * @param {{ onCreated?: () => void }} props - truyền onCreated khi muốn
+ * refresh danh sách sau khi tạo (VD: RemindersPage). HomePage không cần
+ * truyền gì, hành vi giữ nguyên như cũ.
  */
-export default function ReminderCalendar() {
+export default function ReminderCalendar({ onCreated }) {
   const {
     selectedDate,
     setSelectedDate,
@@ -23,13 +17,9 @@ export default function ReminderCalendar() {
     setContent,
     isSubmitting,
     handleSubmit,
-  } = useReminderCalendar();
+  } = useReminderCalendar({ onSuccess: onCreated });
 
   return (
-    // Dùng lại đúng class "panel-card" + "panel-header" đang có trong
-    // Dashboard.css để width/padding/border/shadow tự khớp với các card
-    // khác trong RightPanel (Tiến độ học tập, Thành tích...) — không cần
-    // định nghĩa width/height riêng.
     <div className="panel-card reminder-panel-card">
       <div className="panel-header">
         <h3>Tạo lịch nhắc nhở</h3>
