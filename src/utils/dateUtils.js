@@ -37,3 +37,22 @@ export function getDueDateStatus(dueDate) {
   if (diffDays <= SOON_THRESHOLD_DAYS) return DUE_DATE_STATUS.SOON;
   return DUE_DATE_STATUS.NORMAL;
 }
+/**
+ * Trả về text đếm ngược hiển thị: "Hôm nay", "Còn 3 ngày", "Quá hạn 2 ngày"
+ */
+export function getDaysUntilText(dateStr) {
+  if (!dateStr) return "";
+
+  const due = new Date(dateStr);
+  if (Number.isNaN(due.getTime())) return "";
+
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffDays = Math.ceil((due - startOfToday) / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return "Hôm nay";
+  if (diffDays === 1) return "Còn 1 ngày";
+  if (diffDays > 1) return `Còn ${diffDays} ngày`;
+  if (diffDays === -1) return "Quá hạn 1 ngày";
+  return `Quá hạn ${Math.abs(diffDays)} ngày`;
+}

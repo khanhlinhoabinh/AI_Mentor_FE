@@ -1,19 +1,14 @@
 import { useState } from "react";
-import { toast } from "react-toastify"; // TODO: đổi sang lib toast thật của project nếu khác
+import { toast } from "react-toastify";
 import { createReminder } from "../../../services/reminder.services";
 
 /**
  * useReminderCalendar
- * Toàn bộ logic của card "Tạo lịch nhắc nhở":
- * - quản lý ngày chọn
- * - quản lý nội dung
- * - validate
- * - gọi API
- * - clear form khi thành công
- *
- * Component chỉ nhận state + handler qua return, không tự chứa logic.
+ * @param {{ onSuccess?: () => void }} options - onSuccess được gọi sau khi
+ * tạo lịch thành công, dùng để trang cha (VD: RemindersPage) refresh danh sách.
+ * Không truyền vẫn hoạt động như cũ (HomePage không cần đổi gì).
  */
-export default function useReminderCalendar() {
+export default function useReminderCalendar({ onSuccess } = {}) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,6 +41,7 @@ export default function useReminderCalendar() {
 
       toast.success("Đã tạo lịch nhắc thành công.");
       resetForm();
+      onSuccess?.();
     } catch (error) {
       console.error("Create reminder failed:", error);
       toast.error("Tạo lịch nhắc thất bại. Vui lòng thử lại.");
@@ -64,9 +60,6 @@ export default function useReminderCalendar() {
   };
 }
 
-/**
- * Format Date -> "yyyy-MM-dd" (đúng chuẩn backend yêu cầu)
- */
 function formatDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");

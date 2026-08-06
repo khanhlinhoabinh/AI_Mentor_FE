@@ -1,14 +1,18 @@
 import { Search, Calendar, ChevronDown, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import NotificationBell from "./NotificationBell/NotificationBell";
-import CheckInButton from "./CheckInButton/CheckInButton"; // ✅ thêm
-import { useStreak } from "../../hooks/useStreak"; // ✅ thêm
+import CheckInButton from "./CheckInButton/CheckInButton";
+import { useStreak } from "../../hooks/useStreak";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const { streak, checking, handleCheckIn } = useStreak(); // ✅ thêm
+  const { streak, checking, handleCheckIn } = useStreak();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const isRemindersActive = location.pathname.startsWith("/reminders");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -18,7 +22,6 @@ export default function Header() {
 
   return (
     <header className="top-header">
-      {/* LOGO */}
       <div className="logo">
         <div className="logo-icon">🌿</div>
         <div>
@@ -26,15 +29,12 @@ export default function Header() {
         </div>
       </div>
 
-      {/* SEARCH */}
       <div className="search-box">
         <Search size={18} />
         <input type="text" placeholder="Tìm kiếm môn học, tài liệu..." />
       </div>
 
-      {/* RIGHT */}
       <div className="top-actions">
-        {/* ✅ Nút điểm danh — chỉ hiện khi đã đăng nhập */}
         {user && (
           <CheckInButton
             streak={streak}
@@ -45,7 +45,11 @@ export default function Header() {
 
         <NotificationBell />
 
-        <div className="top-icon">
+        <div
+          className={`top-icon${isRemindersActive ? " top-icon--active" : ""}`}
+          onClick={() => navigate("/reminders")}
+          title="Lịch nhắc nhở"
+        >
           <Calendar size={18} />
         </div>
 
