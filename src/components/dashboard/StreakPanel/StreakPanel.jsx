@@ -1,12 +1,20 @@
-import { Flame, Trophy, Star, Zap } from "lucide-react";
+import { Flame, Award, Star, Crown, Lock, Trophy } from "lucide-react";
 import { useStreak } from "../../../hooks/useStreak";
 import "./StreakPanel.css";
 
 const LEVEL_CONFIG = {
-  BRONZE: { color: "#f59e0b", bg: "#fffbeb", border: "#fde68a" },
-  SILVER: { color: "#3b82f6", bg: "#eff6ff", border: "#bfdbfe" },
-  GOLD: { color: "#f59e0b", bg: "#fefce8", border: "#fde047" },
-  NONE: { color: "#94a3b8", bg: "#f8fafc", border: "#e2e8f0" },
+  BRONZE: { color: "#b45309", bg: "#fffbeb", border: "#fde68a", chip: "linear-gradient(135deg, #f59e0b, #b45309)" },
+  SILVER: { color: "#2563eb", bg: "#eff6ff", border: "#bfdbfe", chip: "linear-gradient(135deg, #60a5fa, #2563eb)" },
+  GOLD:   { color: "#a16207", bg: "#fefce8", border: "#fde047", chip: "linear-gradient(135deg, #facc15, #ca8a04)" },
+  NONE:   { color: "#64748b", bg: "#f8fafc", border: "#e2e8f0", chip: "linear-gradient(135deg, #cbd5e1, #94a3b8)" },
+};
+
+// Icon vector cố định theo cấp bậc — thay cho emoji thô từ BE để tránh trông "hoạt hình"
+const LEVEL_ICON = {
+  BRONZE: Award,
+  SILVER: Star,
+  GOLD: Crown,
+  NONE: Trophy,
 };
 
 export default function StreakPanel() {
@@ -25,13 +33,16 @@ export default function StreakPanel() {
   const badges = streak?.badges ?? [];
   const done = streak?.checkedInToday ?? false;
   const lvlCfg = LEVEL_CONFIG[streak?.badgeLevel ?? "NONE"];
+  const CurrentBadgeIcon = LEVEL_ICON[streak?.badgeLevel ?? "NONE"];
 
   return (
     <div className="sp-card">
       {/* ── Header ── */}
       <div className="sp-header">
         <div className="sp-title-row">
-          <Flame size={18} className="sp-flame-icon" />
+          <div className="sp-header-icon">
+            <Flame size={16} strokeWidth={2.4} />
+          </div>
           <h3 className="sp-title">Chuỗi học tập</h3>
         </div>
         {done && <span className="sp-done-badge">✓ Hôm nay</span>}
@@ -71,7 +82,9 @@ export default function StreakPanel() {
             border: `1.5px solid ${lvlCfg.border}`,
           }}
         >
-          <span className="sp-badge-icon">{streak.badgeIcon}</span>
+          <div className="sp-badge-icon-chip" style={{ background: lvlCfg.chip }}>
+            <CurrentBadgeIcon size={20} color="#fff" strokeWidth={2.2} />
+          </div>
           <div>
             <div className="sp-badge-title" style={{ color: lvlCfg.color }}>
               {streak.badgeTitle}
@@ -87,6 +100,7 @@ export default function StreakPanel() {
         <div className="sp-badges-list">
           {badges.map((b, i) => {
             const cfg = LEVEL_CONFIG[b.level] ?? LEVEL_CONFIG.NONE;
+            const ItemIcon = b.achieved ? LEVEL_ICON[b.level] ?? Trophy : Lock;
             return (
               <div
                 key={i}
@@ -101,9 +115,18 @@ export default function StreakPanel() {
                     : {}
                 }
               >
-                <span className="sp-badge-item-icon">
-                  {b.achieved ? b.icon : "🔒"}
-                </span>
+                <div
+                  className="sp-badge-item-chip"
+                  style={{
+                    background: b.achieved ? cfg.chip : "#e2e8f0",
+                  }}
+                >
+                  <ItemIcon
+                    size={16}
+                    color={b.achieved ? "#fff" : "#94a3b8"}
+                    strokeWidth={2.2}
+                  />
+                </div>
                 <div className="sp-badge-item-info">
                   <span
                     className="sp-badge-item-name"
@@ -130,11 +153,13 @@ export default function StreakPanel() {
           const next = badges.find((b) => !b.achieved);
           if (!next) return null;
           const pct = Math.min((current / next.requiredDays) * 100, 100);
+          const NextIcon = LEVEL_ICON[next.level] ?? Trophy;
           return (
             <div className="sp-next-badge">
               <div className="sp-next-row">
                 <span className="sp-next-label">
-                  Tiếp theo: {next.icon} {next.title}
+                  <NextIcon size={13} className="sp-next-icon" strokeWidth={2.4} />
+                  Tiếp theo: {next.title}
                 </span>
                 <span className="sp-next-count">
                   {current}/{next.requiredDays} ngày
@@ -152,7 +177,10 @@ export default function StreakPanel() {
 
       {/* Đã đạt tất cả */}
       {streak?.badgeLevel === "GOLD" && (
-        <div className="sp-all-done">🏆 Bạn đã đạt tất cả danh hiệu!</div>
+        <div className="sp-all-done">
+          <Trophy size={16} strokeWidth={2.4} />
+          Bạn đã đạt tất cả danh hiệu!
+        </div>
       )}
     </div>
   );
