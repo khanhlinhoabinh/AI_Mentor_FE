@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { Search, Plus, Trash2, Paperclip, Send, Sparkles, X } from "lucide-react";
+import {
+  Search, Plus, Trash2, Paperclip, Send, Sparkles, X,
+  Lightbulb, FileText, ClipboardList, Target,
+} from "lucide-react";
 
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
@@ -27,10 +30,10 @@ const getUserId = () => {
 };
 
 const SUGGESTIONS = [
-  { icon: "💡", text: "Giải thích khái niệm này" },
-  { icon: "📝", text: "Cho ví dụ minh họa" },
-  { icon: "📋", text: "Tóm tắt nội dung" },
-  { icon: "🎯", text: "Bài tập thực hành" },
+  { icon: Lightbulb, text: "Giải thích khái niệm này" },
+  { icon: FileText, text: "Cho ví dụ minh họa" },
+  { icon: ClipboardList, text: "Tóm tắt nội dung" },
+  { icon: Target, text: "Bài tập thực hành" },
 ];
 
 // ── Nhóm session theo thời gian ──
@@ -68,13 +71,10 @@ function timeAgo(dateStr) {
 // ── Preview file đính kèm trong ô input ──
 function FilePreview({ file, onRemove }) {
   if (!file) return null;
-  const isPdf = file.name.toLowerCase().endsWith(".pdf");
-  const isDocx = file.name.toLowerCase().endsWith(".docx");
-  const icon = isPdf ? "📕" : isDocx ? "📘" : "📄";
 
   return (
     <div className="cap-file-preview">
-      <span className="cap-file-icon">{icon}</span>
+      <FileText size={15} className="cap-file-icon" />
       <span className="cap-file-name">{file.name}</span>
       <button className="cap-file-remove" onClick={onRemove} type="button">
         <X size={13} />
@@ -378,7 +378,7 @@ export default function ChatAIPage() {
             <div className="cap-chat-header">
               <div className="cap-chat-header-left">
                 <div className="cap-chat-avatar">
-                  <span>🌱</span>
+                  <Sparkles size={19} />
                 </div>
                 <div className="cap-chat-header-info">
                   <span className="cap-chat-header-name">
@@ -397,24 +397,31 @@ export default function ChatAIPage() {
                 <div className="cap-loading">Đang tải tin nhắn...</div>
               ) : messages.length === 0 ? (
                 <div className="cap-empty-hero">
-                  <div className="cap-empty-icon">🌱</div>
+                  <div className="cap-empty-icon">
+                    <Sparkles size={30} />
+                  </div>
                   <h2 className="cap-empty-title">Xin chào! Tôi là AI Mentor</h2>
                   <p className="cap-empty-sub">
                     Hỏi bất cứ điều gì về bài học, hoặc đính kèm tài liệu PDF/DOCX
                     để tôi giúp bạn phân tích và giải thích.
                   </p>
                   <div className="cap-suggestion-grid">
-                    {SUGGESTIONS.map((s, i) => (
-                      <button
-                        key={i}
-                        className="cap-suggestion-card"
-                        onClick={() => handleSend(s.text)}
-                        type="button"
-                      >
-                        <span className="cap-suggestion-icon">{s.icon}</span>
-                        {s.text}
-                      </button>
-                    ))}
+                    {SUGGESTIONS.map((s, i) => {
+                      const Icon = s.icon;
+                      return (
+                        <button
+                          key={i}
+                          className="cap-suggestion-card"
+                          onClick={() => handleSend(s.text)}
+                          type="button"
+                        >
+                          <span className="cap-suggestion-icon">
+                            <Icon size={15} />
+                          </span>
+                          {s.text}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (

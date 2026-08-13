@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Sparkles } from "lucide-react";
 import ChatWindow from "./ChatWindow";
 import "./FloatingAssistant.css";
 
@@ -176,11 +177,8 @@ const FloatingAssistant = () => {
         type="button"
         aria-label="Mở AI Mentor"
       >
-        <span className="floating-avatar-icon">🌱</span>
+        <Sparkles size={24} className="floating-avatar-icon" />
         <span className="floating-online-badge" />
-        {!isOpen && (
-          <span className="floating-pulse" />
-        )}
       </button>
     </div>
   );

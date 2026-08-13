@@ -1,34 +1,23 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 import "./FloatingAssistant.css";
 
 // Minimal markdown renderer (no external deps)
 const renderMarkdown = (text) => {
   if (!text) return "";
 
-  // Code blocks
   let html = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
     return `<div class="code-block"><div class="code-lang">${lang || "code"}</div><pre><code>${escapeHtml(code.trim())}</code></pre></div>`;
   });
 
-  // Inline code
   html = html.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
-
-  // Bold
   html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-  // Italic
   html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
-
-  // Headers
   html = html.replace(/^### (.*$)/gm, "<h4>$1</h4>");
   html = html.replace(/^## (.*$)/gm, "<h3>$1</h3>");
   html = html.replace(/^# (.*$)/gm, "<h2>$1</h2>");
-
-  // Unordered list items
   html = html.replace(/^\- (.*$)/gm, "<li>$1</li>");
   html = html.replace(/(<li>.*<\/li>)/gs, "<ul>$1</ul>");
-
-  // Line breaks
   html = html.replace(/\n/g, "<br />");
 
   return html;
@@ -63,7 +52,7 @@ const ChatMessage = ({ message }) => {
   return (
     <div className="ai-message-row">
       <div className="ai-avatar-small">
-        <span>AI</span>
+        <Sparkles size={14} />
       </div>
       <div className="ai-bubble">
         <div

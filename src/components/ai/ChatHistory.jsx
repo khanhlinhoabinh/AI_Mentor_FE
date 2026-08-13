@@ -1,4 +1,5 @@
 import React from "react";
+import { Trash2 } from "lucide-react";
 import "./FloatingAssistant.css";
 
 const formatDate = (dateStr) => {
@@ -25,14 +26,6 @@ const ChatHistory = ({
     <div className="chat-history-panel">
       <div className="history-header">
         <span className="history-title">Lịch sử trò chuyện</span>
-        <button
-          className="history-clear-all"
-          title="Xóa tất cả"
-          onClick={onViewAll}
-          type="button"
-        >
-          🗑
-        </button>
       </div>
 
       <div className="history-list">
@@ -62,7 +55,7 @@ const ChatHistory = ({
                 }}
                 type="button"
               >
-                🗑
+                <Trash2 size={13} />
               </button>
             </div>
           ))

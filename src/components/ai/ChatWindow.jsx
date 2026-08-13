@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import {
+  Sparkles, History, SquarePen, Minus, X, Paperclip, Send, FileText,
+} from "lucide-react";
 import ChatMessage from "./ChatMessage";
 import ChatHistory from "./ChatHistory";
 import SuggestionChips from "./SuggestionChips";
@@ -32,16 +35,13 @@ const SUGGESTIONS = [
 // ── File preview nhỏ hiển thị trong input ──
 function FilePreview({ file, onRemove }) {
   if (!file) return null;
-  const isPdf  = file.name.toLowerCase().endsWith(".pdf");
-  const isDocx = file.name.toLowerCase().endsWith(".docx");
-  const icon   = isPdf ? "📕" : isDocx ? "📘" : "📄";
 
   return (
     <div className="chat-file-preview">
-      <span className="chat-file-icon">{icon}</span>
+      <FileText size={14} className="chat-file-icon" />
       <span className="chat-file-name">{file.name}</span>
       <button className="chat-file-remove" onClick={onRemove} type="button">
-        ✕
+        <X size={12} />
       </button>
     </div>
   );
@@ -238,7 +238,7 @@ const ChatWindow = ({ onClose, onMinimize }) => {
         {/* Header */}
         <div className="chat-header">
           <div className="chat-header-left">
-            <div className="chat-header-avatar"><span>🌱</span></div>
+            <div className="chat-header-avatar"><Sparkles size={17} /></div>
             <div className="chat-header-info">
               <span className="chat-header-name">AI Mentor</span>
               <span className="chat-header-status">
@@ -248,13 +248,21 @@ const ChatWindow = ({ onClose, onMinimize }) => {
           </div>
           <div className="chat-header-actions">
             <button className={`header-btn${showHistory?" header-btn--active":""}`}
-              title="Lịch sử chat" onClick={() => setShowHistory(v=>!v)} type="button">🕐</button>
+              title="Lịch sử chat" onClick={() => setShowHistory(v=>!v)} type="button">
+              <History size={15} />
+            </button>
             <button className="header-btn" title="Tạo mới"
-              onClick={handleNewSession} type="button">✏️</button>
+              onClick={handleNewSession} type="button">
+              <SquarePen size={15} />
+            </button>
             <button className="header-btn" title="Thu nhỏ"
-              onClick={onMinimize} type="button">―</button>
+              onClick={onMinimize} type="button">
+              <Minus size={15} />
+            </button>
             <button className="header-btn header-btn--close" title="Đóng"
-              onClick={onClose} type="button">✕</button>
+              onClick={onClose} type="button">
+              <X size={15} />
+            </button>
           </div>
         </div>
 
@@ -264,7 +272,7 @@ const ChatWindow = ({ onClose, onMinimize }) => {
             <div className="chat-loading">Đang tải tin nhắn...</div>
           ) : messages.length === 0 ? (
             <div className="chat-empty">
-              <div className="chat-empty-icon">🌱</div>
+              <div className="chat-empty-icon"><Sparkles size={26} /></div>
               <p className="chat-empty-title">Xin chào! Tôi là AI Mentor</p>
               <p className="chat-empty-sub">
                 Hãy đặt câu hỏi hoặc đính kèm tài liệu PDF/DOCX để tôi phân tích.
@@ -312,7 +320,7 @@ const ChatWindow = ({ onClose, onMinimize }) => {
               title="Đính kèm PDF, DOCX, TXT"
               type="button"
             >
-              📎
+              <Paperclip size={16} />
             </button>
 
             <button
@@ -322,7 +330,7 @@ const ChatWindow = ({ onClose, onMinimize }) => {
               title="Gửi (Enter)"
               type="button"
             >
-              ➤
+              <Send size={16} />
             </button>
           </div>
 
