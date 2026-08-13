@@ -61,7 +61,7 @@ export default function Sidebar() {
     { icon: Layers, label: "Flashcard", path: "/flashcards/new" },
     { icon: PenTool, label: "Quiz", path: "/quiz"  },
     { icon: Map, label: "Lộ trình học tập", path: "/roadmap" },
-    { icon: BarChart2, label: "Thống kê", path: "/statistics" },
+    { icon: BarChart2, label: "Thống kê", path: "/leaderboard" },
     { icon: Settings, label: "Cài đặt", path: "/settings" },
   ];
 
