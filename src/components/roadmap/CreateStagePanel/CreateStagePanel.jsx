@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Sparkles } from "lucide-react";
 import { createTask } from "../../../services/roadmapTask.services";
+import AiSuggestStagePanel from "../AiSuggestStagePanel/AiSuggestStagePanel";
 import styles from "./CreateStagePanel.module.css";
+import aiStyles from "../AiSuggestStagePanel/AiSuggestStagePanel.module.css";
 
 const INITIAL_FORM = {
   taskName: "",
@@ -10,8 +12,9 @@ const INITIAL_FORM = {
   endDate: "",
 };
 
-export default function CreateStagePanel({ roadmapId, onCreated, disabled }) {
+export default function CreateStagePanel({ roadmapId, roadmap, onCreated, disabled }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAiOpen, setIsAiOpen] = useState(false);
   const [form, setForm] = useState(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -62,10 +65,31 @@ export default function CreateStagePanel({ roadmapId, onCreated, disabled }) {
 
   return (
     <section className={styles.wrapper}>
-      <button type="button" className={styles.toggleBtn} onClick={() => setIsOpen((prev) => !prev)}>
-        {isOpen ? <X size={15} /> : <Plus size={15} />}
-        {isOpen ? "Đóng" : "Thêm giai đoạn"}
-      </button>
+      <div className={aiStyles.toggleRow}>
+        <button
+          type="button"
+          className={styles.toggleBtn}
+          onClick={() => {
+            setIsOpen((prev) => !prev);
+            setIsAiOpen(false);
+          }}
+        >
+          {isOpen ? <X size={15} /> : <Plus size={15} />}
+          {isOpen ? "Đóng" : "Thêm giai đoạn"}
+        </button>
+
+        <button
+          type="button"
+          className={aiStyles.aiToggleBtn}
+          onClick={() => {
+            setIsAiOpen(true);
+            setIsOpen(false);
+          }}
+        >
+          <Sparkles size={15} />
+          AI gợi ý giai đoạn
+        </button>
+      </div>
 
       {isOpen && (
         <div className={styles.card}>
@@ -124,6 +148,15 @@ export default function CreateStagePanel({ roadmapId, onCreated, disabled }) {
             </button>
           </div>
         </div>
+      )}
+
+      {isAiOpen && (
+        <AiSuggestStagePanel
+          roadmapId={roadmapId}
+          roadmap={roadmap}
+          onClose={() => setIsAiOpen(false)}
+          onStagesCreated={onCreated}
+        />
       )}
     </section>
   );

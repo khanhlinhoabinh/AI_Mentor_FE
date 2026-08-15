@@ -59,6 +59,7 @@ export default function RoadmapDetailPage() {
 
               <CreateStagePanel
                 roadmapId={roadmapId}
+                roadmap={roadmap}
                 onCreated={handleStageCreated}
                 disabled={!roadmap}
               />
