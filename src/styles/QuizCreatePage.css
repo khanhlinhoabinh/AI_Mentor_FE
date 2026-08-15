@@ -1063,3 +1063,9 @@
     min-width: auto;
   }
 }
+
+.qc-file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

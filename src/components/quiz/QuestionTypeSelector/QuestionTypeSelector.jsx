@@ -2,7 +2,7 @@ import React from "react";
 import "./QuestionTypeSelector.css";
 
 /**
- * QuestionTypeSelector - Grid of question type cards with icons
+ * QuestionTypeSelector - Grid of question type cards (no icons)
  * Supports multi-select via activeTypes array
  */
 const QuestionTypeSelector = ({ label, types, activeTypes, onToggle }) => {
@@ -21,7 +21,6 @@ const QuestionTypeSelector = ({ label, types, activeTypes, onToggle }) => {
               disabled={type.disabled}
               title={type.comingSoon ? "Sắp ra mắt" : ""}
             >
-              <span className="question-type__icon">{type.icon}</span>
               <span className="question-type__name">{type.label}</span>
               <span className="question-type__desc">{type.description}</span>
               {type.comingSoon && (

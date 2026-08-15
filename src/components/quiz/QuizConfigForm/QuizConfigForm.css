@@ -30,12 +30,27 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
 }
 
 .quiz-config-form__row--2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+}
+
+/* Label used for the Bloom level field */
+.quiz-config-form__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.quiz-config-form__required {
+  color: #ef4444;
 }
 
 /* Settings 2x2 grid */
@@ -51,21 +66,22 @@
 
 /* Bottom actions */
 .quiz-config-form__bottom {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  margin-top:24px;
-  padding-top:20px;
+  margin-top: 24px;
+  padding-top: 20px;
 
-  border-top:1px solid #edf0f5;
+  border-top: 1px solid #edf0f5;
 
-  flex-shrink:0;
+  flex-shrink: 0;
 }
 
 .quiz-config-form__btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 11px 28px;
   border-radius: 12px;
@@ -74,6 +90,7 @@
   cursor: pointer;
   transition: all 0.25s ease;
   border: none;
+  white-space: nowrap;
 }
 
 .quiz-config-form__btn--back {
@@ -92,7 +109,6 @@
   color: #fff;
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
   min-width: 160px;
-  justify-content: center;
 }
 
 .quiz-config-form__btn--next:hover {
@@ -105,6 +121,100 @@
   transform: translateY(0);
 }
 
+/* ─── Bloom level dropdown ─────────────────────────────── */
+.bloom-select {
+  position: relative;
+  width: 100%;
+}
+
+.bloom-select__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 13px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 14px;
+  color: #1a1a2e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.bloom-select__trigger:hover {
+  border-color: #c8cfe0;
+}
+
+.bloom-select__trigger-text {
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bloom-select__chevron {
+  color: #8a8fa8;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  margin-left: 8px;
+}
+
+.bloom-select__chevron--open {
+  transform: rotate(180deg);
+}
+
+.bloom-select__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  z-index: 30;
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.bloom-select__option {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.bloom-select__option:hover {
+  background: #f5f6fa;
+}
+
+.bloom-select__option--active {
+  background: #eff6ff;
+}
+
+.bloom-select__option-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.bloom-select__option-desc {
+  font-size: 12px;
+  color: #8a8fa8;
+  line-height: 1.4;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .quiz-config-form__settings-grid {
     grid-template-columns: 1fr;
@@ -112,26 +222,55 @@
 }
 
 @media (max-width: 768px) {
+  .quiz-config-form__card {
+    padding: 18px;
+    gap: 16px;
+    border-radius: 14px;
+  }
+
   .quiz-config-form__row--2col {
     grid-template-columns: 1fr;
   }
 
   .quiz-config-form__settings-grid {
     grid-template-columns: 1fr;
-  }
-
-  .quiz-config-form__btn--next {
-    min-width: auto;
-    flex: 1;
-    justify-content: center;
+    padding: 14px;
   }
 
   .quiz-config-form__bottom {
+    flex-direction: column-reverse;
     gap: 10px;
+    align-items: stretch;
   }
 
-  .quiz-config-form__btn--back {
-    flex: 1;
-    justify-content: center;
+  .quiz-config-form__btn {
+    width: 100%;
+  }
+
+  .quiz-config-form__btn--next {
+    min-width: 0;
+  }
+
+  .bloom-select__panel {
+    max-height: 280px;
+  }
+
+  .bloom-select__option-desc {
+    font-size: 11.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-config-form__heading {
+    font-size: 15px;
+  }
+
+  .bloom-select__trigger {
+    padding: 10px 11px;
+    font-size: 13.5px;
+  }
+
+  .bloom-select__option-title {
+    font-size: 13px;
   }
 }

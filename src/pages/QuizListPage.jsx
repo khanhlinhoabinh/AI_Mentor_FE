@@ -145,6 +145,13 @@ export default function QuizListPage() {
                   DIFFICULTY_MAP[q.difficulty] ?? DIFFICULTY_MAP.MEDIUM;
                 const type = TYPE_MAP[q.questionType] ?? q.questionType;
                 const last = q.lastAttempt;
+                const hasNoQuestions = q.actualQuestionCount === 0;
+                const primaryLabel = hasNoQuestions
+                  ? "Chưa có câu hỏi"
+                  : last
+                  ? "Làm lại"
+                  : "Làm bài";
+
                 return (
                   <div key={q.id} className="ql-card">
                     <div className="ql-card-top">
@@ -157,16 +164,16 @@ export default function QuizListPage() {
                           {diff.label}
                         </span>
                       </div>
-                      {q.subjectName && (
-                        <span className="ql-card-subject">{q.subjectName}</span>
-                      )}
+                      <span className={`ql-card-subject ${!q.subjectName ? "ql-card-subject--empty" : ""}`}>
+                      {q.subjectName || "\u00A0"}
+                      </span>
                     </div>
 
                     <div className="ql-card-meta">
-                      <span>📋 {q.actualQuestionCount} câu</span>
-                      <span>⏱ {formatTime(q.timeLimitSeconds)}</span>
-                      <span>🎯 {type}</span>
-                      <span>⭐ {q.pointsPerQuestion} đ/câu</span>
+                      <span>{q.actualQuestionCount} câu</span>
+                      <span>{formatTime(q.timeLimitSeconds)}</span>
+                      <span>{type}</span>
+                      <span>{q.pointsPerQuestion} đ/câu</span>
                     </div>
 
                     {last ? (
@@ -187,18 +194,9 @@ export default function QuizListPage() {
                       <button
                         className="ql-btn ql-btn-primary"
                         onClick={() => navigate(`/quiz/${q.id}`)}
-                        disabled={q.actualQuestionCount === 0}
+                        disabled={hasNoQuestions}
                       >
-                        {q.actualQuestionCount === 0
-                          ? "Chưa có câu hỏi"
-                          : "▶ Làm bài"}
-                      </button>
-                      <button
-                        className="ql-btn ql-btn-outline"
-                        onClick={() => navigate(`/quiz/${q.id}/review`)}
-                        disabled={q.actualQuestionCount === 0}
-                      >
-                        Xem lại
+                        {primaryLabel}
                       </button>
                       <button
                         className="ql-btn ql-btn-danger"
