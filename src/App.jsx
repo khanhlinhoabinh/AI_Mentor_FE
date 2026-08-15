@@ -22,6 +22,7 @@ import QuizTakePage from "./pages/QuizTakePage";
 import QuizResultPage from "./pages/QuizResultPage";
 import RoadmapListPage from "./pages/RoadmapListPage";
 import RoadmapDetailPage from "./pages/RoadmapDetailPage";
+import LearningEvaluationPage from "./pages/LearningEvaluationPage";
 import StreakLeaderboardPage from "./pages/StreakLeaderboardPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -102,6 +103,8 @@ function App() {
         <Route path="/quiz" element={<QuizCreatePage />} />
         <Route path="/roadmap" element={<RoadmapListPage />} />
         <Route path="/leaderboard" element={<StreakLeaderboardPage />} />
+        <Route path="/leaderboard" element={<StreakLeaderboardPage />} />
+<Route path="/learning-evaluation" element={<LearningEvaluationPage />} />
         <Route
           path="/roadmap/:roadmapId"
           element={<RoadmapDetailPage />}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
-  Home, BookOpen, FileText, MessageCircle,
-  StickyNote, Layers, PenTool, Map,
+  Home, BookOpen, MessageCircle,
+  StickyNote, Layers, PenTool, Map, Brain,
   BarChart2, Settings, Plus,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -62,6 +62,7 @@ export default function Sidebar() {
     { icon: PenTool, label: "Quiz", path: "/quiz"  },
     { icon: Map, label: "Lộ trình học tập", path: "/roadmap" },
     { icon: BarChart2, label: "Thống kê", path: "/leaderboard" },
+    { icon: Brain, label: "Đánh giá học tập", path: "/learning-evaluation" },
     { icon: Settings, label: "Cài đặt", path: "/settings" },
   ];
 
