@@ -5,7 +5,7 @@ import {
   adminDeleteDocument,
 } from "../services/document.services";
 import styles from "../styles/admin/ContentManagement.module.css";
-
+import { confirmDelete } from "../utils/swal";
 const RISK_CONFIG = {
   HIGH: { label: "Cao", color: "#dc2626", bg: "#fef2f2", border: "#fecaca" },
   MEDIUM: {
@@ -211,12 +211,11 @@ export default function ContentManagementPage() {
   }, [load]);
 
   const handleDelete = async (doc) => {
-    if (
-      !window.confirm(
-        `Xóa tài liệu "${doc.fileName}"? Hành động này không thể hoàn tác.`,
-      )
-    )
-      return;
+    const ok = await confirmDelete(
+      "Xóa tài liệu vi phạm?",
+      `File "${doc.fileName}" sẽ bị xóa vĩnh viễn.`,
+    );
+    if (!ok) return;
     setDeleting(doc.documentId);
     try {
       await adminDeleteDocument(doc.subjectId, doc.documentId);

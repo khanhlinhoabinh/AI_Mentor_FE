@@ -64,7 +64,7 @@ export default function SubjectDetailPage() {
         initials: data.subjectName
           ?.split(" ")
           ?.slice(0, 2)
-          ?.map(word => word[0].toUpperCase())
+          ?.map((word) => word[0].toUpperCase())
           ?.join(""),
         color: "#22c55e",
         students: 0,
@@ -103,7 +103,7 @@ export default function SubjectDetailPage() {
     try {
       const allRoadmaps = await getRoadmaps();
       const candidates = (allRoadmaps || []).filter(
-        (r) => String(r.subjectId) === String(subjectId)
+        (r) => String(r.subjectId) === String(subjectId),
       );
 
       if (candidates.length === 0) {
@@ -150,24 +150,18 @@ export default function SubjectDetailPage() {
           <nav className="sdp-breadcrumb">
             <span>Môn học của tôi</span>
             <ChevronRight size={14} className="sdp-bc-sep" />
-            <span className="sdp-bc-current">
-              {subject?.subjectName}
-            </span>
+            <span className="sdp-bc-current">{subject?.subjectName}</span>
           </nav>
 
           <div className="sdp-content">
             <div className="sdp-center">
-
               <SubjectHero
                 subject={{ ...subject, totalDocs }}
                 onEdit={() => setShowEditModal(true)}
               />
 
               <div className="sdp-tabs-wrap">
-                <SubjectTabs
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                />
+                <SubjectTabs activeTab={activeTab} onTabChange={setActiveTab} />
               </div>
 
               {/* Tab: Tổng quan */}
@@ -213,7 +207,6 @@ export default function SubjectDetailPage() {
               {activeTab === "Lộ trình học tập" && (
                 <SubjectRoadmapTab subjectId={subjectId} />
               )}
-
             </div>
 
             {/* Right panel */}

@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { resetPassword } from "../services/auth.services";
 
 import "./ResetPasswordPage.css";
-
+import { alertWarning, alertSuccess, alertError } from "../utils/swal";
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
 
@@ -18,18 +18,24 @@ export default function ResetPasswordPage() {
 
   const handleReset = async () => {
     if (newPassword !== confirmPassword) {
-      alert("Mật khẩu xác nhận không khớp");
+      await alertWarning(
+        "Không khớp",
+        "Mật khẩu xác nhận không khớp với mật khẩu mới.",
+      );
       return;
     }
 
     try {
       await resetPassword(token, newPassword);
 
-      alert("Đổi mật khẩu thành công");
+      await alertSuccess("Thành công!", "Đổi mật khẩu thành công.");
 
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Không thể đổi mật khẩu");
+      await alertError(
+        "Thất bại",
+        error.response?.data?.message || "Không thể đổi mật khẩu",
+      );
     }
   };
 

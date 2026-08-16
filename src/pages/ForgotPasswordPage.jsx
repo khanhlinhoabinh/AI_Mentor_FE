@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { forgotPassword } from "../services/auth.services";
-
+import { alertSuccess, alertError } from "../utils/swal";
 import "./ForgotPasswordPage.css";
 
 export default function ForgotPasswordPage() {
@@ -10,9 +10,15 @@ export default function ForgotPasswordPage() {
     try {
       await forgotPassword(email);
 
-      alert("Đã gửi email khôi phục mật khẩu");
+      await alertSuccess(
+        "Gửi thành công!",
+        "Đã gửi email khôi phục mật khẩu, vui lòng kiểm tra hộp thư.",
+      );
     } catch (error) {
-      alert(error.response?.data?.message || "Không gửi được email");
+      await alertError(
+        "Thất bại",
+        error.response?.data?.message || "Không gửi được email",
+      );
     }
   };
 

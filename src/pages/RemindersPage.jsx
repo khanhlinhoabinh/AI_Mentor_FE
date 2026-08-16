@@ -9,6 +9,7 @@ import { getMyReminders, deleteReminder } from "../services/reminder.services";
 import { getDueDateStatus } from "../utils/dateUtils";
 import "../styles/Dashboard.css"; // đảm bảo có :root vars + .panel-card dùng lại trong ReminderCalendar
 import "../styles/RemindersPage.css";
+import { toastError, toastSuccess, confirmDelete } from "../utils/swal";
 
 const FILTERS = [
   { key: "all", label: "Tất cả" },
@@ -32,30 +33,34 @@ export default function RemindersPage() {
     setLoading(true);
     try {
       const data = await getMyReminders();
-      const list = Array.isArray(data) ? data : data?.content ?? [];
+      const list = Array.isArray(data) ? data : (data?.content ?? []);
       const sorted = [...list].sort(
-        (a, b) => new Date(a.reminderDate) - new Date(b.reminderDate)
+        (a, b) => new Date(a.reminderDate) - new Date(b.reminderDate),
       );
       setReminders(sorted);
     } catch (error) {
       console.error("Load reminders failed:", error);
-      toast.error("Không tải được danh sách lịch nhắc.");
+      toastError("Không tải được danh sách lịch nhắc.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Xoá lịch nhắc này?")) return;
+    const ok = await confirmDelete(
+      "Xóa lịch nhắc?",
+      "Lịch nhắc này sẽ bị xóa vĩnh viễn.",
+    );
+    if (!ok) return;
 
     setDeletingId(id);
     try {
       await deleteReminder(id);
       setReminders((prev) => prev.filter((r) => r.id !== id));
-      toast.success("Đã xoá lịch nhắc.");
+      toastSuccess("Đã xóa lịch nhắc.");
     } catch (error) {
       console.error("Delete reminder failed:", error);
-      toast.error("Xoá lịch nhắc thất bại.");
+      toastError("Xóa lịch nhắc thất bại.");
     } finally {
       setDeletingId(null);
     }
@@ -72,7 +77,7 @@ export default function RemindersPage() {
   }, [reminders, filter]);
 
   const overdueCount = reminders.filter(
-    (r) => getDueDateStatus(r.reminderDate) === "overdue"
+    (r) => getDueDateStatus(r.reminderDate) === "overdue",
   ).length;
 
   return (
@@ -127,7 +132,9 @@ export default function RemindersPage() {
               <div className="reminders-layout">
                 <div className="reminders-list-col">
                   {loading ? (
-                    <div className="reminders-loading">Đang tải danh sách...</div>
+                    <div className="reminders-loading">
+                      Đang tải danh sách...
+                    </div>
                   ) : filteredReminders.length === 0 ? (
                     <div className="reminders-empty">
                       <Inbox size={36} />
