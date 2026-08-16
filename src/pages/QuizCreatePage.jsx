@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
@@ -7,7 +7,8 @@ import StepProgress from "../components/quiz/StepProgress/StepProgress";
 import QuizConfigForm from "../components/quiz/QuizConfigForm/QuizConfigForm";
 import QuizPreviewCard from "../components/quiz/QuizPreviewCard/QuizPreviewCard";
 import QuizInfoCard from "../components/quiz/QuizInfoCard/QuizInfoCard";
-import SourceUpload from "../components/quiz/SourceUpload/SourceUpload";
+import UploadButton from "../components/quiz/UploadButton/UploadButton";
+import UploadFileCard from "../components/quiz/UploadFileCard/UploadFileCard";
 import { getSubjects } from "../services/subject.services";
 import {
   createQuizSet,
@@ -25,10 +26,38 @@ const STEPS = [
   { id: "finish", label: "Hoàn tất", sublabel: "Lưu & sử dụng" },
 ];
 
+// Cấp độ theo Thang Bloom
 const DIFFICULTY_OPTIONS = [
-  { value: "EASY", label: "Dễ", icon: "😊", color: "green" },
-  { value: "MEDIUM", label: "Trung bình", icon: "😐", color: "orange" },
-  { value: "HARD", label: "Khó", icon: "🔴", color: "red" },
+  {
+    value: "REMEMBERING",
+    label: "Ghi nhớ (Remembering)",
+    description: "Nhớ lại, nhận diện, liệt kê, định nghĩa, tái hiện thông tin đã học",
+  },
+  {
+    value: "UNDERSTANDING",
+    label: "Hiểu (Understanding)",
+    description: "Diễn giải, giải thích, tóm tắt, so sánh, liên hệ, suy luận ý nghĩa thông tin",
+  },
+  {
+    value: "APPLYING",
+    label: "Áp dụng (Applying)",
+    description: "Vận dụng kiến thức vào tình huống mới, thực hành, giải quyết vấn đề",
+  },
+  {
+    value: "ANALYZING",
+    label: "Phân tích (Analyzing)",
+    description: "Chia nhỏ thông tin, xác định mối quan hệ, tìm nguyên nhân – kết quả, so sánh, đánh giá cấu trúc",
+  },
+  {
+    value: "EVALUATING",
+    label: "Đánh giá (Evaluating)",
+    description: "Dùng tiêu chí, chuẩn mực để đưa ra phán quyết, phê bình, lựa chọn, đề xuất",
+  },
+  {
+    value: "CREATING",
+    label: "Sáng tạo (Creating)",
+    description: "Tổ hợp, xây dựng, thiết kế, phát triển sản phẩm, giải pháp mới dựa trên kiến thức đã có",
+  },
 ];
 
 const COUNT_PRESETS = [
@@ -38,34 +67,32 @@ const COUNT_PRESETS = [
   { value: 20, label: "20 câu" },
 ];
 
-// Chỉ 2 loại BE hỗ trợ
+// Chỉ 2 loại BE hỗ trợ (không icon)
 const QUESTION_TYPES = [
   {
     value: "MULTIPLE_CHOICE",
     label: "Trắc nghiệm",
     description: "Chọn 1 đáp án đúng",
-    icon: "☑️",
     disabled: false,
   },
   {
     value: "TRUE_FALSE",
     label: "Đúng / Sai",
     description: "Đúng hoặc Sai",
-    icon: "✅",
     disabled: false,
   },
 ];
 
-// Chỉ 2 nguồn BE hỗ trợ
+// Chỉ 2 nguồn BE hỗ trợ (không icon)
 const SOURCE_TABS = [
-  { value: "file", label: "Từ tài liệu", icon: "document" },
-  { value: "text", label: "Nhập văn bản", icon: "text" },
+  { value: "file", label: "Từ tài liệu" },
+  { value: "text", label: "Nhập văn bản" },
 ];
 
 const DEFAULT_FORM = {
   title: "",
   subjectId: "",
-  difficulty: "MEDIUM",
+  difficulty: "UNDERSTANDING",
   questionCount: 10,
   customCount: 10,
   activeType: "MULTIPLE_CHOICE", // single — BE chỉ nhận 1 loại
@@ -80,12 +107,9 @@ const DEFAULT_FORM = {
 
 /* ─── Helpers ───────────────────────────────────── */
 function parseAIJson(raw) {
-  // Nếu backend đã trả object/array thì dùng luôn
   if (typeof raw !== "string") {
     return raw;
   }
-
-  // Nếu backend trả string có ```json ... ``` thì mới xử lý
   const cleaned = raw.replace(/```json|```/g, "").trim();
   return JSON.parse(cleaned);
 }
@@ -98,12 +122,12 @@ export default function QuizCreatePage() {
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const [subjects, setSubjects] = useState([]);
   const [sourceTab, setSourceTab] = useState("file");
-  const [files, setFiles] = useState([]); // File objects
-  const [fileCards, setFileCards] = useState([]); // display list
+  const [files, setFiles] = useState([]);
+  const [fileCards, setFileCards] = useState([]);
   const [textInput, setTextInput] = useState("");
   const [quizSetId, setQuizSetId] = useState(null);
-  const [rawQuestions, setRawQuestions] = useState([]); // after AI gen
-  const [editableQs, setEditableQs] = useState([]); // editable list
+  const [rawQuestions, setRawQuestions] = useState([]);
+  const [editableQs, setEditableQs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
 
@@ -118,10 +142,8 @@ export default function QuizCreatePage() {
     setTimeout(() => setToast(null), 4000);
   };
 
-  /* ── Field handlers ── */
   const field = (key, val) => setFormData((p) => ({ ...p, [key]: val }));
 
-  /* ── Subject options ── */
   const subjectOptions = [
     { value: "", label: "Không liên kết môn học" },
     ...subjects.map((s) => ({
@@ -130,7 +152,6 @@ export default function QuizCreatePage() {
     })),
   ];
 
-  /* ── File handlers ── */
   const handleFilesSelected = (newFiles) => {
     const added = newFiles.map((f, i) => ({
       id: `f${Date.now()}_${i}`,
@@ -150,9 +171,6 @@ export default function QuizCreatePage() {
     if (idx >= 0) setFiles((p) => p.filter((_, i) => i !== idx));
   };
 
-  /* ═══════════════════════════════════════
-     STEP 1 → 2: Validate source
-  ═══════════════════════════════════════ */
   const handleStep1Next = () => {
     if (sourceTab === "file" && files.length === 0) {
       showToast("Vui lòng upload ít nhất 1 file PDF", "error");
@@ -165,9 +183,6 @@ export default function QuizCreatePage() {
     setStep(2);
   };
 
-  /* ═══════════════════════════════════════
-     STEP 2 → 3: Create quiz set + gen AI
-  ═══════════════════════════════════════ */
   const handleStep2Next = async () => {
     if (!formData.title.trim()) {
       showToast("Vui lòng nhập tên bài Quiz", "error");
@@ -181,7 +196,6 @@ export default function QuizCreatePage() {
 
     setLoading(true);
     try {
-      // 1. Tạo bộ quiz
       const newSet = await createQuizSet({
         title: formData.title,
         subjectId: formData.subjectId ? Number(formData.subjectId) : null,
@@ -200,7 +214,6 @@ export default function QuizCreatePage() {
       setQuizSetId(newSet.id);
       setStep(3);
 
-      // 2. Gen câu hỏi
       let rawJson;
       if (sourceTab === "file") {
         rawJson = await generateFromFile(newSet.id, files[0]);
@@ -211,7 +224,6 @@ export default function QuizCreatePage() {
       const parsed = parseAIJson(rawJson);
       setRawQuestions(parsed);
 
-      // Convert thành editable format
       const editable = parsed.map((q, i) => ({
         id: null,
         orderIndex: i,
@@ -233,9 +245,6 @@ export default function QuizCreatePage() {
     }
   };
 
-  /* ═══════════════════════════════════════
-     STEP 3 → 4: Save questions
-  ═══════════════════════════════════════ */
   const handleSaveQuestions = async () => {
     if (!quizSetId) return;
     setLoading(true);
@@ -258,7 +267,6 @@ export default function QuizCreatePage() {
     }
   };
 
-  /* ── Edit question inline ── */
   const updateQ = (idx, key, val) =>
     setEditableQs((p) =>
       p.map((q, i) => (i === idx ? { ...q, [key]: val } : q)),
@@ -266,7 +274,6 @@ export default function QuizCreatePage() {
 
   const removeQ = (idx) => setEditableQs((p) => p.filter((_, i) => i !== idx));
 
-  /* ── Preview fields for right column ── */
   const count =
     formData.questionCount === "custom"
       ? formData.customCount
@@ -312,9 +319,6 @@ export default function QuizCreatePage() {
     },
   ];
 
-  /* ═══════════════════════════════════════
-     RENDER
-  ═══════════════════════════════════════ */
   return (
     <div className="quiz-page-content">
       <Header />
@@ -337,7 +341,7 @@ export default function QuizCreatePage() {
                 <div className="qc-card">
                   <h2 className="qc-card-title">Chọn nguồn tạo câu hỏi</h2>
 
-                  {/* Source tabs */}
+                  {/* Source tabs (no icons) */}
                   <div className="qc-source-tabs">
                     {SOURCE_TABS.map((t) => (
                       <button
@@ -346,22 +350,28 @@ export default function QuizCreatePage() {
                         onClick={() => setSourceTab(t.value)}
                         type="button"
                       >
-                        {t.icon === "document" ? "📄" : "✏️"} {t.label}
+                        {t.label}
                       </button>
                     ))}
                   </div>
 
                   {sourceTab === "file" && (
                     <div className="qc-file-section">
-                      <SourceUpload
-                        tabs={SOURCE_TABS}
-                        activeTab={sourceTab}
-                        onTabChange={setSourceTab}
-                        uploadedFiles={fileCards}
-                        onFileRemove={handleFileRemove}
+                      <div className="qc-file-list">
+                        {fileCards.map((file) => (
+                          <UploadFileCard
+                            key={file.id}
+                            file={file}
+                            onRemove={handleFileRemove}
+                          />
+                        ))}
+                      </div>
+
+                      <UploadButton
+                        label={fileCards.length === 0 ? "Chọn tài liệu" : "Thêm tài liệu khác"}
+                        hint="Hỗ trợ: PDF (Tối đa 10MB mỗi file)"
+                        acceptedTypes=".pdf,.docx,.doc,.txt"
                         onFilesSelected={handleFilesSelected}
-                        uploadHint="Hỗ trợ: PDF (Tối đa 10MB mỗi file)"
-                        tipText="AI sẽ phân tích nội dung tài liệu và tạo câu hỏi phù hợp."
                       />
                     </div>
                   )}
@@ -424,7 +434,6 @@ export default function QuizCreatePage() {
                     activeTypes: [formData.activeType],
                   }}
                   subjectOptions={subjectOptions}
-                  topicOptions={[]}
                   difficultyOptions={DIFFICULTY_OPTIONS}
                   questionCountPresets={COUNT_PRESETS}
                   questionTypes={QUESTION_TYPES}
@@ -579,7 +588,6 @@ function QuestionReviewCard({ q, idx, questionType, onUpdate, onRemove }) {
         </div>
       </div>
 
-      {/* Question text */}
       <textarea
         className="qr-q-text"
         value={q.question}
@@ -589,7 +597,6 @@ function QuestionReviewCard({ q, idx, questionType, onUpdate, onRemove }) {
 
       {expanded && (
         <>
-          {/* Options */}
           {isMultiple ? (
             <div className="qr-options">
               {options.map((opt, oi) => {
@@ -622,7 +629,6 @@ function QuestionReviewCard({ q, idx, questionType, onUpdate, onRemove }) {
               <p className="qr-hint">Click chữ cái để đặt đáp án đúng</p>
             </div>
           ) : (
-            // TRUE_FALSE
             <div className="qr-statements">
               {options.map((stmt, si) => (
                 <div key={si} className="qr-stmt">
@@ -661,7 +667,6 @@ function QuestionReviewCard({ q, idx, questionType, onUpdate, onRemove }) {
             </div>
           )}
 
-          {/* Explanation */}
           <div className="qr-explanation">
             <label className="qr-exp-label">Giải thích:</label>
             <input

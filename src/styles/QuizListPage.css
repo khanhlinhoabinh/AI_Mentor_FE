@@ -141,11 +141,12 @@
   margin-bottom: 8px;
 }
 
-/* Grid */
+/* Grid: card rộng hơn để 4 tag (số câu/thời gian/loại/điểm) không bị xuống dòng */
 .ql-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 16px;
+  align-items: stretch;
 }
 
 /* Card */
@@ -158,6 +159,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  height: 100%;
   transition:
     box-shadow 0.2s,
     border-color 0.2s;
@@ -168,10 +170,12 @@
   border-color: #ddd6fe;
 }
 
+/* Vùng tiêu đề + badge môn học — chiều cao cố định dù có/không có môn học */
 .ql-card-top {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-height: 52px;
 }
 
 .ql-card-title-row {
@@ -188,6 +192,10 @@
   margin: 0;
   line-height: 1.35;
   flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ql-diff-badge {
@@ -196,6 +204,7 @@
   font-size: 11px;
   font-weight: 700;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .ql-card-subject {
@@ -206,14 +215,25 @@
   padding: 2px 8px;
   border-radius: 6px;
   display: inline-block;
+  width: fit-content;
 }
 
+/* Không có môn học -> chừa khoảng trống trong suốt, không đẩy nội dung bên dưới lên */
+.ql-card-subject--empty {
+  background: transparent;
+  padding: 2px 8px;
+  color: transparent;
+  user-select: none;
+}
+
+/* Hàng meta: ép không xuống dòng, cho phép cuộn ngang nếu quá hẹp thay vì vỡ layout */
 .ql-card-meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
   font-size: 12px;
   color: #6b7280;
+  min-height: 28px;
 }
 
 .ql-card-meta span {
@@ -221,8 +241,11 @@
   padding: 4px 8px;
   border-radius: 7px;
   border: 1px solid #edf0f5;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
+/* Box "Lần làm gần nhất" — chiều cao cố định dù có hay chưa có lần làm */
 .ql-last-attempt {
   font-size: 12.5px;
   color: #4a5568;
@@ -234,6 +257,8 @@
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 
 .ql-last-attempt--empty {
@@ -246,16 +271,19 @@
 .ql-last-label {
   font-weight: 600;
   color: #374151;
+  white-space: nowrap;
 }
 .ql-last-score {
   font-weight: 700;
   color: #10b981;
 }
 
+/* Đẩy actions luôn nằm sát đáy card, bất kể nội dung phía trên dài ngắn */
 .ql-card-actions {
   display: flex;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: auto;
+  padding-top: 4px;
 }
 
 .ql-btn {
@@ -284,16 +312,6 @@
 
 .ql-btn-primary:not(:disabled):hover {
   transform: translateY(-1px);
-}
-
-.ql-btn-outline {
-  background: #fff;
-  color: #7c3aed;
-  border: 1.5px solid #ddd6fe;
-}
-
-.ql-btn-outline:hover {
-  background: #f5f3ff;
 }
 
 .ql-btn-danger {
@@ -339,4 +357,26 @@
 }
 .ql-toast--error {
   background: #ef4444;
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .ql-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .ql-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ql-card-meta {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+
+  .ql-card-meta span {
+    white-space: normal;
+  }
 }

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import CustomInput from "../CustomInput/CustomInput";
 import CustomSelect from "../CustomSelect/CustomSelect";
-import DifficultySelector from "../DifficultySelector/DifficultySelector";
 import QuestionCountSelector from "../QuestionCountSelector/QuestionCountSelector";
 import QuestionTypeSelector from "../QuestionTypeSelector/QuestionTypeSelector";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
@@ -9,13 +8,76 @@ import CustomTextarea from "../CustomTextarea/CustomTextarea";
 import "./QuizConfigForm.css";
 
 /**
+ * BloomLevelDropdown - Custom dropdown for choosing Bloom's Taxonomy level.
+ * Each option shows a title + short description (no icons).
+ */
+const BloomLevelDropdown = ({ options, value, onChange }) => {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selected = options.find((o) => o.value === value);
+
+  return (
+    <div className="bloom-select" ref={wrapRef}>
+      <button
+        type="button"
+        className="bloom-select__trigger"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <span className="bloom-select__trigger-text">
+          {selected ? selected.label : "Chọn cấp độ"}
+        </span>
+        <svg
+          className={`bloom-select__chevron ${open ? "bloom-select__chevron--open" : ""}`}
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      {open && (
+        <div className="bloom-select__panel">
+          {options.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              className={`bloom-select__option ${value === opt.value ? "bloom-select__option--active" : ""}`}
+              onClick={() => {
+                onChange(opt.value);
+                setOpen(false);
+              }}
+            >
+              <span className="bloom-select__option-title">{opt.label}</span>
+              <span className="bloom-select__option-desc">{opt.description}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
  * QuizConfigForm - Left column configuration form
- * Receives all config data via props; dispatches changes via onChange handlers
  */
 const QuizConfigForm = ({
   formData,
   subjectOptions,
-  topicOptions,
   difficultyOptions,
   questionCountPresets,
   questionTypes,
@@ -55,18 +117,12 @@ const QuizConfigForm = ({
           />
         </div>
 
-        {/* Row 2: Topic + Difficulty */}
-        <div className="quiz-config-form__row quiz-config-form__row--2col">
-          <CustomSelect
-            label="Chủ đề / Chương"
-            name="topic"
-            options={topicOptions}
-            value={formData.topic}
-            onChange={(e) => onFieldChange("topic", e.target.value)}
-            placeholder="Chọn chủ đề"
-          />
-          <DifficultySelector
-            label="Cấp độ"
+        {/* Row 2: Bloom level */}
+        <div className="quiz-config-form__row">
+          <label className="quiz-config-form__label">
+            Cấp độ (Thang Bloom) <span className="quiz-config-form__required">*</span>
+          </label>
+          <BloomLevelDropdown
             options={difficultyOptions}
             value={formData.difficulty}
             onChange={onDifficultyChange}
@@ -97,7 +153,6 @@ const QuizConfigForm = ({
 
         {/* Settings row */}
         <div className="quiz-config-form__row quiz-config-form__settings-grid">
-          {/* Time */}
           <ToggleSwitch
             label="Thời gian làm bài"
             checked={formData.timeEnabled}
@@ -108,7 +163,6 @@ const QuizConfigForm = ({
             inputUnit="phút"
           />
 
-          {/* Points per question */}
           <ToggleSwitch
             label="Điểm mỗi câu"
             checked={formData.pointsEnabled}
@@ -119,7 +173,6 @@ const QuizConfigForm = ({
             inputUnit="điểm"
           />
 
-          {/* Shuffle */}
           <ToggleSwitch
             label="Xáo trộn câu hỏi"
             description="Trộn ngẫu nhiên thứ tự câu hỏi và đáp án"
@@ -127,7 +180,6 @@ const QuizConfigForm = ({
             onChange={(val) => onToggleChange("shuffle", val)}
           />
 
-          {/* Show result immediately */}
           <ToggleSwitch
             label="Hiển thị kết quả ngay"
             description="Hiển thị điểm số sau khi nộp bài"
