@@ -1,14 +1,23 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
-  Search, Plus, Trash2, Paperclip, Send, Sparkles, X,
-  Lightbulb, FileText, ClipboardList, Target,
+  Search,
+  Plus,
+  Trash2,
+  Paperclip,
+  Send,
+  Sparkles,
+  X,
+  Lightbulb,
+  FileText,
+  ClipboardList,
+  Target,
 } from "lucide-react";
 
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
 import ChatMessage from "../components/ai/ChatMessage";
 import TypingIndicator from "../components/ai/TypingIndicator";
-
+import { confirmDelete } from "../utils/swal";
 import {
   getChatSessions,
   getMessages,
@@ -62,7 +71,11 @@ function timeAgo(dateStr) {
   const d = new Date(dateStr);
   const now = new Date();
   const diffDays = Math.floor((now - d) / (1000 * 60 * 60 * 24));
-  if (diffDays <= 0) return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+  if (diffDays <= 0)
+    return d.toLocaleTimeString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   if (diffDays === 1) return "Hôm qua";
   if (diffDays < 7) return `${diffDays} ngày trước`;
   return d.toLocaleDateString("vi-VN");
@@ -105,7 +118,10 @@ export default function ChatAIPage() {
 
   // ── Load danh sách hội thoại ──
   const loadSessions = useCallback(async () => {
-    if (!userId) { setSessionsLoading(false); return; }
+    if (!userId) {
+      setSessionsLoading(false);
+      return;
+    }
     setSessionsLoading(true);
     try {
       const data = await getChatSessions(userId);
@@ -158,7 +174,7 @@ export default function ChatAIPage() {
 
   const groupedSessions = useMemo(
     () => groupSessions(sessions, searchQuery),
-    [sessions, searchQuery]
+    [sessions, searchQuery],
   );
 
   const handleSelectSession = (session) => setActiveSession(session);
@@ -174,7 +190,11 @@ export default function ChatAIPage() {
 
   const handleDeleteSession = async (e, id) => {
     e.stopPropagation();
-    if (!window.confirm("Xóa cuộc hội thoại này? Hành động không thể hoàn tác.")) return;
+    const ok = await confirmDelete(
+      "Xóa cuộc hội thoại?",
+      "Hành động này không thể hoàn tác.",
+    );
+    if (!ok) return;
     try {
       await deleteSession(id);
       setSessions((prev) => prev.filter((s) => s.conversationId !== id));
@@ -224,16 +244,26 @@ export default function ChatAIPage() {
       let currentSession = activeSession;
 
       if (!sessionId) {
-        if (!userId) { setError("Bạn cần đăng nhập để sử dụng Chat AI."); return; }
+        if (!userId) {
+          setError("Bạn cần đăng nhập để sử dụng Chat AI.");
+          return;
+        }
         try {
           const data = await createSession(
             userId,
-            (content || attachedFile?.name || "Cuộc hội thoại mới").slice(0, 50)
+            (content || attachedFile?.name || "Cuộc hội thoại mới").slice(
+              0,
+              50,
+            ),
           );
           sessionId = data.conversationId;
           currentSession = {
             conversationId: sessionId,
-            title: (content || attachedFile?.name || "Cuộc hội thoại mới").slice(0, 50),
+            title: (
+              content ||
+              attachedFile?.name ||
+              "Cuộc hội thoại mới"
+            ).slice(0, 50),
             createdAt: new Date().toISOString(),
           };
           setActiveSession(currentSession);
@@ -267,7 +297,7 @@ export default function ChatAIPage() {
           res = await sendMessageWithFile(
             sessionId,
             content || "Hãy phân tích tài liệu này cho tôi.",
-            fileToSend
+            fileToSend,
           );
         } else {
           res = await sendMessage(sessionId, content);
@@ -285,12 +315,14 @@ export default function ChatAIPage() {
       } catch (err) {
         console.error(err);
         setError("Không thể gửi tin nhắn. Vui lòng thử lại.");
-        setMessages((prev) => prev.filter((m) => m.messageId !== userMsg.messageId));
+        setMessages((prev) =>
+          prev.filter((m) => m.messageId !== userMsg.messageId),
+        );
       } finally {
         setIsTyping(false);
       }
     },
-    [inputValue, attachedFile, isTyping, activeSession, userId]
+    [inputValue, attachedFile, isTyping, activeSession, userId],
   );
 
   const handleKeyDown = (e) => {
@@ -340,7 +372,11 @@ export default function ChatAIPage() {
         <div className="cap-body">
           {/* ══ Cột lịch sử trò chuyện ══ */}
           <aside className="cap-history-rail">
-            <button className="cap-new-chat-btn" onClick={handleNewSession} type="button">
+            <button
+              className="cap-new-chat-btn"
+              onClick={handleNewSession}
+              type="button"
+            >
               <Plus size={17} />
               Cuộc trò chuyện mới
             </button>
@@ -361,7 +397,11 @@ export default function ChatAIPage() {
               ) : sessions.length === 0 ? (
                 <div className="cap-history-empty">
                   <Sparkles size={22} />
-                  <p>Chưa có cuộc hội thoại nào.<br />Bắt đầu chat với AI Mentor nhé!</p>
+                  <p>
+                    Chưa có cuộc hội thoại nào.
+                    <br />
+                    Bắt đầu chat với AI Mentor nhé!
+                  </p>
                 </div>
               ) : (
                 <>
@@ -400,10 +440,12 @@ export default function ChatAIPage() {
                   <div className="cap-empty-icon">
                     <Sparkles size={30} />
                   </div>
-                  <h2 className="cap-empty-title">Xin chào! Tôi là AI Mentor</h2>
+                  <h2 className="cap-empty-title">
+                    Xin chào! Tôi là AI Mentor
+                  </h2>
                   <p className="cap-empty-sub">
-                    Hỏi bất cứ điều gì về bài học, hoặc đính kèm tài liệu PDF/DOCX
-                    để tôi giúp bạn phân tích và giải thích.
+                    Hỏi bất cứ điều gì về bài học, hoặc đính kèm tài liệu
+                    PDF/DOCX để tôi giúp bạn phân tích và giải thích.
                   </p>
                   <div className="cap-suggestion-grid">
                     {SUGGESTIONS.map((s, i) => {
@@ -455,7 +497,11 @@ export default function ChatAIPage() {
                 <textarea
                   ref={textareaRef}
                   className="cap-textarea"
-                  placeholder={attachedFile ? "Hỏi gì đó về tài liệu..." : "Nhập tin nhắn cho AI Mentor..."}
+                  placeholder={
+                    attachedFile
+                      ? "Hỏi gì đó về tài liệu..."
+                      : "Nhập tin nhắn cho AI Mentor..."
+                  }
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -464,7 +510,7 @@ export default function ChatAIPage() {
                 />
 
                 <button
-                  className={`cap-send-btn${(inputValue.trim() || attachedFile) ? " cap-send-btn--active" : ""}`}
+                  className={`cap-send-btn${inputValue.trim() || attachedFile ? " cap-send-btn--active" : ""}`}
                   onClick={() => handleSend()}
                   disabled={(!inputValue.trim() && !attachedFile) || isTyping}
                   title="Gửi (Enter)"
@@ -481,7 +527,9 @@ export default function ChatAIPage() {
                   onChange={handleFileChange}
                 />
               </div>
-              <span className="cap-input-hint">Enter để gửi • Shift + Enter để xuống dòng</span>
+              <span className="cap-input-hint">
+                Enter để gửi • Shift + Enter để xuống dòng
+              </span>
             </div>
           </section>
         </div>

@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --text: #52635A;
-  --text-h: #0F1A12;
-  --bg: #F5F8F5;
-  --border: #E3EDE5;
+  --text: #52635a;
+  --text-h: #0f1a12;
+  --bg: #f5f8f5;
+  --border: #e3ede5;
 
   /* Font thương hiệu duy nhất — Plus Jakarta Sans hỗ trợ đầy đủ tiếng Việt.
      KHÔNG dùng DM Sans làm font chữ (thân) vì DM Sans không có glyph tiếng Việt. */
-  --font-base: 'Plus Jakarta Sans', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-base:
+    "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
 
   font-family: var(--font-base);
   color-scheme: light;
@@ -35,4 +36,8 @@ body {
   margin: 0;
   padding: 0;
   display: block;
+}
+/* SweetAlert2 — nút Hủy màu tối */
+.swal-cancel-dark {
+  color: #374151 !important;
 }

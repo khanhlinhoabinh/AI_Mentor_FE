@@ -25,6 +25,7 @@ import {
 import DocxEditor from "./DocxEditor";
 import CreateDocModal from "./CreateDocModal";
 import "./DocumentTab.css";
+import { confirmDelete, confirmAction } from "../../utils/swal";
 
 /* ══ Helpers ══ */
 function formatDate(ts) {
@@ -376,7 +377,11 @@ export default function DocumentTab({ subjectId, onCountChange }) {
     if (doc?.fileName) setDocxEditorDoc(doc);
   };
   const handleDelete = async (doc) => {
-    if (!window.confirm(`Xóa tài liệu "${doc.fileName}"?`)) return;
+    const ok1 = await confirmDelete(
+      `Xóa tài liệu?`,
+      `File "${doc.fileName}" sẽ bị xóa vĩnh viễn.`,
+    );
+    if (!ok1) return;
     try {
       await deleteDocument(subjectId, doc.documentId);
       showToast("Đã xóa tài liệu");

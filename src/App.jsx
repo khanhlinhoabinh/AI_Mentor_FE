@@ -24,9 +24,7 @@ import RoadmapListPage from "./pages/RoadmapListPage";
 import RoadmapDetailPage from "./pages/RoadmapDetailPage";
 import LearningEvaluationPage from "./pages/LearningEvaluationPage";
 import StreakLeaderboardPage from "./pages/StreakLeaderboardPage";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./styles/ToastOverride.css";
+
 import RemindersPage from "./pages/RemindersPage";
 function App() {
   return (
@@ -104,14 +102,15 @@ function App() {
         <Route path="/roadmap" element={<RoadmapListPage />} />
         <Route path="/leaderboard" element={<StreakLeaderboardPage />} />
         <Route path="/leaderboard" element={<StreakLeaderboardPage />} />
-<Route path="/learning-evaluation" element={<LearningEvaluationPage />} />
+        <Route
+          path="/learning-evaluation"
+          element={<LearningEvaluationPage />}
+        />
         <Route
           path="/roadmap/:roadmapId"
           element={<RoadmapDetailPage />}
         />{" "}
       </Routes>
-
-      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }

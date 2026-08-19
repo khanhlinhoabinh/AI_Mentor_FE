@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { loginAdmin } from "../../services/auth.services";
 import { Link } from "react-router-dom";
+import { alertError } from "../../utils/swal";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -13,19 +14,19 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleLogin = async () => {
-  try {
-    const data = await loginAdmin(email, password);
+    try {
+      const data = await loginAdmin(email, password);
 
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data));
 
-    if (data.role === "ADMIN") {
-      navigate("/admin");
+      if (data.role === "ADMIN") {
+        navigate("/admin");
+      }
+    } catch (error) {
+      await alertError("Đăng nhập thất bại", error.response?.data?.message);
     }
-  } catch (error) {
-    alert(error.response?.data?.message || "Đăng nhập thất bại");
-  }
-};
+  };
   return (
     <div className="admin-box" id="admin-login">
       <h3>Đăng nhập dành cho Admin</h3>
@@ -46,25 +47,25 @@ export default function AdminLogin() {
       </div>
 
       <div className="input-group">
-  <label>Mật khẩu</label>
+        <label>Mật khẩu</label>
 
-  <div className="password-wrapper">
-    <input
-      type={showPassword ? "text" : "password"}
-      placeholder="Nhập mật khẩu"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
+        <div className="password-wrapper">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Nhập mật khẩu"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-    <button
-      type="button"
-      className="toggle-password"
-      onClick={() => setShowPassword(!showPassword)}
-    >
-      {showPassword ? <FaEyeSlash /> : <FaEye />}
-    </button>
-  </div>
-</div>
+          <button
+            type="button"
+            className="toggle-password"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
+      </div>
 
       <div className="remember">
         <label>

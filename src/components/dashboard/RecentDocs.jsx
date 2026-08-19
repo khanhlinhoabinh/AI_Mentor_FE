@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FileText, Presentation, File, Layers } from "lucide-react";
 import { toast } from "react-toastify";
+import { toastError } from "../../utils/swal";
 
 import { getSubjects } from "../../services/subject.services";
 import {
@@ -82,13 +83,13 @@ export default function RecentDocs() {
 
       const subjects = (await getSubjects()) || [];
       const subjectNameById = new Map(
-        subjects.map((s) => [String(s.subjectId), s.subjectName])
+        subjects.map((s) => [String(s.subjectId), s.subjectName]),
       );
 
       // Gọi song song: tài liệu của từng môn học + toàn bộ bộ flashcard
       const [docResults, setsRes] = await Promise.all([
         Promise.allSettled(
-          subjects.map((s) => getDocumentsBySubject(s.subjectId))
+          subjects.map((s) => getDocumentsBySubject(s.subjectId)),
         ),
         getFlashcardSets().catch(() => ({ data: [] })),
       ]);
@@ -147,7 +148,7 @@ export default function RecentDocs() {
       await openFile(item.subjectId, item.documentId);
     } catch (error) {
       console.error("Open document failed:", error);
-      toast.error("Không thể mở tài liệu này");
+      toastError("Không thể mở tài liệu này");
     }
   };
 

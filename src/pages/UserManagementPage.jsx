@@ -10,6 +10,7 @@ import {
   lockUser,
   unlockUser,
 } from "../services/admin.services";
+import { toastSuccess, toastError } from "../utils/swal";
 
 export default function UserManagementPage() {
   const [users, setUsers] = useState([]);
@@ -24,13 +25,15 @@ export default function UserManagementPage() {
       setUsers(data || []);
     } catch (err) {
       console.error("Không thể tải danh sách người dùng:", err);
-      toast.error("Không thể tải danh sách người dùng");
+      toastError("Không thể tải danh sách người dùng");
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => { loadUsers(); }, [loadUsers]);
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers]);
 
   const handleView = async (user) => {
     try {
@@ -38,7 +41,7 @@ export default function UserManagementPage() {
       setSelectedUser(detail);
     } catch (err) {
       console.error("Không thể tải chi tiết người dùng:", err);
-      toast.error("Không thể tải chi tiết người dùng");
+      toastError("Không thể tải chi tiết người dùng");
     }
   };
 
@@ -46,12 +49,16 @@ export default function UserManagementPage() {
     setActionLoadingId(user.userId);
     try {
       await lockUser(user.userId);
-      toast.success(`Đã khoá tài khoản ${user.fullName}`);
+      toastSuccess(`Đã khóa tài khoản ${user.fullName}`);
       await loadUsers();
-      setSelectedUser((prev) => (prev && prev.userId === user.userId ? { ...prev, isActive: false } : prev));
+      setSelectedUser((prev) =>
+        prev && prev.userId === user.userId
+          ? { ...prev, isActive: false }
+          : prev,
+      );
     } catch (err) {
       console.error("Lock user thất bại:", err);
-      toast.error("Không thể khoá tài khoản này");
+      toastError("Không thể khóa tài khoản này");
     } finally {
       setActionLoadingId(null);
     }
@@ -61,12 +68,16 @@ export default function UserManagementPage() {
     setActionLoadingId(user.userId);
     try {
       await unlockUser(user.userId);
-      toast.success(`Đã mở khoá tài khoản ${user.fullName}`);
+      toastSuccess(`Đã mở khóa tài khoản ${user.fullName}`);
       await loadUsers();
-      setSelectedUser((prev) => (prev && prev.userId === user.userId ? { ...prev, isActive: true } : prev));
+      setSelectedUser((prev) =>
+        prev && prev.userId === user.userId
+          ? { ...prev, isActive: true }
+          : prev,
+      );
     } catch (err) {
       console.error("Unlock user thất bại:", err);
-      toast.error("Không thể mở khoá tài khoản này");
+      toastError("Không thể mở khóa tài khoản này");
     } finally {
       setActionLoadingId(null);
     }
@@ -76,11 +87,20 @@ export default function UserManagementPage() {
     <AdminLayout>
       <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#1F2937", margin: "0 0 16px" }}>
+          <h2
+            style={{
+              fontSize: 18,
+              fontWeight: 700,
+              color: "#1F2937",
+              margin: "0 0 16px",
+            }}
+          >
             Quản lý người dùng
           </h2>
           {loading ? (
-            <p style={{ color: "#9CA3AF", fontSize: 13 }}>Đang tải danh sách người dùng...</p>
+            <p style={{ color: "#9CA3AF", fontSize: 13 }}>
+              Đang tải danh sách người dùng...
+            </p>
           ) : (
             <UsersTable
               users={users}

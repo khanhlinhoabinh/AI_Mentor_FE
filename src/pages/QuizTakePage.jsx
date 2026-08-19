@@ -8,6 +8,7 @@ import {
   submitQuiz,
 } from "../services/quiz.services";
 import "../styles/QuizTakePage.css";
+import { alertError, confirmAction, toastError } from "../utils/swal";
 
 export default function QuizTakePage() {
   const { id } = useParams();
@@ -36,7 +37,7 @@ export default function QuizTakePage() {
         setTimeLeft(set.timeLimitSeconds);
       }
     } catch {
-      alert("Không thể tải bài quiz");
+      await alertError("Lỗi", "Không thể tải bài quiz");
       navigate("/quiz");
     } finally {
       setLoading(false);
@@ -70,14 +71,19 @@ export default function QuizTakePage() {
   };
 
   const handleSubmit = async (auto = false) => {
-    if (!auto && !window.confirm("Nộp bài?")) return;
+    const ok = await confirmAction(
+      "Nộp bài?",
+      `Bạn đã trả lời ${answered}/${questions.length} câu. Xác nhận nộp bài?`,
+      "Nộp bài",
+    );
+    if (!ok) return;
     clearInterval(timerRef.current);
     setSubmitting(true);
     try {
       const result = await submitQuiz(id, answers);
       navigate(`/quiz/${id}/result`, { state: { result, questions } });
     } catch {
-      alert("Nộp bài thất bại");
+      toastError("Nộp bài thất bại, thử lại!");
     } finally {
       setSubmitting(false);
     }
