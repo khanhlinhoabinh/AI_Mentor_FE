@@ -24,22 +24,170 @@ import RoadmapListPage from "./pages/RoadmapListPage";
 import RoadmapDetailPage from "./pages/RoadmapDetailPage";
 import LearningEvaluationPage from "./pages/LearningEvaluationPage";
 import StreakLeaderboardPage from "./pages/StreakLeaderboardPage";
-
 import RemindersPage from "./pages/RemindersPage";
+
+// ✅ Bảo vệ route cho user đã đăng nhập
+function ProtectedUserRoute({ children }) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
 function App() {
   return (
     <>
       <FloatingAssistant />
       <Routes>
-        {/* LOGIN */}
+        {/* ── Public routes — không cần đăng nhập ── */}
         <Route path="/login" element={<LoginPage />} />
-        {/* DASHBOARD */}
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/" element={<HomePage />} />
-        {/* ADMIN — chỉ còn 4 chức năng + Dashboard theo yêu cầu PO */}
+
+        {/* ── User routes — phải đăng nhập ── */}
+        <Route
+          path="/"
+          element={
+            <ProtectedUserRoute>
+              <HomePage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/mysubjects"
+          element={
+            <ProtectedUserRoute>
+              <MySubjectsPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/mysubjects/:subjectId"
+          element={
+            <ProtectedUserRoute>
+              <SubjectDetailPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/chat"
+          element={
+            <ProtectedUserRoute>
+              <ChatAIPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/reminders"
+          element={
+            <ProtectedUserRoute>
+              <RemindersPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/flashcards/new"
+          element={
+            <ProtectedUserRoute>
+              <FlashcardCreatePage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/flashcard-sets/:setId/edit"
+          element={
+            <ProtectedUserRoute>
+              <FlashcardEditPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/quiz"
+          element={
+            <ProtectedUserRoute>
+              <QuizListPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/quiz/create"
+          element={
+            <ProtectedUserRoute>
+              <QuizCreatePage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/quiz/:id"
+          element={
+            <ProtectedUserRoute>
+              <QuizTakePage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/quiz/:id/result"
+          element={
+            <ProtectedUserRoute>
+              <QuizResultPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/roadmap"
+          element={
+            <ProtectedUserRoute>
+              <RoadmapListPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/roadmap/:roadmapId"
+          element={
+            <ProtectedUserRoute>
+              <RoadmapDetailPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedUserRoute>
+              <StreakLeaderboardPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        <Route
+          path="/learning-evaluation"
+          element={
+            <ProtectedUserRoute>
+              <LearningEvaluationPage />
+            </ProtectedUserRoute>
+          }
+        />
+
+        {/* ── Admin routes — phải là ADMIN ── */}
         <Route
           path="/admin"
           element={<Navigate to="/admin/dashboard" replace />}
         />
+
         <Route
           path="/admin/dashboard"
           element={
@@ -48,6 +196,7 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
+
         <Route
           path="/admin/users"
           element={
@@ -56,6 +205,7 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
+
         <Route
           path="/admin/content"
           element={
@@ -64,6 +214,7 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
+
         <Route
           path="/admin/reports"
           element={
@@ -72,6 +223,7 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
+
         <Route
           path="/admin/system-history"
           element={
@@ -80,36 +232,18 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/admin/change-password" element={<ChangePassword />} />
-        <Route path="/mysubjects" element={<MySubjectsPage />} />
-        <Route path="/mysubjects/:subjectId" element={<SubjectDetailPage />} />
-        <Route path="/reminders" element={<RemindersPage />} />
-        {/* FLASHCARD */}
-        <Route path="/flashcards/new" element={<FlashcardCreatePage />} />
+
         <Route
-          path="/flashcard-sets/:setId/edit"
-          element={<FlashcardEditPage />}
+          path="/admin/change-password"
+          element={
+            <ProtectedAdminRoute>
+              <ChangePassword />
+            </ProtectedAdminRoute>
+          }
         />
-        <Route path="/chat" element={<ChatAIPage />} />
-        {/* Quiz routes */}
-        <Route path="/quiz" element={<QuizListPage />} />
-        <Route path="/quiz/create" element={<QuizCreatePage />} />
-        <Route path="/quiz/:id" element={<QuizTakePage />} />
-        <Route path="/quiz/:id/result" element={<QuizResultPage />} />
-        <Route path="/quiz" element={<QuizCreatePage />} />
-        <Route path="/roadmap" element={<RoadmapListPage />} />
-        <Route path="/leaderboard" element={<StreakLeaderboardPage />} />
-        <Route path="/leaderboard" element={<StreakLeaderboardPage />} />
-        <Route
-          path="/learning-evaluation"
-          element={<LearningEvaluationPage />}
-        />
-        <Route
-          path="/roadmap/:roadmapId"
-          element={<RoadmapDetailPage />}
-        />{" "}
+
+        {/* ── Fallback — route không tồn tại ── */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </>
   );
