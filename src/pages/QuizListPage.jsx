@@ -83,9 +83,9 @@ export default function QuizListPage() {
 
   return (
     <div className="ql-layout">
-      <Sidebar />
+      <Header />
       <div className="ql-main">
-        <Header />
+        <Sidebar />
         <div className="ql-body">
           {/* Top bar */}
           <div className="ql-topbar">

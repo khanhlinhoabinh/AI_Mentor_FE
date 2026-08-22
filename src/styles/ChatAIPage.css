@@ -12,6 +12,7 @@
   --cap-text: #1E293B;
 
   display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
   background: var(--cap-bg);
@@ -20,13 +21,15 @@
 .cap-main {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
 }
 
 .cap-body {
   flex: 1;
+  min-width: 0;
   min-height: 0;
   display: flex;
   gap: 16px;
@@ -548,6 +551,7 @@
 }
 
 @media (max-width: 768px) {
+  .cap-main { flex-direction: column; }
   .cap-body { flex-direction: column; }
   .cap-history-rail { width: 100%; max-height: 200px; }
 }

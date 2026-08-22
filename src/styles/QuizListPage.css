@@ -1,5 +1,6 @@
 .ql-layout {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
   background: #f8fafc;
@@ -8,13 +9,15 @@
 .ql-main {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
 }
 
 .ql-body {
   flex: 1;
+  min-width: 0;
   overflow-y: auto;
   padding: 24px;
   display: flex;
@@ -363,6 +366,12 @@
 @media (max-width: 1023px) {
   .ql-grid {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .ql-main {
+    flex-direction: column;
   }
 }
 

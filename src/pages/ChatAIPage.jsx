@@ -364,10 +364,10 @@ export default function ChatAIPage() {
 
   return (
     <div className="cap-layout">
-      <Sidebar />
+      <Header />
 
       <div className="cap-main">
-        <Header />
+        <Sidebar />
 
         <div className="cap-body">
           {/* ══ Cột lịch sử trò chuyện ══ */}
