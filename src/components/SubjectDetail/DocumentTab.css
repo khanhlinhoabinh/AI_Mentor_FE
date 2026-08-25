@@ -1039,3 +1039,12 @@
 .dt-mod-ok-btn:hover {
   opacity: 0.85;
 }
+/* Icon ảnh trong stat card */
+.dt-stat-icon-img {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
