@@ -27,6 +27,93 @@ import CreateDocModal from "./CreateDocModal";
 import "./DocumentTab.css";
 import { confirmDelete, confirmAction } from "../../utils/swal";
 
+/* ── SVG Icons ── */
+const IconDocument = () => (
+  <svg
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="26"
+    height="26"
+  >
+    <rect
+      x="8"
+      y="4"
+      width="36"
+      height="44"
+      rx="4"
+      fill="#e2e8f0"
+      stroke="#cbd5e1"
+      strokeWidth="2"
+    />
+    <rect x="12" y="12" width="20" height="3" rx="1.5" fill="#94a3b8" />
+    <rect x="12" y="19" width="24" height="3" rx="1.5" fill="#94a3b8" />
+    <rect x="12" y="26" width="18" height="3" rx="1.5" fill="#94a3b8" />
+    <circle cx="44" cy="44" r="14" fill="#22c55e" />
+    <rect x="43" y="37" width="2" height="14" rx="1" fill="white" />
+    <rect x="37" y="43" width="14" height="2" rx="1" fill="white" />
+  </svg>
+);
+
+const IconPDF = () => (
+  <svg
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="26"
+    height="26"
+  >
+    <path
+      d="M10 4C10 2.9 10.9 2 12 2H40L54 16V60C54 61.1 53.1 62 52 62H12C10.9 62 10 61.1 10 60V4Z"
+      fill="#f1f5f9"
+      stroke="#e2e8f0"
+      strokeWidth="1.5"
+    />
+    <path d="M40 2L54 16H42C40.9 16 40 15.1 40 14V2Z" fill="#cbd5e1" />
+    <rect x="8" y="28" width="38" height="22" rx="3" fill="#ef4444" />
+    <text
+      x="27"
+      y="44"
+      textAnchor="middle"
+      fill="white"
+      fontSize="12"
+      fontWeight="800"
+      fontFamily="Arial"
+    >
+      PDF
+    </text>
+  </svg>
+);
+
+const IconDOCX = () => (
+  <svg
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="26"
+    height="26"
+  >
+    <path
+      d="M10 4C10 2.9 10.9 2 12 2H40L54 16V60C54 61.1 53.1 62 52 62H12C10.9 62 10 61.1 10 60V4Z"
+      fill="#f1f5f9"
+      stroke="#e2e8f0"
+      strokeWidth="1.5"
+    />
+    <path d="M40 2L54 16H42C40.9 16 40 15.1 40 14V2Z" fill="#cbd5e1" />
+    <rect x="8" y="28" width="38" height="22" rx="3" fill="#2563eb" />
+    <text
+      x="27"
+      y="44"
+      textAnchor="middle"
+      fill="white"
+      fontSize="11"
+      fontWeight="800"
+      fontFamily="Arial"
+    >
+      DOC
+    </text>
+  </svg>
+);
 /* ══ Helpers ══ */
 function formatDate(ts) {
   if (!ts) return "";
@@ -411,28 +498,40 @@ export default function DocumentTab({ subjectId, onCountChange }) {
       {/* ── Stat bar ── */}
       {count && (
         <div className="dt-stat-bar">
+          {/* Tổng tài liệu */}
           <div className="dt-stat-card">
-            <div className="dt-stat-icon green">📄</div>
+            <div className="dt-stat-icon-img">
+              <IconDocument />
+            </div>
             <div className="dt-stat-info">
               <div className="dt-stat-num">{count.totalDocuments}</div>
               <div className="dt-stat-label">Tổng tài liệu</div>
             </div>
           </div>
+
+          {/* PDF */}
           <div className="dt-stat-card">
-            <div className="dt-stat-icon red">📕</div>
+            <div className="dt-stat-icon-img">
+              <IconPDF />
+            </div>
             <div className="dt-stat-info">
               <div className="dt-stat-num">{count.totalPdf}</div>
               <div className="dt-stat-label">File PDF</div>
             </div>
           </div>
+
+          {/* Word */}
           <div className="dt-stat-card">
-            <div className="dt-stat-icon blue">📘</div>
+            <div className="dt-stat-icon-img">
+              <IconDOCX />
+            </div>
             <div className="dt-stat-info">
               <div className="dt-stat-num">{count.totalDocx}</div>
               <div className="dt-stat-label">File Word</div>
             </div>
           </div>
-          {/* ✅ Stat card vi phạm — chỉ hiện khi có */}
+
+          {/* Vi phạm — chỉ hiện khi có */}
           {violationCount > 0 && (
             <div
               className="dt-stat-card"
@@ -453,7 +552,6 @@ export default function DocumentTab({ subjectId, onCountChange }) {
           )}
         </div>
       )}
-
       {/* ── Action bar ── */}
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <button
