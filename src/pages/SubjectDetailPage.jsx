@@ -12,13 +12,11 @@ import FeaturedDocuments from "../components/SubjectDetail/FeaturedDocuments";
 import LearningRoadmap from "../components/SubjectDetail/LearningRoadmap";
 import RecentActivities from "../components/SubjectDetail/RecentActivities";
 import ProgressWidget from "../components/SubjectDetail/ProgressWidget";
-import ReminderWidget from "../components/SubjectDetail/ReminderWidget";
-import AchievementWidget from "../components/SubjectDetail/AchievementWidget";
 import DocumentTab from "../components/SubjectDetail/DocumentTab";
 import SubjectFlashcardTab from "../components/SubjectDetail/SubjectFlashcardTab";
 import SubjectQuizTab from "../components/SubjectDetail/SubjectQuizTab";
 import SubjectRoadmapTab from "../components/SubjectDetail/SubjectRoadmapTab";
-
+import StreakPanel from "../components/dashboard/StreakPanel/StreakPanel";
 import { getSubjectById } from "../services/subject.services";
 import { getDocumentsBySubject } from "../services/document.services";
 import { getRoadmaps } from "../services/roadmap.services";
@@ -27,8 +25,6 @@ import { mapTasksToStages } from "../utils/taskMapper";
 
 import {
   activities,
-  reminders,
-  achievements,
   progressChart,
 } from "../components/SubjectDetail/mockData";
 import "../styles/SubjectDetailPage.css";
@@ -212,8 +208,7 @@ export default function SubjectDetailPage() {
             {/* Right panel */}
             <div className="sdp-right">
               <ProgressWidget chartData={progressChart} />
-              <ReminderWidget reminders={reminders} />
-              <AchievementWidget achievements={achievements} />
+              <StreakPanel />
             </div>
           </div>
         </div>
