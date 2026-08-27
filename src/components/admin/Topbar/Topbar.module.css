@@ -460,3 +460,33 @@
   background: #fafbfc;
   flex-shrink: 0;
 }
+@container admin-main (max-width: 900px) {
+  .searchKbd {
+    display: none;
+  }
+  .searchInput {
+    padding-right: 14px;
+  }
+}
+
+@container admin-main (max-width: 760px) {
+  .userInfo {
+    display: none;
+  }
+  .userPill {
+    gap: 0;
+    padding: 5px;
+  }
+  .userChev {
+    display: none;
+  }
+}
+
+@container admin-main (max-width: 620px) {
+  .greeting {
+    max-width: 90px;
+  }
+  .searchWrap {
+    min-width: 120px;
+  }
+}
