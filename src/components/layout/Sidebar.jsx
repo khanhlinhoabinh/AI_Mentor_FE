@@ -57,13 +57,11 @@ export default function Sidebar() {
     { icon: Home, label: "Trang chủ", path: "/" },
     { icon: BookOpen, label: "Môn học của tôi", path: "/mysubjects" },
     { icon: MessageCircle, label: "Chat AI", path: "/chat" },
-    { icon: StickyNote, label: "Ghi chú", path: "/notes" },
     { icon: Layers, label: "Flashcard", path: "/flashcards/new" },
     { icon: PenTool, label: "Quiz", path: "/quiz"  },
     { icon: Map, label: "Lộ trình học tập", path: "/roadmap" },
     { icon: BarChart2, label: "Thống kê", path: "/leaderboard" },
     { icon: Brain, label: "Đánh giá học tập", path: "/learning-evaluation" },
-    { icon: Settings, label: "Cài đặt", path: "/settings" },
   ];
 
   return (
