@@ -1,14 +1,12 @@
 import { Target } from "lucide-react";
 import { formatDate } from "../../../utils/dateUtils";
-import { clampPercent } from "../../../utils/roadmapUtils";
+
 import styles from "./RoadmapOverview.module.css";
 
 export default function RoadmapOverview({ roadmap, isLoading }) {
   if (isLoading || !roadmap) {
     return <div className={`${styles.card} ${styles.skeleton}`} />;
   }
-
-  const progress = clampPercent(roadmap.progress);
 
   return (
     <section className={styles.card}>
@@ -24,15 +22,6 @@ export default function RoadmapOverview({ roadmap, isLoading }) {
         <div className={styles.dates}>
           <span>Bắt đầu: {formatDate(roadmap.startDate)}</span>
           <span>Kết thúc dự kiến: {formatDate(roadmap.endDate)}</span>
-        </div>
-      </div>
-
-      <div className={styles.progressBox}>
-        <span className={styles.label}>Tiến độ tổng thể</span>
-        <strong className={styles.progressValue}>{progress}%</strong>
-
-        <div className={styles.progressBar}>
-          <div className={styles.progressFill} style={{ width: `${progress}%` }} />
         </div>
       </div>
 
