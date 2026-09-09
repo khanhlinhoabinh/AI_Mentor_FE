@@ -31,16 +31,6 @@ export default function OverviewStats({ stats, loading }) {
         </div>
 
         <div className="stat-item">
-          <div className="stat-icon-wrap orange">
-            <Clock size={16} />
-          </div>
-          <div className="stat-value">
-            {loading ? "…" : fmt(stats.totalStudyHours, "h")}
-          </div>
-          <div className="stat-label">Tổng thời gian học</div>
-        </div>
-
-        <div className="stat-item">
           <div className="stat-icon-wrap purple">
             <Flame size={16} />
           </div>
