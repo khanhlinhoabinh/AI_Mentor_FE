@@ -10,7 +10,6 @@ import SubjectHero from "../components/SubjectDetail/SubjectHero";
 import SubjectTabs from "../components/SubjectDetail/SubjectTabs";
 import FeaturedDocuments from "../components/SubjectDetail/FeaturedDocuments";
 import LearningRoadmap from "../components/SubjectDetail/LearningRoadmap";
-import RecentActivities from "../components/SubjectDetail/RecentActivities";
 import ProgressWidget from "../components/SubjectDetail/ProgressWidget";
 import DocumentTab from "../components/SubjectDetail/DocumentTab";
 import SubjectFlashcardTab from "../components/SubjectDetail/SubjectFlashcardTab";
@@ -24,7 +23,6 @@ import { getTasksByRoadmapId } from "../services/roadmapTask.services";
 import { mapTasksToStages } from "../utils/taskMapper";
 
 import {
-  activities,
   progressChart,
 } from "../components/SubjectDetail/mockData";
 import "../styles/SubjectDetailPage.css";
@@ -177,7 +175,6 @@ export default function SubjectDetailPage() {
                     }
                     onCreateRoadmap={() => navigate("/roadmap")}
                   />
-                  <RecentActivities activities={activities} />
                 </div>
               )}
 
